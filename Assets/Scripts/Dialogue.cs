@@ -7,7 +7,8 @@ public class Dialogue {
 
 	public string name;
 
+	// Defines the min and max lines a dialogue can have
 	[TextArea(3, 10)]
-	public string[] sentences;
+	public List<string> sentences;
 
 }

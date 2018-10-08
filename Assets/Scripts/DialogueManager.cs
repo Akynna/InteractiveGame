@@ -8,6 +8,8 @@ public class DialogueManager : MonoBehaviour {
 	public Text nameText;
 	public Text dialogueText;
 
+	public Animator dialogueBoxAnimator;
+
 	private Queue<string> sentences;
 
 	// Use this for initialization
@@ -19,6 +21,8 @@ public class DialogueManager : MonoBehaviour {
 	{
 		// Print in the console the start of conversation
 		//Debug.Log("Starting conversation with " + dialogue.name);
+
+		dialogueBoxAnimator.SetBool("isOpen", true);
 
 		// Set the character's name
 		nameText.text = dialogue.name;
@@ -37,23 +41,26 @@ public class DialogueManager : MonoBehaviour {
 
 	}
 
-	public void displayNextSentence()
+	public void displayNextSentence()	
 	{
 		// Check if there is more sentences in the queue
 		if(sentences.Count == 0)
 		{
 			endDialogue();
+		} else {
+			// Collect the next sentence
+			string sentence = sentences.Dequeue();
+			
+			//Debug.Log(sentence);
+			dialogueText.text = sentence;
 		}
-
-		// Collect the next sentence
-		string sentence = sentences.Dequeue();
-		//Debug.Log(sentence);
-		dialogueText.text = sentence;
 	}
 
 	void endDialogue()
 	{
 		Debug.Log("End of conversation.");
+
+		dialogueBoxAnimator.SetBool("isOpen", false);
 	}
 
 }

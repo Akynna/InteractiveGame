@@ -1,0 +1,5 @@
+"sceneID","character","dialogue","good_answer","wrong_answer"
+"1","Bob","Hi, nice to meet you !","0","0"
+"1","Bob","What are you doing here ?","Hi, I'm here to help you.","I can ask you the same."
+"2","Alice","…","Excuse-me, can I help you ?","*Ignore her*"
+"3","GrumpyCat","*Doesn't seem really happy*","Is everything okay, sir ?","Don't make that face !"
