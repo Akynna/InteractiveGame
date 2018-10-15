@@ -5,7 +5,7 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour {
 
 	private Dialogue dialogue;
-	public DialoguesTable dialoguesTable;
+	public DialogueManager dialogueManager;
 
 	public void Start()
 	{	
@@ -17,9 +17,9 @@ public class DialogueTrigger : MonoBehaviour {
 	public void triggerDialogue()
 	{
 		// Debug.Log(dialoguesTable.Find_sceneID("1").character);
-		dialogue.name = dialoguesTable.Find_sceneID("1").character;
+		dialogue.name = dialogueManager.dialoguesTable.Find_sceneID("1").character;
 
-		List<DialoguesTable.Row> dialoguesRows = dialoguesTable.FindAll_sceneID("1");
+		List<DialoguesTable.Row> dialoguesRows = dialogueManager.dialoguesTable.FindAll_sceneID("1");
 		int nbRows = dialoguesRows.Count;
 
 		foreach(DialoguesTable.Row row in dialoguesRows)
@@ -27,6 +27,6 @@ public class DialogueTrigger : MonoBehaviour {
 			dialogue.sentences.Add(row.dialogue);
 		}
 
-		FindObjectOfType<DialogueManager>().startDialogue(dialogue);
+		dialogueManager.startDialogue(dialogue);
 	}
 }
