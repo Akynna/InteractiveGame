@@ -57,9 +57,25 @@ Similar experiences already exists in the industry of gaming. A lot of people ha
 
 
 
+TODO :
+
+- Find backgrounds and others design resources
+- Add "ask your name" 
+- Draw characters
+- Try to handle multiple scenes
+- Find color palette
+- Add speech bubble
+- Find scenarios
 
 
 
+
+
+
+
+
+
+Useful links :
 
 https://www.youtube.com/watch?v=zc8ac_qUXQY
 
