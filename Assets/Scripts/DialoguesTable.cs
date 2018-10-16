@@ -19,30 +19,14 @@ public class DialoguesTable : MonoBehaviour
 	[System.Serializable]
 	public class Row
 	{
-
-		/*public Row() {
-			this.sceneID = "0";
-			this.character = "Unknown";
-			this.dialogue = " ";
-			this.good_answer = "Yes.";
-			this.wrong_answer = "No.";
-		}
-		public Row(Row anotherRow) {
-			this.sceneID = anotherRow.sceneID;
-			this.character = anotherRow.character;
-			this.dialogue = anotherRow.dialogue;
-			this.good_answer = anotherRow.good_answer;
-			this.wrong_answer = anotherRow.wrong_answer;
-		}*/
-
 		public string sceneID;
 		public string character;
 		public string dialogue;
 		public string good_answer;
 		public string wrong_answer;
+		public string neutral_answer;
 
 	}
-
 	public bool IsLoaded()
 	{
 		return isLoaded;
@@ -65,6 +49,7 @@ public class DialoguesTable : MonoBehaviour
 			row.dialogue = grid[i][2];
 			row.good_answer = grid[i][3];
 			row.wrong_answer = grid[i][4];
+			row.neutral_answer = grid[i][5];
 
 			rowList.Add(row);
 		}
@@ -122,6 +107,14 @@ public class DialoguesTable : MonoBehaviour
 	public List<Row> FindAll_wrong_answer(string find)
 	{
 		return rowList.FindAll(x => x.wrong_answer == find);
+	}
+	public Row Find_neutral_answer(string find)
+	{
+		return rowList.Find(x => x.neutral_answer == find);
+	}
+	public List<Row> FindAll_neutral_answer(string find)
+	{
+		return rowList.FindAll(x => x.neutral_answer == find);
 	}
 
 }

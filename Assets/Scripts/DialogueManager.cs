@@ -17,6 +17,7 @@ public class DialogueManager : MonoBehaviour {
 
 	// Variables that the DialogueManager need to use
 	public DialoguesTable dialoguesTable;
+	public string currentScene;
 	private Queue<string> sentences;
 
 	// Variables that the DialogueManager will change
@@ -28,6 +29,7 @@ public class DialogueManager : MonoBehaviour {
 	// Initialization
 	void Start () {
 		sentences = new Queue<string>();
+		currentScene = "0";
 	}
 
 	public void startDialogue(Dialogue dialogue) 
@@ -97,7 +99,7 @@ public class DialogueManager : MonoBehaviour {
 	private void showChoices() 
 	{
 		// Get the corresponding scene
-		List<DialoguesTable.Row> listChoices = dialoguesTable.FindAll_sceneID("1");
+		List<DialoguesTable.Row> listChoices = dialoguesTable.FindAll_sceneID(currentScene);
 
 		// Randomly assign a choice a button
 		/*foreach (Button button in choicesPanel) {
@@ -115,6 +117,7 @@ public class DialogueManager : MonoBehaviour {
 			if(row.good_answer != "0") {
 				choicesPanel[0].GetComponentInChildren<Text>().text = row.good_answer;
 				choicesPanel[1].GetComponentInChildren<Text>().text = row.wrong_answer;
+				choicesPanel[2].GetComponentInChildren<Text>().text = row.neutral_answer;
 			}
 		}
 	}
