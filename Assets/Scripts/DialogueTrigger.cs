@@ -4,34 +4,33 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour {
 
-	private Dialogue dialogue;
+	public Dialogue dialogue;
 	public DialogueManager dialogueManager;
+	public DialoguesTable dialoguesTable;
 
 	public void Start()
 	{	
+		// Initialize the dialogue content
 		dialogue = new Dialogue();
-		dialogue.name = "Unknown";
+		dialogue.names = new List<string>();
 		dialogue.sentences = new List<string>();
 	}
 
-	public void switchScene(string sceneID)
+	public void triggerDialogue()
 	{
-		dialogueManager.currentScene = sceneID;
-		triggerDialogue(sceneID);
-	}
+		// Clear the list at the beginning
+		dialogue.names.Clear();
+		dialogue.sentences.Clear();
 
-	public void triggerDialogue(string sceneID)
-	{
-		// Debug.Log(dialoguesTable.Find_sceneID("1").character);
-		dialogue.name = dialogueManager.dialoguesTable.Find_sceneID(sceneID).character;
+		List<DialoguesTable.Row> sceneDialogues = dialogueManager.currentSceneDialogues;
 
-		List<DialoguesTable.Row> dialoguesRows = dialogueManager.dialoguesTable.FindAll_sceneID(sceneID);
-		int nbRows = dialoguesRows.Count;
-
-		foreach(DialoguesTable.Row row in dialoguesRows)
+		foreach(DialoguesTable.Row row in sceneDialogues)
 		{
+			dialogue.names.Add(row.character);
 			dialogue.sentences.Add(row.dialogue);
 		}
+
+		//Debug.Log(dialogue.names.Count);
 
 		dialogueManager.startDialogue(dialogue);
 	}

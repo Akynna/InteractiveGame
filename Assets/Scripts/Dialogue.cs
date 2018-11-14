@@ -5,10 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class Dialogue {
 
-	public string name;
+	public List<string> names;
 
 	// Defines the min and max lines a dialogue can have
 	[TextArea(3, 10)]
-	public List<string> sentences;
+	public List<string> sentences = new List<string>();
 
 }

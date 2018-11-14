@@ -9,7 +9,7 @@ public class DialoguesTable : MonoBehaviour
 	public List<Row> rowList = new List<Row>();
 	public bool isLoaded = false;
 
-	public void Start () {
+	public void Awake () {
 		rowList = new List<Row>();
 		Load(file);
 		Debug.Log("CSV file loaded.");
@@ -17,16 +17,21 @@ public class DialoguesTable : MonoBehaviour
 
 
 	[System.Serializable]
-	public class Row
+public class Row
 	{
 		public string sceneID;
 		public string character;
 		public string dialogue;
 		public string good_answer;
-		public string wrong_answer;
+		public string bad_answer;
 		public string neutral_answer;
+		public string next_scene_good;
+		public string next_scene_bad;
+		public string next_scene_neutral;
+		public string background;
 
 	}
+
 	public bool IsLoaded()
 	{
 		return isLoaded;
@@ -48,8 +53,12 @@ public class DialoguesTable : MonoBehaviour
 			row.character = grid[i][1];
 			row.dialogue = grid[i][2];
 			row.good_answer = grid[i][3];
-			row.wrong_answer = grid[i][4];
+			row.bad_answer = grid[i][4];
 			row.neutral_answer = grid[i][5];
+			row.next_scene_good = grid[i][6];
+			row.next_scene_bad = grid[i][7];
+			row.next_scene_neutral = grid[i][8];
+			row.background = grid[i][9];
 
 			rowList.Add(row);
 		}
@@ -100,13 +109,13 @@ public class DialoguesTable : MonoBehaviour
 	{
 		return rowList.FindAll(x => x.good_answer == find);
 	}
-	public Row Find_wrong_answer(string find)
+	public Row Find_bad_answer(string find)
 	{
-		return rowList.Find(x => x.wrong_answer == find);
+		return rowList.Find(x => x.bad_answer == find);
 	}
-	public List<Row> FindAll_wrong_answer(string find)
+	public List<Row> FindAll_bad_answer(string find)
 	{
-		return rowList.FindAll(x => x.wrong_answer == find);
+		return rowList.FindAll(x => x.bad_answer == find);
 	}
 	public Row Find_neutral_answer(string find)
 	{
@@ -115,6 +124,38 @@ public class DialoguesTable : MonoBehaviour
 	public List<Row> FindAll_neutral_answer(string find)
 	{
 		return rowList.FindAll(x => x.neutral_answer == find);
+	}
+	public Row Find_next_scene_good(string find)
+	{
+		return rowList.Find(x => x.next_scene_good == find);
+	}
+	public List<Row> FindAll_next_scene_good(string find)
+	{
+		return rowList.FindAll(x => x.next_scene_good == find);
+	}
+	public Row Find_next_scene_bad(string find)
+	{
+		return rowList.Find(x => x.next_scene_bad == find);
+	}
+	public List<Row> FindAll_next_scene_bad(string find)
+	{
+		return rowList.FindAll(x => x.next_scene_bad == find);
+	}
+	public Row Find_next_scene_neutral(string find)
+	{
+		return rowList.Find(x => x.next_scene_neutral == find);
+	}
+	public List<Row> FindAll_next_scene_neutral(string find)
+	{
+		return rowList.FindAll(x => x.next_scene_neutral == find);
+	}
+	public Row Find_background(string find)
+	{
+		return rowList.Find(x => x.background == find);
+	}
+	public List<Row> FindAll_background(string find)
+	{
+		return rowList.FindAll(x => x.background == find);
 	}
 
 }

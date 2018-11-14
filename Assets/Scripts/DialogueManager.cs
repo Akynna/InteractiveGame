@@ -4,46 +4,61 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public static class ArrayExtensions
-{
-	// This is an extension method. RandomItem() will now exist on all arrays.
-	public static T RandomItem<T>(this T[] array)
-	{
-		return array[UnityEngine.Random.Range(0, array.Length)];
-	}
-}
-
 public class DialogueManager : MonoBehaviour {
 
-	// Variables that the DialogueManager need to use
+	// Variables that the DialogueManager need to access
 	public DialoguesTable dialoguesTable;
-	public string currentScene;
-	private Queue<string> sentences;
-
+	public DialogueTrigger dialogueTrigger;
+	public Camera mainCamera;
+	
 	// Variables that the DialogueManager will change
+	public string currentScene = "intro_0";
+	public List<DialoguesTable.Row> currentSceneDialogues;
+	private Queue<string> characterNames;
+	private Queue<string> sentences;
+	
+
+	// Element of one dialogue element
 	public Text nameText;
 	public Text dialogueText;
 	public Animator dialogueBoxAnimator;
+	public Animator choicePanelAnimator;
 	public List<Button> choicesPanel;
+
+	public Boolean switchBackground = false;
+	public string currentBackgroundName;
+
 
 	// Initialization
 	void Start () {
 		sentences = new Queue<string>();
-		currentScene = "0";
+		characterNames = new Queue<string>();
+		
+		// Initialize the first scene
+		currentScene = "intro_0";
+		currentSceneDialogues = dialoguesTable.FindAll_sceneID("intro_0");
+
+		// Launch the first scene
+		dialogueTrigger.triggerDialogue();
+
+		// Set the background
+		currentBackgroundName = currentSceneDialogues[0].background;
 	}
 
 	public void startDialogue(Dialogue dialogue) 
 	{
-		// Print in the console the start of conversation
-		//Debug.Log("Starting conversation with " + dialogue.name);
-
+		// Move up the dialogue box
 		dialogueBoxAnimator.SetBool("isOpen", true);
 
-		// Set the character's name
-		nameText.text = dialogue.name;
-
 		// Clear previous messages
+		characterNames.Clear();
 		sentences.Clear();
+
+		// List the characters involed in the conversation
+		foreach (string name in dialogue.names)
+		{
+			characterNames.Enqueue(name);
+		}
 
 		// Add the new next sentences in the queue
 		foreach (string sentence in dialogue.sentences)
@@ -51,9 +66,8 @@ public class DialogueManager : MonoBehaviour {
 			sentences.Enqueue(sentence);
 		}
 
-		// Display the next sentence
+		// Display the first sentence of the dialogue
 		displayNextSentence();
-
 	}
 
 	public void displayNextSentence()	
@@ -62,16 +76,20 @@ public class DialogueManager : MonoBehaviour {
 		if(sentences.Count == 0)
 		{
 			endDialogue();
-		} else {
+		} else
+		{
+			// Set the character's name
+			nameText.text = characterNames.Dequeue();
+
 			// Collect the next sentence
 			string sentence = sentences.Dequeue();
 
-			//Debug.Log(sentence);
-			dialogueText.text = sentence;
-
-			// Uncomment to add animation to text
-			//StopAllCoroutines();
-			//StartCoroutine(typeSentence(sentence));
+			// Add animation to text
+			if(dialogueBoxAnimator.GetBool("isOpen"))
+			{
+				StopAllCoroutines();
+				StartCoroutine(typeSentence(sentence));
+			}
 		}
 	}
 
@@ -92,15 +110,25 @@ public class DialogueManager : MonoBehaviour {
 		Debug.Log("End of conversation.");
 		dialogueBoxAnimator.SetBool("isOpen", false);
 
-		showChoices();
+		// Get the last rows of the scene
+		DialoguesTable.Row lastRow = currentSceneDialogues[currentSceneDialogues.Count - 1];
+
+		// If there is a choice to make at the end of the dialogue, display the choices
+		if(lastRow.neutral_answer != "NA")
+		{
+			showChoices(lastRow);
+		} else 
+		{	
+			// SWitch to the default neutral scene
+			switchScene(lastRow.next_scene_neutral);
+
+		}
+		 
 	}
 
 	// TODO : Make choices appear randomly on buttons
-	private void showChoices() 
+	private void showChoices(DialoguesTable.Row rowWithChoices) 
 	{
-		// Get the corresponding scene
-		List<DialoguesTable.Row> listChoices = dialoguesTable.FindAll_sceneID(currentScene);
-
 		// Randomly assign a choice a button
 		/*foreach (Button button in choicesPanel) {
 			int randomIndex = Random.Range(0, choicesPanel.Count - 1);
@@ -113,12 +141,34 @@ public class DialogueManager : MonoBehaviour {
 		Debug.Log(choicesPanel[rnd.Next(0, choicesPanel.Count)]);
 		Debug.Log(choicesPanel[rnd.Next(0, choicesPanel.Count)]);*/
 
-		foreach(DialoguesTable.Row row in listChoices) {
-			if(row.good_answer != "0") {
-				choicesPanel[0].GetComponentInChildren<Text>().text = row.good_answer;
-				choicesPanel[1].GetComponentInChildren<Text>().text = row.wrong_answer;
-				choicesPanel[2].GetComponentInChildren<Text>().text = row.neutral_answer;
-			}
+		choicePanelAnimator.SetBool("isDisplayed", true);
+
+		// TODO : Randomize the display order of the choices
+		choicesPanel[0].GetComponentInChildren<Text>().text = rowWithChoices.good_answer;
+		choicesPanel[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
+		choicesPanel[2].GetComponentInChildren<Text>().text = rowWithChoices.neutral_answer;
+
+		choicesPanel[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good));
+		choicesPanel[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad));
+		choicesPanel[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral));
+	}
+
+	public void switchScene(string sceneID)
+	{
+		// If we previously displayed the choice panel, hide it
+		choicePanelAnimator.SetBool("isDisplayed", false);
+
+		// Load the dialogues of the next scene in the Dialogue Manager
+		currentScene = sceneID;
+		currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
+
+		if(currentBackgroundName != currentSceneDialogues[0].background) {
+			currentBackgroundName = currentSceneDialogues[0].background;
+
+			// Change camera position
+			mainCamera.
 		}
+
+		dialogueTrigger.triggerDialogue();
 	}
 }
