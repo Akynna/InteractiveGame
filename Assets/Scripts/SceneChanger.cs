@@ -7,14 +7,12 @@ public class SceneChanger : MonoBehaviour {
 
 	public Animator animator;
 	public DialogueManager dialogueManager;
+	public SpriteRenderer backgroundSprite;
+	public string currentBackgroundName;
 	private int sceneToLoad;
+
 	
-	public List<Background> backgroundsList;
-
 	void Start () {
-		backgroundsList = new List<Background>();
-
-		initializeBackgrounds();
 	}
 
 	// Update is called once per frame
@@ -25,48 +23,11 @@ public class SceneChanger : MonoBehaviour {
 		}*/
 	}
 
-	public void initializeBackgrounds()
+	public void switchBackground(string backgroundName)
 	{
-		backgroundsList.Add(new Background("Lockers", 15, -10, 0));
-		backgroundsList.Add(new Background("Classroom", 0, -10, 0));
-		backgroundsList.Add(new Background("Behind", -15, -10, 0));
-		backgroundsList.Add(new Background("Corridor", 0, 0, 0));
-	}
+		if (currentBackgroundName != backgroundName)
+			backgroundSprite.sprite = Resources.Load<Sprite>("Environments/Backgrounds/" + backgroundName);
 
-	public float getBackgroundX(string name)
-	{
-		foreach(Background background in backgroundsList)
-		{
-			if(name == background.name)
-			{
-				return background.xCoords;
-			}
-		}
-		return 0.0f;
-	}
-
-	public float getBackgroundY(string name)
-	{
-		foreach(Background background in backgroundsList)
-		{
-			if(name == background.name)
-			{
-				return background.yCoords;
-			}
-		}
-		return 0.0f;
-	}
-
-	public float getBackgroundZ(string name)
-	{
-		foreach(Background background in backgroundsList)
-		{
-			if(name == background.name)
-			{
-				return background.zCoords;
-			}
-		}
-		return 0.0f;
 	}
 
 	public void FadeToLevel(int levelIndex)

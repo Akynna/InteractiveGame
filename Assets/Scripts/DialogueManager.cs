@@ -9,7 +9,6 @@ public class DialogueManager : MonoBehaviour {
 	// Variables that the DialogueManager need to access
 	public DialoguesTable dialoguesTable;
 	public DialogueTrigger dialogueTrigger;
-	public Camera mainCamera;
 	
 	// Variables that the DialogueManager will change
 	public string currentScene = "intro_0";
@@ -25,8 +24,9 @@ public class DialogueManager : MonoBehaviour {
 	public Animator choicePanelAnimator;
 	public List<Button> choicesPanel;
 
+	// Variables for the backgrounds
+	public SceneChanger sceneChanger;
 	public Boolean switchBackground = false;
-	public string currentBackgroundName;
 
 
 	// Initialization
@@ -42,7 +42,8 @@ public class DialogueManager : MonoBehaviour {
 		dialogueTrigger.triggerDialogue();
 
 		// Set the background
-		currentBackgroundName = currentSceneDialogues[0].background;
+		sceneChanger.currentBackgroundName = currentSceneDialogues[0].background;
+		sceneChanger.switchBackground(sceneChanger.currentBackgroundName);
 	}
 
 	public void startDialogue(Dialogue dialogue) 
@@ -162,12 +163,8 @@ public class DialogueManager : MonoBehaviour {
 		currentScene = sceneID;
 		currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
 
-		if(currentBackgroundName != currentSceneDialogues[0].background) {
-			currentBackgroundName = currentSceneDialogues[0].background;
-
-			// Change camera position
-			mainCamera.
-		}
+		// Switch the background image if needed
+		sceneChanger.switchBackground(currentSceneDialogues[0].background);
 
 		dialogueTrigger.triggerDialogue();
 	}

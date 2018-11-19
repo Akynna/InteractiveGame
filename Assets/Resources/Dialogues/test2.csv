@@ -1,16 +1,16 @@
 sceneID,character,dialogue,good_answer,bad_answer,neutral_answer,next_scene_good,next_scene_bad,next_scene_neutral,background
-intro_0,Me,?,NA,NA,NA,NA,NA,NA,Corridor
-intro_0,Me,Hello ?,NA,NA,NA,NA,NA,NA,Corridor
-intro_0,GameDev,Hi there !! Welcome to this Interactive Game ! My name is Akynna and I'm the creator of this game.,NA,NA,NA,NA,NA,NA,Corridor
-intro_0,Me,(What? Where am I?),NA,NA,NA,NA,NA,NA,Corridor
-intro_0,GameDev,I'm super glad to have you here. How do you feel ?,Great thanks !,I want to leave.,Hum... What?,intro_0.1,intro_0.2,intro_0.3,Corridor
-intro_0.1,GameDev,This is wonderful. I hope you're not too afraid of what will happens next.,NA,NA,NA,intro_1,intro_1,intro_1,Corridor
-intro_0.2,GameDev,"Oh, don't leave yet, the fun hasn't began yet !",NA,NA,NA,intro_1,intro_1,intro_1,Corridor
-intro_0.3,GameDev,"I know, I know. You will understand a bit more later.",NA,NA,NA,intro_1,intro_1,intro_1,Corridor
-intro_1,Me,(What does she means ? Now I'm afraid !!),NA,NA,NA,NA,NA,NA,Corridor
-intro_1,GameDev,"In this game you are going to meet lots of singular people. Some of them are nice, some others are more difficult to handle, but I hope you will be able to understand all of them !",NA,NA,NA,NA,NA,NA,Corridor
-intro_1,GameDev,So? Are we ready to start ?,Let's do this !!,"No, no, I don't want to talk to people...","Huh, guess I have no choice.",bob_1,alice_1,grumpy_1,Corridor
-bob_1,Bob,"Hi, nice to meet you !",NA,NA,NA,NA,NA,NA,Lockers
-bob_1,Bob,What are you doing here ?,"Hi, I'm here to help you.",I can ask you the same.,I... I don't know.,NA,NA,NA,Lockers
-alice_1,Alice,[...],"Excuse-me, can I help you ?",*Ignore her*,Is everything okay ?,NA,NA,NA,Classroom
-grumpy_1,GrumpyCat,*Doesn't seem really happy*,"Is everything okay, sir ?",Don't make that face !,...,NA,NA,NA,Behind
+intro_0,Me,?,NA,NA,NA,NA,NA,NA,corridor
+intro_0,Me,Hello ?,NA,NA,NA,NA,NA,NA,corridor
+intro_0,GameDev,Hi there !! Welcome to this Interactive Game ! My name is Akynna and I'm the creator of this game.,NA,NA,NA,NA,NA,NA,corridor
+intro_0,Me,(What? Where am I?),NA,NA,NA,NA,NA,NA,corridor
+intro_0,GameDev,I'm super glad to have you here. How do you feel ?,Great thanks !,I want to leave.,Hum... What?,intro_0.1,intro_0.2,intro_0.3,corridor
+intro_0.1,GameDev,This is wonderful. I hope you're not too afraid of what will happens next.,NA,NA,NA,intro_1,intro_1,intro_1,corridor
+intro_0.2,GameDev,"Oh, don't leave yet, the fun hasn't began yet !",NA,NA,NA,intro_1,intro_1,intro_1,corridor
+intro_0.3,GameDev,"I know, I know. You will understand a bit more later.",NA,NA,NA,intro_1,intro_1,intro_1,corridor
+intro_1,Me,(What does she means ? Now I'm afraid !!),NA,NA,NA,NA,NA,NA,corridor
+intro_1,GameDev,"In this game you are going to meet lots of singular people. Some of them are nice, some others are more difficult to handle, but I hope you will be able to understand all of them !",NA,NA,NA,NA,NA,NA,corridor
+intro_1,GameDev,So? Are we ready to start ?,Let's do this !!,"No, no, I don't want to talk to people...","Huh, guess I have no choice.",bob_1,alice_1,grumpy_1,corridor
+bob_1,Bob,"Hi, nice to meet you !",NA,NA,NA,NA,NA,NA,lockers
+bob_1,Bob,What are you doing here ?,"Hi, I'm here to help you.",I can ask you the same.,I... I don't know.,NA,NA,NA,lockers
+alice_1,Alice,[...],"Excuse-me, can I help you ?",*Ignore her*,Is everything okay ?,NA,NA,NA,classroom
+grumpy_1,GrumpyCat,*Doesn't seem really happy*,"Is everything okay, sir ?",Don't make that face !,...,NA,NA,NA,school_behind
