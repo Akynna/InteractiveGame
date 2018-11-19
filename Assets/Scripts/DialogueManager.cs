@@ -120,9 +120,8 @@ public class DialogueManager : MonoBehaviour {
 			showChoices(lastRow);
 		} else 
 		{	
-			// SWitch to the default neutral scene
-			switchScene(lastRow.next_scene_neutral);
-
+			// Switch to the default neutral scene
+			switchScene(lastRow.next_scene_neutral, 0);
 		}
 		 
 	}
@@ -149,12 +148,12 @@ public class DialogueManager : MonoBehaviour {
 		choicesPanel[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
 		choicesPanel[2].GetComponentInChildren<Text>().text = rowWithChoices.neutral_answer;
 
-		choicesPanel[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good));
-		choicesPanel[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad));
-		choicesPanel[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral));
+		choicesPanel[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1));
+		choicesPanel[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2));
+		choicesPanel[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0));
 	}
 
-	public void switchScene(string sceneID)
+	public void switchScene(string sceneID, int answerType)
 	{
 		// If we previously displayed the choice panel, hide it
 		choicePanelAnimator.SetBool("isDisplayed", false);
@@ -166,6 +165,37 @@ public class DialogueManager : MonoBehaviour {
 		// Switch the background image if needed
 		sceneChanger.switchBackground(currentSceneDialogues[0].background);
 
+		// Trigger the dialogues of the next scene
 		dialogueTrigger.triggerDialogue();
+
+		randomFeedback(answerType);
+	}
+	
+	// Choose randomly whether or not the character should give a feedback
+	public void randomFeedback(int answerType) {
+
+		// Generate a random number between 0 and 1
+		System.Random r = new System.Random();
+		int	giveFeedback = r.Next(0, 2);
+
+		//Debug.Log("Feedback: " + giveFeedback);
+
+		if(giveFeedback == 1)
+		{
+			switch(answerType) 
+			{
+				case 1:
+					Debug.Log("good");
+					break;
+				case 2:
+					Debug.Log("bad.");
+					break;
+				default:
+					Debug.Log("neutral");
+					break;
+			}
+			// Make the character smile
+			// Display the score increasing or decreasing
+		}
 	}
 }

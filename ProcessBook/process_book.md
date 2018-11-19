@@ -49,7 +49,7 @@ A lot of games that I have experienced inspired me for this project.
 
 # Design
 
-For the design, I wanted to create an environment that would suit to a student. 
+For the design, I wanted to create an environment that would suit to whatever universe we are in. For this project, I was asked to create a story in a hospital context.
 
 
 
@@ -101,6 +101,17 @@ TODO :
 This part covers the technical part of the game and explains how I have
 
 
+
+
+
+TODO :
+
+Random feedback
+Hospital background
+Change face
+
+Scores 
+Test audio files
 
 
 

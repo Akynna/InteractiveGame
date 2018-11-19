@@ -232,12 +232,12 @@ Prefab:
     - target: {fileID: 224773071296344912, guid: 9f9eaf5fea7759e479f012966b6d1024,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 2
+      value: 20.999985
       objectReference: {fileID: 0}
     - target: {fileID: 224773071296344912, guid: 9f9eaf5fea7759e479f012966b6d1024,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -138
+      value: 14.000015
       objectReference: {fileID: 0}
     - target: {fileID: 224773071296344912, guid: 9f9eaf5fea7759e479f012966b6d1024,
         type: 2}
@@ -917,14 +917,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2922045f17beb814085ed2d30eaf8c10, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84b4dcb10eb70414692a5ffac422d243, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1094,12 +1094,12 @@ Prefab:
     - target: {fileID: 224773071296344912, guid: 9f9eaf5fea7759e479f012966b6d1024,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 2.0000305
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 224773071296344912, guid: 9f9eaf5fea7759e479f012966b6d1024,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 80.1
+      value: 162
       objectReference: {fileID: 0}
     - target: {fileID: 224773071296344912, guid: 9f9eaf5fea7759e479f012966b6d1024,
         type: 2}
@@ -1257,12 +1257,12 @@ Prefab:
     - target: {fileID: 224773071296344912, guid: 9f9eaf5fea7759e479f012966b6d1024,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 2.0000305
+      value: 20.99999
       objectReference: {fileID: 0}
     - target: {fileID: 224773071296344912, guid: 9f9eaf5fea7759e479f012966b6d1024,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -28.900002
+      value: 87.00001
       objectReference: {fileID: 0}
     - target: {fileID: 224773071296344912, guid: 9f9eaf5fea7759e479f012966b6d1024,
         type: 2}
