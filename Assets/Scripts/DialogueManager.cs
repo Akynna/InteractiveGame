@@ -185,13 +185,13 @@ public class DialogueManager : MonoBehaviour {
 			switch(answerType) 
 			{
 				case 1:
-					Debug.Log("good");
+					//Debug.Log("good");
 					break;
 				case 2:
-					Debug.Log("bad.");
+					//Debug.Log("bad.");
 					break;
 				default:
-					Debug.Log("neutral");
+					//Debug.Log("neutral");
 					break;
 			}
 			// Make the character smile
