@@ -37,7 +37,7 @@ In this game,  the user is immersed in a story and meet multiple different chara
 
 ## Inspirations
 
-Similar experiences already exists in the industry of gaming. A lot of people have been reading _**Choose Your Path Story Books**_ since their childhood and now this concept has been transformed into video games. What makes this kind of entertainment so popular is the possibility to test different scenarios and see their consequences.
+Similar experiences already exists in the industry of gaming. A lot of people have been reading _**Choose Your Path Story Books**_ since their childhood and now this concept has been transferred by many developers into video games. What makes this kind of entertainment so popular is the possibility to test different scenarios and see their consequences.
 
 A lot of games that I have experienced inspired me for this project.	
 
@@ -61,6 +61,8 @@ For the design, I wanted to create an environment that would suit to whatever un
 
 
 
+### Choice of colors
+
 
 
 
@@ -70,13 +72,9 @@ TODO :
 - Find backgrounds and others design resources
 - Add "ask your name" 
 - Draw characters
-- Try to handle multiple scenes
-- Find color palette
-- Add speech bubble
 - Find scenarios
 - Make choices place randomly
 - Create a table of scenes
-- Switch characters
 
 
 
@@ -84,13 +82,45 @@ TODO :
 
 # Creating the game
 
+The game conception can be simplified into two main tasks : handling the data and make a dynamic User Interface. 
+
+
+
 ## Importing the data
+
+The data is a set of dialogues that will be displayed in the game. I have chosen to store them in a csv file, since it is a format that is quite easy to handle and also because it gives a nice visualization of the dialogues and all the other complementary information.
+
+After many tests to see which structure was the best, I ended up with a file with the following columns:
+
+[show image]
+
+
+
+
+
+* sceneID: Identifies a scene
+* character: The character's name who is speaking
+* dialogue: The text dialogue that the user will read
+* good_answer: The good answer the user can give
+* neutral_answer:
+
+
+
+### CSV2Table
+
+Since we are working in Unity, the first thing I needed was to write a parser that would read the csv file and store everything in a nice and clean way. After a bit of research, I found on the Asset Store the **CSV2Table** Asset (https://assetstore.unity.com/packages/tools/utilities/csv2table-36443), which generates a C# code for a CSV parser.
+
+
+
+
 
 
 
 
 
 ## Creating the User Interface
+
+Generally, in games of type *story*, 
 
 
 
@@ -107,7 +137,6 @@ This part covers the technical part of the game and explains how I have
 TODO :
 
 Random feedback
-Hospital background
 Change face
 
 Scores 

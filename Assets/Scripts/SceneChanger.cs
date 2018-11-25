@@ -8,8 +8,10 @@ public class SceneChanger : MonoBehaviour {
 	public Animator animator;
 	public DialogueManager dialogueManager;
 	public SpriteRenderer backgroundSprite;
+	public SpriteRenderer characterSprite;
 	public Camera mainCamera;
 	public string currentBackgroundName;
+	public string currentCharacterName;
 	private int sceneToLoad;
 
 	
@@ -29,7 +31,14 @@ public class SceneChanger : MonoBehaviour {
 		if (currentBackgroundName != backgroundName)
 			backgroundSprite.sprite = Resources.Load<Sprite>("Backgrounds/Hospital/" + backgroundName);
 			ResizeSpriteToScreen();
-			Debug.Log(backgroundName);
+	}
+
+	public void switchCharacter(string characterName)
+	{
+		if(characterName != "Me" && characterName != currentCharacterName)
+		{
+			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + characterName);
+		}
 	}
 
 	public void FadeToLevel(int levelIndex)
@@ -42,6 +51,7 @@ public class SceneChanger : MonoBehaviour {
 		SceneManager.LoadScene(sceneToLoad);
 	}
 
+	// Used to make the background image fit to the camera
 	public void ResizeSpriteToScreen() {
 
 		var width = backgroundSprite.sprite.bounds.size.x;

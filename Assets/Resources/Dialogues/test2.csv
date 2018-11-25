@@ -10,7 +10,7 @@ intro_0.3,GameDev,"I know, I know. You will understand a bit more later.",NA,NA,
 intro_1,Me,(What does she means ? Now I'm afraid !!),NA,NA,NA,NA,NA,NA,reception
 intro_1,GameDev,"In this game you are going to meet lots of singular people. Some of them are nice, some others are more difficult to handle, but I hope you will be able to understand all of them !",NA,NA,NA,NA,NA,NA,reception
 intro_1,GameDev,So? Are we ready to start ?,Let's do this !!,"No, no, I don't want to talk to people...","Huh, guess I have no choice.",bob_1,alice_1,grumpy_1,reception
-bob_1,Bob,"Hi, nice to meet you !",NA,NA,NA,NA,NA,NA,corridor
-bob_1,Bob,What are you doing here ?,"Hi, I'm here to help you.",I can ask you the same.,I... I don't know.,NA,NA,NA,corridor
-alice_1,Alice,[...],"Excuse-me, can I help you ?",*Ignore her*,Is everything okay ?,NA,NA,NA,room1
-grumpy_1,GrumpyCat,*Doesn't seem really happy*,"Is everything okay, sir ?",Don't make that face !,...,NA,NA,NA,room3
+bob_1,Doctor,"Hi, nice to meet you !",NA,NA,NA,NA,NA,NA,corridor
+bob_1,Doctor,What are you doing here ?,"Hi, I'm here to help you.",I can ask you the same.,I... I don't know.,NA,NA,NA,corridor
+alice_1,Little Girl,[...],"Excuse-me, can I help you ?",*Ignore her*,Is everything okay ?,NA,NA,NA,room1
+grumpy_1,Grumpy Woman,*Doesn't seem really happy*,"Is everything okay, sir ?",Don't make that face !,...,NA,NA,NA,room3

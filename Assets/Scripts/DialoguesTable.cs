@@ -42,6 +42,19 @@ public class Row
 		return rowList;
 	}
 
+	public HashSet<string> getCharacterNames()
+	{
+
+		HashSet<string> names = new HashSet<string>();
+
+		foreach(Row row in rowList)
+		{
+			names.Add(row.character);
+		}
+
+		return names;
+	}
+
 	public void Load(TextAsset csv)
 	{
 		rowList.Clear();

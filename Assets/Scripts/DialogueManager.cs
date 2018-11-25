@@ -44,6 +44,11 @@ public class DialogueManager : MonoBehaviour {
 		// Set the background
 		sceneChanger.currentBackgroundName = currentSceneDialogues[0].background;
 		sceneChanger.switchBackground(sceneChanger.currentBackgroundName);
+
+		// Get the characters' names
+		// TODO : deplacer dans une class compteur
+		HashSet<string> characterList = dialoguesTable.getCharacterNames();
+		Debug.Log(characterList.Count);
 	}
 
 	public void startDialogue(Dialogue dialogue) 
@@ -79,8 +84,12 @@ public class DialogueManager : MonoBehaviour {
 			endDialogue();
 		} else
 		{
+			
 			// Set the character's name
-			nameText.text = characterNames.Dequeue();
+			string characterName = characterNames.Dequeue();
+			sceneChanger.switchCharacter(characterName);
+			nameText.text = characterName;
+			
 
 			// Collect the next sentence
 			string sentence = sentences.Dequeue();
