@@ -47,8 +47,8 @@ public class DialogueManager : MonoBehaviour {
 
 		// Get the characters' names
 		// TODO : deplacer dans une class compteur
-		HashSet<string> characterList = dialoguesTable.getCharacterNames();
-		Debug.Log(characterList.Count);
+		//HashSet<string> characterList = dialoguesTable.getCharacterNames();
+		// Debug.Log(characterList.Count);
 	}
 
 	public void startDialogue(Dialogue dialogue) 
@@ -164,9 +164,17 @@ public class DialogueManager : MonoBehaviour {
 
 	public void switchScene(string sceneID, int answerType)
 	{
-		// If we previously displayed the choice panel, hide it
-		choicePanelAnimator.SetBool("isDisplayed", false);
+		// If we previously displayed the choice panel,
+		if(choicePanelAnimator.GetBool("isDisplayed"))
+		{
+			// Hide the choice panel
+			choicePanelAnimator.SetBool("isDisplayed", false);
 
+			// Give a random feedback
+			randomFeedback(answerType);
+
+		} 
+		
 		// Load the dialogues of the next scene in the Dialogue Manager
 		currentScene = sceneID;
 		currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
@@ -177,7 +185,7 @@ public class DialogueManager : MonoBehaviour {
 		// Trigger the dialogues of the next scene
 		dialogueTrigger.triggerDialogue();
 
-		randomFeedback(answerType);
+		
 	}
 	
 	// Choose randomly whether or not the character should give a feedback
@@ -187,20 +195,20 @@ public class DialogueManager : MonoBehaviour {
 		System.Random r = new System.Random();
 		int	giveFeedback = r.Next(0, 2);
 
-		//Debug.Log("Feedback: " + giveFeedback);
+		Debug.Log("Feedback: " + giveFeedback);
 
 		if(giveFeedback == 1)
 		{
 			switch(answerType) 
 			{
 				case 1:
-					//Debug.Log("good");
+					Debug.Log("good");
 					break;
 				case 2:
-					//Debug.Log("bad.");
+					Debug.Log("bad.");
 					break;
 				default:
-					//Debug.Log("neutral");
+					Debug.Log("neutral");
 					break;
 			}
 			// Make the character smile
