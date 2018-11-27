@@ -40,8 +40,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd47cc17c89713458190bc5b41d794e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  width: 150
+  speed: 40
+  width: 75
 --- !u!114 &114948922234510500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 514
+  m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -177,6 +177,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -123, y: 181}
-  m_SizeDelta: {x: 530, y: 113.5}
+  m_AnchoredPosition: {x: -172, y: 174}
+  m_SizeDelta: {x: 300.8, y: 113.5}
   m_Pivot: {x: 0.5, y: 0.5}

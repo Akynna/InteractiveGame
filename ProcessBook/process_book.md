@@ -136,15 +136,15 @@ This part covers the technical part of the game and explains how I have
 
 TODO :
 
-Random feedback
+Random button choices
 Change face
+
+find stylus !!!
 
 Scores 
 Test audio files
 
-
-
-Add column to say when it is the end of a scene
+​		
 
 
 

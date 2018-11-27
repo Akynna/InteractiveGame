@@ -1,25 +1,25 @@
-sceneID,character,dialogue,good_answer,bad_answer,neutral_answer,next_scene_good,next_scene_bad,next_scene_neutral,background
-intro_0,Me,?,NA,NA,NA,NA,NA,NA,reception
-intro_0,Me,Hello ?,NA,NA,NA,NA,NA,NA,reception
-intro_0,GameDev,Hi there !! Welcome to this Interactive Game ! My name is Akynna and I'm the creator of this game.,NA,NA,NA,NA,NA,NA,reception
-intro_0,Me,(What? Where am I?),NA,NA,NA,NA,NA,NA,reception
-intro_0,GameDev,I'm super glad to have you here. How do you feel ?,Great thanks !,I want to leave.,Hum... What?,intro_0.1,intro_0.2,intro_0.3,reception
-intro_0.1,GameDev,This is wonderful. I hope you're not too afraid of what will happens next.,NA,NA,NA,intro_1,intro_1,intro_1,reception
-intro_0.2,GameDev,"Oh, don't leave yet, the fun hasn't began yet !",NA,NA,NA,intro_1,intro_1,intro_1,reception
-intro_0.3,GameDev,"I know, I know. You will understand a bit more later.",NA,NA,NA,intro_1,intro_1,intro_1,reception
-intro_1,Me,(What does she means ? Now I'm afraid !!),NA,NA,NA,NA,NA,NA,reception
-intro_1,GameDev,"In this game you are going to meet lots of singular people. Some of them are nice, some others are more difficult to handle, but I hope you will be able to understand all of them !",NA,NA,NA,NA,NA,NA,reception
-intro_1,GameDev,So? Are we ready to start ?,Let's do this !!,"No, no, I don't want to talk to people...","Huh, guess I have no choice.",bob_1,alice_1,grumpy_1,reception
-bob_1,Doctor,"Hi, nice to meet you !",NA,NA,NA,NA,NA,NA,corridor
-bob_1,Doctor,What are you doing here ?,"Hi, I'm here to help you.",I can ask you the same.,I... I don't know.,bob_1.1,bob_1.2,bob_1.3,corridor
-bob_1.1,Doctor,"Well... Thank you ! But I'm the doctor, so technically I can help myself.",NA,NA,NA,NA,NA,NA,corridor
-bob_1.2,Doctor,"Well... I guess I'm here for the same reason as you.",NA,NA,NA,NA,NA,NA,corridor
-bob_1.3,Doctor,"Well... Are you lost?",NA,NA,NA,NA,NA,NA,corridor
-alice_1,Little Girl,[...],"Excuse-me, can I help you ?",*Ignore her*,Is everything okay ?,alice_1.1,alice_1.2,alice_1.3,room1
-alice_1.1,Little Girl,"I don't think so, but thanks for asking.",NA,NA,NA,NA,NA,NA,room1
-alice_1.2,Little Girl,*Looks at you with an angry face*,NA,NA,NA,NA,NA,NA,room1
-alice_1.3,Little Girl,"Well, it obviously looks like that not everything is okay... But still, thanks for asking.",NA,NA,NA,NA,NA,NA,room1
-grumpy_1,Grumpy Woman,*Doesn't seem really happy*,"Is everything okay, Ma'am ?",Don't make that face !,...,grumpy_1.1,grumpy_1.2,grumpy_1.3,room3
-grumpy_1.1,Grumpy Woman,"No, thank you my sweetie, but it's fine.",NA,NA,NA,NA,NA,NA,room3
-grumpy_1.2,Grumpy Woman,Excuse-me?,NA,NA,NA,NA,NA,NA,room3
-grumpy_1.3,Grumpy Woman,Mmh... What are you doing here?,NA,NA,NA,NA,NA,NA,room3
+sceneID,character,dialogue,dialogue_audio,good_answer,bad_answer,neutral_answer,good_score,bad_score,neutral_score,next_scene_good,next_scene_bad,next_scene_neutral,background,background_music
+intro_0,Me,?,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Me,Hello ?,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,GameDev,Hi there !! Welcome to this Interactive Game ! My name is Akynna and I'm the creator of this game.,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Me,(What? Where am I?),,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,GameDev,I'm super glad to have you here. How do you feel ?,,Great thanks !,I want to leave.,Hum... What?,5,-5,0,intro_0.1,intro_0.2,intro_0.3,reception,
+intro_0.1,GameDev,This is wonderful. I hope you're not too afraid of what will happens next.,,NA,NA,NA,NA,NA,NA,intro_1,intro_1,intro_1,reception,
+intro_0.2,GameDev,"Oh, don't leave yet, the fun hasn't began yet !",,NA,NA,NA,NA,NA,NA,intro_1,intro_1,intro_1,reception,
+intro_0.3,GameDev,"I know, I know. You will understand a bit more later.",,NA,NA,NA,NA,NA,NA,intro_1,intro_1,intro_1,reception,
+intro_1,Me,(What does she means ? Now I'm afraid !!),,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_1,GameDev,"In this game you are going to meet lots of singular people. Some of them are nice, some others are more difficult to handle, but I hope you will be able to understand all of them !",,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_1,GameDev,So? Are we ready to start ?,,Let's do this !!,"No, no, I don't want to talk to people...","Huh, guess I have no choice.",10,-15,-5,bob_1,alice_1,grumpy_1,reception,
+bob_1,Doctor,"Hi, nice to meet you !",,NA,NA,NA,NA,NA,NA,NA,NA,NA,corridor,
+bob_1,Doctor,What are you doing here ?,,"Hi, I'm here to help you.",I can ask you the same.,I... I don't know.,6,1,3,bob_1.1,bob_1.2,bob_1.3,corridor,
+bob_1.1,Doctor,"Well... Thank you ! But I'm the doctor, so technically I can help myself.",,NA,NA,NA,NA,NA,NA,NA,NA,NA,corridor,
+bob_1.2,Doctor,Well... I guess I'm here for the same reason as you.,,NA,NA,NA,NA,NA,NA,NA,NA,NA,corridor,
+bob_1.3,Doctor,Well... Are you lost?,,NA,NA,NA,NA,NA,NA,NA,NA,NA,corridor,
+alice_1,Little Girl,[...],,"Excuse-me, can I help you ?",*Ignore her*,Is everything okay ?,5,-5,0,alice_1.1,alice_1.2,alice_1.3,room1,
+alice_1.1,Little Girl,"I don't think so, but thanks for asking.",,NA,NA,NA,NA,NA,NA,NA,NA,NA,room1,
+alice_1.2,Little Girl,*Looks at you with an angry face*,,NA,NA,NA,NA,NA,NA,NA,NA,NA,room1,
+alice_1.3,Little Girl,"Well, it obviously looks like that not everything is okay... But still, thanks for asking.",,NA,NA,NA,NA,NA,NA,NA,NA,NA,room1,
+grumpy_1,Grumpy Woman,*Doesn't seem really happy*,,"Is everything okay, Ma'am ?",Don't make that face !,...,2,-10,-3,grumpy_1.1,grumpy_1.2,grumpy_1.3,room3,
+grumpy_1.1,Grumpy Woman,"No, thank you my sweetie, but it's fine.",,NA,NA,NA,NA,NA,NA,NA,NA,NA,room3,
+grumpy_1.2,Grumpy Woman,Excuse-me?,,NA,NA,NA,NA,NA,NA,NA,NA,NA,room3,
+grumpy_1.3,Grumpy Woman,Mmh... What are you doing here?,,NA,NA,NA,NA,NA,NA,NA,NA,NA,room3,

@@ -9,6 +9,7 @@ public class DialogueManager : MonoBehaviour {
 	// Variables that the DialogueManager need to access
 	public DialoguesTable dialoguesTable;
 	public DialogueTrigger dialogueTrigger;
+	public ScoreManager scoreManager;
 	
 	// Variables that the DialogueManager will change
 	public string currentScene = "intro_0";
@@ -89,8 +90,10 @@ public class DialogueManager : MonoBehaviour {
 			string characterName = characterNames.Dequeue();
 			sceneChanger.switchCharacter(characterName);
 			nameText.text = characterName;
-			
 
+			// Find the current character talking
+			scoreManager.currentCharacter = scoreManager.getCharacterByName(characterName);
+			
 			// Collect the next sentence
 			string sentence = sentences.Dequeue();
 
@@ -130,7 +133,7 @@ public class DialogueManager : MonoBehaviour {
 		} else 
 		{	
 			// Switch to the default neutral scene
-			switchScene(lastRow.next_scene_neutral, 0);
+			switchScene(lastRow.next_scene_neutral, 0, 0);
 		}
 		 
 	}
@@ -157,12 +160,12 @@ public class DialogueManager : MonoBehaviour {
 		choicesPanel[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
 		choicesPanel[2].GetComponentInChildren<Text>().text = rowWithChoices.neutral_answer;
 
-		choicesPanel[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1));
-		choicesPanel[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2));
-		choicesPanel[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0));
+		choicesPanel[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, int.Parse(rowWithChoices.good_score)));
+		choicesPanel[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, int.Parse(rowWithChoices.bad_score)));
+		choicesPanel[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, int.Parse(rowWithChoices.neutral_score)));
 	}
 
-	public void switchScene(string sceneID, int answerType)
+	public void switchScene(string sceneID, int answerType, int score)
 	{
 		// If we previously displayed the choice panel,
 		if(choicePanelAnimator.GetBool("isDisplayed"))
@@ -173,6 +176,13 @@ public class DialogueManager : MonoBehaviour {
 			// Give a random feedback
 			randomFeedback(answerType);
 
+			if(score > 0) {
+				new WaitForSeconds(10);
+				scoreManager.upScore(score);
+			}
+
+			// Modify the relation score
+			//scoreManager.updatePoints(score);
 		} 
 		
 		// Load the dialogues of the next scene in the Dialogue Manager
