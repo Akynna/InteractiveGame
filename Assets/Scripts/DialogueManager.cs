@@ -160,9 +160,19 @@ public class DialogueManager : MonoBehaviour {
 		choicesPanel[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
 		choicesPanel[2].GetComponentInChildren<Text>().text = rowWithChoices.neutral_answer;
 
-		choicesPanel[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, int.Parse(rowWithChoices.good_score)));
-		choicesPanel[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, int.Parse(rowWithChoices.bad_score)));
-		choicesPanel[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, int.Parse(rowWithChoices.neutral_score)));
+		int goodScore = 0;
+		int badScore = 0;
+		int neutralScore = 0;
+
+		if(rowWithChoices.good_score != "NA") {
+			goodScore = int.Parse(rowWithChoices.good_score);
+			badScore = int.Parse(rowWithChoices.bad_score);
+			neutralScore = int.Parse(rowWithChoices.neutral_score);
+		}
+
+		choicesPanel[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodScore));
+		choicesPanel[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badScore));
+		choicesPanel[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralScore));
 	}
 
 	public void switchScene(string sceneID, int answerType, int score)
@@ -183,19 +193,22 @@ public class DialogueManager : MonoBehaviour {
 
 			// Modify the relation score
 			//scoreManager.updatePoints(score);
-		} 
-		
-		// Load the dialogues of the next scene in the Dialogue Manager
-		currentScene = sceneID;
-		currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
+		}
 
-		// Switch the background image if needed
-		sceneChanger.switchBackground(currentSceneDialogues[0].background);
+		if(sceneID == "end") {
+			sceneChanger.FadeToLevel(2);
+			
+		} else {
+			// Load the dialogues of the next scene in the Dialogue Manager
+			currentScene = sceneID;
+			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
 
-		// Trigger the dialogues of the next scene
-		dialogueTrigger.triggerDialogue();
+			// Switch the background image if needed
+			sceneChanger.switchBackground(currentSceneDialogues[0].background);
 
-		
+			// Trigger the dialogues of the next scene
+			dialogueTrigger.triggerDialogue();
+		}
 	}
 	
 	// Choose randomly whether or not the character should give a feedback

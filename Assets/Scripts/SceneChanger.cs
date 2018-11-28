@@ -13,7 +13,6 @@ public class SceneChanger : MonoBehaviour {
 	public string currentBackgroundName;
 	public string currentCharacterName;
 	private int sceneToLoad;
-
 	
 	void Start () {
 	}
@@ -31,6 +30,9 @@ public class SceneChanger : MonoBehaviour {
 		if (currentBackgroundName != backgroundName)
 			backgroundSprite.sprite = Resources.Load<Sprite>("Backgrounds/Hospital/" + backgroundName);
 			ResizeSpriteToScreen();
+
+			// Reinitialize the character sprite
+			characterSprite.sprite = null;
 	}
 
 	public void switchCharacter(string characterName)
@@ -44,6 +46,7 @@ public class SceneChanger : MonoBehaviour {
 	public void FadeToLevel(int levelIndex)
 	{
 		animator.SetTrigger("FadeOut");
+		sceneToLoad = levelIndex;
 	}
 
 	public void OnFadeComplete()
@@ -65,6 +68,22 @@ public class SceneChanger : MonoBehaviour {
 		lTemp.y = (float) worldScreenHeight / height;
 
 		backgroundSprite.transform.localScale = lTemp;
+	}
+
+	public void changeCharacterFace(int faceType) {
+		switch(faceType) 
+		{
+			case 1:
+				Debug.Log("good");
+				break;
+			case 2:
+				Debug.Log("bad.");
+				break;
+			default:
+				Debug.Log("neutral");
+				break;
+		}
+
 	}
  	
 }
