@@ -5,21 +5,23 @@ using UnityEngine.UI;
 using System;
 public class ScoreManager : MonoBehaviour {
 
-	private HashSet<string> characterNames;
 	public HashSet<Character> characterList;
-	public GameObject relationBar;
 	public DialoguesTable dialoguesTable;
+	
+	
 	public Character currentCharacter;
-	public Text scoreText;
 
+	// ELements that the ScoreManager will modify
+	public Text scoreText;
 	public Animator scoreAnimator;
+	public GameObject relationBar;
 
 	void Start () {
 
 		// Get characters' names
-		characterNames = dialoguesTable.getCharacterNames();
+		HashSet<string> characterNames = dialoguesTable.getCharacterNames();
 
-		// Initialize the attributes of all characters
+		// Initialize the score and state of all characters
 		characterList = new HashSet<Character>();
 
 		foreach(string characterName in characterNames) {

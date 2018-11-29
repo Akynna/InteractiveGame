@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class SceneChanger : MonoBehaviour {
 
 	public Animator animator;
@@ -19,25 +20,26 @@ public class SceneChanger : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		/*if(Input.GetMouseButtonDown(0))
-		{
-			FadeToLevel(1);
-		}*/
+
 	}
 
 	public void switchBackground(string backgroundName)
 	{
-		if (currentBackgroundName != backgroundName)
+		// If we notice a change in the background
+		if (currentBackgroundName != backgroundName) {
+
+			// Update the background and resize it to the screen
 			backgroundSprite.sprite = Resources.Load<Sprite>("Backgrounds/Hospital/" + backgroundName);
 			ResizeSpriteToScreen();
 
 			// Reinitialize the character sprite
 			characterSprite.sprite = null;
+		}
 	}
 
 	public void switchCharacter(string characterName)
 	{
-		if(characterName != "Me" && characterName != currentCharacterName)
+		if(characterName != "Me" &&	 characterName != currentCharacterName)
 		{
 			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + characterName);
 		}
@@ -70,6 +72,7 @@ public class SceneChanger : MonoBehaviour {
 		backgroundSprite.transform.localScale = lTemp;
 	}
 
+	// Change the expression of a character
 	public void changeCharacterFace(int faceType) {
 		switch(faceType) 
 		{

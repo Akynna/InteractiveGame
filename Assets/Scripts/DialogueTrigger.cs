@@ -29,9 +29,7 @@ public class DialogueTrigger : MonoBehaviour {
 			dialogue.names.Add(row.character);
 			dialogue.sentences.Add(row.dialogue);
 		}
-
-		//Debug.Log(dialogue.names.Count);
-
+		
 		dialogueManager.startDialogue(dialogue);
 	}
 }

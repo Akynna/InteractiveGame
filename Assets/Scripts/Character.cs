@@ -16,6 +16,7 @@ public class Character {
 
     public int score;
     public RelationState relationState;
+    public SpriteRenderer spriteRenderer;
 
     public Character(string name, int score, RelationState relationState)
     {
@@ -34,5 +35,28 @@ public class Character {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+
+	// Change the expression of a character
+    public void changeCharacterFace(int faceType) {
+
+        string imageName = name;
+
+		switch(faceType) 
+		{
+			case 1:
+				// Debug.Log("good");
+				imageName += " Good";
+				break;
+			case 2:
+				//Debug.Log("bad.");
+                imageName += " Bad";
+				break;
+			default:
+				//Debug.Log("neutral");
+				break;
+		}
+        spriteRenderer.sprite = Resources.Load<Sprite>("Characters/" + imageName);
 	}
 }
