@@ -10,6 +10,8 @@ public class DialogueManager : MonoBehaviour {
 	public DialoguesTable dialoguesTable;
 	public DialogueTrigger dialogueTrigger;
 	public ScoreManager scoreManager;
+
+	public CharacterManager characterManager;
 	
 	// Variables that the DialogueManager will change
 	public string currentScene = "intro_0";
@@ -23,13 +25,14 @@ public class DialogueManager : MonoBehaviour {
 	public Text dialogueText;
 	public Animator dialogueBoxAnimator;
 	public Animator choicePanelAnimator;
-	public List<Button> choicesPanel;
+	public GameObject choicesPanel;
+	private Button[] buttonList;
 
 	// Variables for the backgrounds
 	public SceneChanger sceneChanger;
 	public Boolean switchBackground = false;
 
-	float[] y_positions = {-159.1475f, -189.86f, -220.5725f};
+	private float[] y_positions = new float[3];
 
 
 	// Initialization
@@ -43,16 +46,26 @@ public class DialogueManager : MonoBehaviour {
 
 		// Launch the first scene's
 		dialogueTrigger.triggerDialogue();
+
+		// Initialize the button positions
+		buttonList = choicesPanel.GetComponentsInChildren<Button>();
+
+		for(int i=0; i < 3; ++i) {
+			y_positions[0] = buttonList[0].transform.position.y;
+			y_positions[1] = buttonList[1].transform.position.y;
+			y_positions[2] = buttonList[2].transform.position.y;
+		}
 	}
 
 	public void startDialogue(Dialogue dialogue) 
 	{
-		// Move up the dialogue box
-		dialogueBoxAnimator.SetBool("isOpen", true);
 
 		// Clear previous messages
 		characterNames.Clear();
 		sentences.Clear();
+
+		// Move up the dialogue box
+		dialogueBoxAnimator.SetBool("isOpen", true);
 
 		// List the characters involed in the conversation
 		foreach (string name in dialogue.names)
@@ -78,14 +91,13 @@ public class DialogueManager : MonoBehaviour {
 			endDialogue();
 		} else
 		{
-			
-			// Set the character's name
+			// Set the character's name and sprite
 			string characterName = characterNames.Dequeue();
-			sceneChanger.switchCharacter(characterName);
+			
 			nameText.text = characterName;
 
 			// Find the current character talking
-			scoreManager.currentCharacter = scoreManager.getCharacterByName(characterName);
+			characterManager.currentCharacter = characterManager.getCharacterByName(characterName);
 			
 			// Collect the next sentence
 			string sentence = sentences.Dequeue();
@@ -113,7 +125,7 @@ public class DialogueManager : MonoBehaviour {
 
 	private void endDialogue()
 	{
-		Debug.Log("End of conversation.");
+		// Debug.Log("End of conversation.");
 		dialogueBoxAnimator.SetBool("isOpen", false);
 
 		// Get the last rows of the scene
@@ -134,6 +146,10 @@ public class DialogueManager : MonoBehaviour {
 	// TODO : Make choices appear randomly on buttons
 	private void showChoices(DialoguesTable.Row rowWithChoices) 
 	{
+
+		//Debug.Log(choicesPanel.transform.);
+
+		// Debug.Log(buttonList[0].transform.position);
 		// Randomly assign a choice to a button
 		System.Random r = new System.Random();
 		int randIndex = r.Next(0, 3);
@@ -146,8 +162,8 @@ public class DialogueManager : MonoBehaviour {
 			while(usedNumbers.Contains(randIndex)) {
 				randIndex = r.Next(0, 3);
 			}
-			choicesPanel[i].transform.position = new Vector3(choicesPanel[i].transform.position.x, y_positions[randIndex], choicesPanel[i].transform.position.z);
-			choicesPanel[i].GetComponentsInChildren<Text>()[1].text = (randIndex + 1).ToString();
+			buttonList[i].transform.position = new Vector3(buttonList[i].transform.position.x, y_positions[randIndex], buttonList[i].transform.position.z);
+			buttonList[i].GetComponentsInChildren<Text>()[1].text = (randIndex + 1).ToString();
 			usedNumbers.Add(randIndex);
 		}
 
@@ -155,9 +171,9 @@ public class DialogueManager : MonoBehaviour {
 
 		// TODO : Repair bug
 
-		choicesPanel[0].GetComponentInChildren<Text>().text = rowWithChoices.good_answer;
-		choicesPanel[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
-		choicesPanel[2].GetComponentInChildren<Text>().text = rowWithChoices.neutral_answer;
+		buttonList[0].GetComponentInChildren<Text>().text = rowWithChoices.good_answer;
+		buttonList[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
+		buttonList[2].GetComponentInChildren<Text>().text = rowWithChoices.neutral_answer;
 
 		int goodScore = 0;
 		int badScore = 0;
@@ -169,9 +185,9 @@ public class DialogueManager : MonoBehaviour {
 			neutralScore = int.Parse(rowWithChoices.neutral_score);
 		}
 
-		choicesPanel[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodScore));
-		choicesPanel[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badScore));
-		choicesPanel[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralScore));
+		buttonList[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodScore));
+		buttonList[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badScore));
+		buttonList[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralScore));
 
 		choicePanelAnimator.SetBool("isDisplayed", true);
 	}
@@ -219,20 +235,20 @@ public class DialogueManager : MonoBehaviour {
 		System.Random r = new System.Random();
 		int	giveFeedback = r.Next(0, 2);
 
-		Debug.Log("Feedback: " + giveFeedback);
+		// Debug.Log("Feedback: " + giveFeedback);
 
 		if(giveFeedback == 1)
 		{
 			switch(answerType) 
 			{
 				case 1:
-					Debug.Log("good");
+					// Debug.Log("good");
 					break;
 				case 2:
-					Debug.Log("bad.");
+					// Debug.Log("bad.");
 					break;
 				default:
-					Debug.Log("neutral");
+					// Debug.Log("neutral");
 					break;
 			}
 			// Make the character smile

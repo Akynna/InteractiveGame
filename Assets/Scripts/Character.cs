@@ -36,6 +36,12 @@ public class Character {
 	void Update () {
 		
 	}
+    
+    // Change the character sprite
+    public void switchCharacter(string imageName)
+	{
+	    spriteRenderer.sprite = Resources.Load<Sprite>("Characters/" + imageName);
+	}
 
 
 	// Change the expression of a character
@@ -57,6 +63,6 @@ public class Character {
 				//Debug.Log("neutral");
 				break;
 		}
-        spriteRenderer.sprite = Resources.Load<Sprite>("Characters/" + imageName);
+        switchCharacter(imageName);
 	}
 }

@@ -6,8 +6,6 @@ using System;
 public class ScoreManager : MonoBehaviour {
 
 	public HashSet<Character> characterList;
-	public DialoguesTable dialoguesTable;
-	
 	
 	public Character currentCharacter;
 
@@ -17,17 +15,6 @@ public class ScoreManager : MonoBehaviour {
 	public GameObject relationBar;
 
 	void Start () {
-
-		// Get characters' names
-		HashSet<string> characterNames = dialoguesTable.getCharacterNames();
-
-		// Initialize the score and state of all characters
-		characterList = new HashSet<Character>();
-
-		foreach(string characterName in characterNames) {
-			Character character = new Character(characterName, 0, Character.RelationState.Unknown);
-			characterList.Add(character);
-		}
 
 		// Initlialize the relation states
 		Text[] stateTexts = relationBar.GetComponentsInChildren<Text>();
@@ -48,20 +35,7 @@ public class ScoreManager : MonoBehaviour {
 			bar.color = tempColor;
 		}
 	}
-
-	public Character getCharacterByName(string characterName)
-	{
-		foreach(Character character in characterList)
-		{
-			if (String.Equals(character.name, characterName))
-			{
-				return new Character(character.name, character.score, character.relationState);
-			}
-		}
-		Debug.Log("No such character found.");
-		return null;
-	}
-
+	
 	public void changeCurrentState(Character.RelationState newState)
 	{
 		Text[] stateTexts = relationBar.GetComponentsInChildren<Text>();
