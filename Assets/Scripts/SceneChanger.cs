@@ -38,9 +38,6 @@ public class SceneChanger : MonoBehaviour {
 			// Update the background and resize it to the screen
 			backgroundSprite.sprite = Resources.Load<Sprite>("Backgrounds/Hospital/" + backgroundName);
 			ResizeSpriteToScreen();
-
-			// Reinitialize the character sprite
-			
 		}
 	}
 

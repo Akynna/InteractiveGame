@@ -60,7 +60,7 @@ public class ScoreManager : MonoBehaviour {
 			}
 
 		} else if (newScore < oldScore) {
-			// downScore
+			downScore(oldScore - newScore);
 			tempColor.a = 0.25f;
 
 			for (int i=oldScore; i > newScore && i > 0; --i) {
@@ -73,6 +73,12 @@ public class ScoreManager : MonoBehaviour {
 	public void upScore(int points) {
 		scoreAnimator.SetTrigger("Up");
 		scoreText.text = "Score : +" + points.ToString();
+	}
+
+	public void downScore(int points)
+	{
+		scoreAnimator.SetTrigger("Down");
+		scoreText.text = "Score : -" + points.ToString();
 	}
 
 	private void changeScoreBar(int changeType, int nbBars)
