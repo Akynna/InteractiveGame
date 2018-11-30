@@ -7,7 +7,7 @@ public class ScoreManager : MonoBehaviour {
 
 	public HashSet<Character> characterList;
 	
-	public Character currentCharacter;
+	public CharacterManager characterManager;
 
 	// ELements that the ScoreManager will modify
 	public Text scoreText;
@@ -35,44 +35,49 @@ public class ScoreManager : MonoBehaviour {
 			bar.color = tempColor;
 		}
 	}
-	
+
 	public void changeCurrentState(Character.RelationState newState)
 	{
 		Text[] stateTexts = relationBar.GetComponentsInChildren<Text>();
 		stateTexts[1].text = newState.ToString();
 	}
 
-	public void updatePoints()
+	public void updatePoints(int points)
 	{
-		//changeScoreBar(currentCharacter.score, currentCharacter.score + points);
-		//currentCharacter.score += points;
+		int oldScore = characterManager.currentCharacter.score;
+		int newScore = characterManager.currentCharacter.score + points;
+
+		// Initialize the score bars (arrows)
+		Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
+		var tempColor = scoreBars[0].color;
+
+		if (oldScore < newScore) {
+			upScore(newScore - oldScore);
+			tempColor.a = 0.75f;
+
+			for (int i=oldScore; i < newScore && i < scoreBars.Length; ++i) {
+				scoreBars[i].color = tempColor;
+			}
+
+		} else if (newScore < oldScore) {
+			// downScore
+			tempColor.a = 0.25f;
+
+			for (int i=oldScore; i > newScore && i > 0; --i) {
+				scoreBars[i].color = tempColor;
+			}
+		}
+		characterManager.currentCharacter.score += points;
 	}
 
 	public void upScore(int points) {
 		scoreAnimator.SetTrigger("Up");
 		scoreText.text = "Score : +" + points.ToString();
-
 	}
 
-	private void changeScoreBar(int actualScore, int newScore)
+	private void changeScoreBar(int changeType, int nbBars)
 	{
-		/*Text[] texts = relationBar.GetComponentsInChildren<Text>();
-		Debug.Log(texts[2].text);
-
-		if (actualScore < newScore) {
-
-    		 // Replace text with color value for character.
-			for(int i=actualScore; i < newScore; i++) {
-				texts[2].text = texts[2].text.Replace(texts[2].text[actualScore].ToString(), "<color=#ffffff>" + texts[2].text [actualScore].ToString () + "</color>");
-			}
-
-		} else if (newScore < actualScore) {
 			
-    		 // Replace text with color value for character.
-			for(int i=actualScore; i > newScore; i--) {
-				texts[2].text = texts[2].text.Replace (texts[2].text[actualScore].ToString(), "<color=#ffffff>" + texts[2].text [actualScore].ToString () + "</color>");
-			}
-		}*/
 	}
 
 }

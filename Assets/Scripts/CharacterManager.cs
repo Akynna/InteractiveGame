@@ -30,12 +30,6 @@ public class CharacterManager : MonoBehaviour {
 		}
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-
-		
-	}
 
 	public Character getCharacterByName(string characterName)
 	{
@@ -54,5 +48,27 @@ public class CharacterManager : MonoBehaviour {
 	{
 		if(imageName != "Me")
 			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + imageName);
+	}
+
+	// Change the expression of a character
+    public void changeCharacterFace(int faceType) {
+
+        string imageName = name;
+
+		switch(faceType) 
+		{
+			case 1:
+				// Debug.Log("good");
+				imageName += " Good";
+				break;
+			case 2:
+				//Debug.Log("bad.");
+                imageName += " Bad";
+				break;
+			default:
+				//Debug.Log("neutral");
+				break;
+		}
+        switchCharacter(imageName);
 	}
 }

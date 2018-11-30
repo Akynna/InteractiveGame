@@ -97,8 +97,10 @@ public class DialogueManager : MonoBehaviour {
 			nameText.text = characterName;
 
 			// Find the current character talking
-			// characterManager.currentCharacter = characterManager.getCharacterByName(characterName);
-			characterManager.switchCharacter(characterName);
+			if (characterName != "Me") {
+				characterManager.currentCharacter = characterManager.getCharacterByName(characterName);
+				characterManager.switchCharacter(characterName);
+			}
 			
 			// Collect the next sentence
 			string sentence = sentences.Dequeue();
@@ -204,13 +206,8 @@ public class DialogueManager : MonoBehaviour {
 			// Give a random feedback
 			randomFeedback(answerType);
 
-			if(score > 0) {
-				new WaitForSeconds(10);
-				scoreManager.upScore(score);
-			}
-
 			// Modify the relation score
-			//scoreManager.updatePoints(score);
+			scoreManager.updatePoints(score);
 		}
 
 		if(sceneID == "end") {
