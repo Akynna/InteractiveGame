@@ -8,6 +8,7 @@ public class CharacterManager : MonoBehaviour {
 
 
 	public Character currentCharacter;
+	public SpriteRenderer characterSprite;
 	public HashSet<Character> characterList;
 
 	public DialoguesTable dialoguesTable;
@@ -32,6 +33,7 @@ public class CharacterManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		
 	}
 
@@ -46,5 +48,11 @@ public class CharacterManager : MonoBehaviour {
 		}	
 		Debug.Log("No such character found.");
 		return null;
+	}
+
+	public void switchCharacter(string imageName)
+	{
+		if(imageName != "Me")
+			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + imageName);
 	}
 }

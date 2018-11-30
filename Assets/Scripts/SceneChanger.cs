@@ -12,7 +12,7 @@ public class SceneChanger : MonoBehaviour {
 	public SpriteRenderer characterSprite;
 	public Camera mainCamera;
 	public string currentBackgroundName;
-	public string currentCharacterName;
+	public Character currentCharacter;
 	private int sceneToLoad;
 	
 	void Start () {
@@ -41,14 +41,6 @@ public class SceneChanger : MonoBehaviour {
 
 			// Reinitialize the character sprite
 			
-		}
-	}
-
-	public void switchCharacter(string characterName)
-	{
-		if(characterName != "Me" &&	 characterName != currentCharacterName)
-		{
-			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + characterName);
 		}
 	}
 

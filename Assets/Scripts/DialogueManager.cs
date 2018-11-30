@@ -97,7 +97,8 @@ public class DialogueManager : MonoBehaviour {
 			nameText.text = characterName;
 
 			// Find the current character talking
-			characterManager.currentCharacter = characterManager.getCharacterByName(characterName);
+			// characterManager.currentCharacter = characterManager.getCharacterByName(characterName);
+			characterManager.switchCharacter(characterName);
 			
 			// Collect the next sentence
 			string sentence = sentences.Dequeue();
@@ -220,8 +221,9 @@ public class DialogueManager : MonoBehaviour {
 			currentScene = sceneID;
 			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
 
-			// Switch the background image if needed
+			// Switch the character and background images if needed
 			sceneChanger.switchBackground(currentSceneDialogues[0].background);
+			characterManager.switchCharacter("");
 
 			// Trigger the dialogues of the next scene
 			dialogueTrigger.triggerDialogue();
