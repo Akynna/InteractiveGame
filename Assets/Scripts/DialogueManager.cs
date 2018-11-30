@@ -29,6 +29,8 @@ public class DialogueManager : MonoBehaviour {
 	public SceneChanger sceneChanger;
 	public Boolean switchBackground = false;
 
+	float[] y_positions = {-159.1475f, -189.86f, -220.5725f};
+
 
 	// Initialization
 	void Start () {
@@ -39,17 +41,8 @@ public class DialogueManager : MonoBehaviour {
 		currentScene = "intro_0";
 		currentSceneDialogues = dialoguesTable.FindAll_sceneID("intro_0");
 
-		// Launch the first scene
+		// Launch the first scene's
 		dialogueTrigger.triggerDialogue();
-
-		// Set the background
-		sceneChanger.currentBackgroundName = currentSceneDialogues[0].background;
-		sceneChanger.switchBackground(sceneChanger.currentBackgroundName);
-
-		// Get the characters' names
-		// TODO : deplacer dans une class compteur
-		//HashSet<string> characterList = dialoguesTable.getCharacterNames();
-		// Debug.Log(characterList.Count);
 	}
 
 	public void startDialogue(Dialogue dialogue) 
@@ -141,21 +134,27 @@ public class DialogueManager : MonoBehaviour {
 	// TODO : Make choices appear randomly on buttons
 	private void showChoices(DialoguesTable.Row rowWithChoices) 
 	{
-		// Randomly assign a choice a button
-		/*foreach (Button button in choicesPanel) {
-			int randomIndex = Random.Range(0, choicesPanel.Count - 1);
-			button.GetComponentsInChildren<UnityEngine.UI.Text>().Text = choices.good_answer;
+		// Randomly assign a choice to a button
+		System.Random r = new System.Random();
+		int randIndex = r.Next(0, 3);
 
-     	}*/
+		// Create a list of used number to avoid repetition
+		List<int> usedNumbers = new List<int>();
 
-		/*System.Random rnd = new System.Random();
-		Debug.Log(choicesPanel.RandomItem());
-		Debug.Log(choicesPanel[rnd.Next(0, choicesPanel.Count)]);
-		Debug.Log(choicesPanel[rnd.Next(0, choicesPanel.Count)]);*/
+		for(int i=0; i < 3; ++i)
+		{
+			while(usedNumbers.Contains(randIndex)) {
+				randIndex = r.Next(0, 3);
+			}
+			choicesPanel[i].transform.position = new Vector3(choicesPanel[i].transform.position.x, y_positions[randIndex], choicesPanel[i].transform.position.z);
+			choicesPanel[i].GetComponentsInChildren<Text>()[1].text = (randIndex + 1).ToString();
+			usedNumbers.Add(randIndex);
+		}
 
-		choicePanelAnimator.SetBool("isDisplayed", true);
+		usedNumbers.Clear();
 
-		// TODO : Randomize the display order of the choices
+		// TODO : Repair bug
+
 		choicesPanel[0].GetComponentInChildren<Text>().text = rowWithChoices.good_answer;
 		choicesPanel[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
 		choicesPanel[2].GetComponentInChildren<Text>().text = rowWithChoices.neutral_answer;
@@ -173,6 +172,8 @@ public class DialogueManager : MonoBehaviour {
 		choicesPanel[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodScore));
 		choicesPanel[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badScore));
 		choicesPanel[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralScore));
+
+		choicePanelAnimator.SetBool("isDisplayed", true);
 	}
 
 	public void switchScene(string sceneID, int answerType, int score)

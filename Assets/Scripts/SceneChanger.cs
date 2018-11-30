@@ -16,6 +16,13 @@ public class SceneChanger : MonoBehaviour {
 	private int sceneToLoad;
 	
 	void Start () {
+
+		// Set the initial background
+		currentBackgroundName = dialogueManager.currentSceneDialogues[0].background;
+		switchBackground(currentBackgroundName);
+
+		// Set the character to None
+		characterSprite.sprite = null;
 	}
 
 	// Update is called once per frame
@@ -33,7 +40,7 @@ public class SceneChanger : MonoBehaviour {
 			ResizeSpriteToScreen();
 
 			// Reinitialize the character sprite
-			characterSprite.sprite = null;
+			
 		}
 	}
 
@@ -70,23 +77,5 @@ public class SceneChanger : MonoBehaviour {
 		lTemp.y = (float) worldScreenHeight / height;
 
 		backgroundSprite.transform.localScale = lTemp;
-	}
-
-	// Change the expression of a character
-	public void changeCharacterFace(int faceType) {
-		switch(faceType) 
-		{
-			case 1:
-				Debug.Log("good");
-				break;
-			case 2:
-				Debug.Log("bad.");
-				break;
-			default:
-				Debug.Log("neutral");
-				break;
-		}
-
-	}
- 	
+	} 	
 }

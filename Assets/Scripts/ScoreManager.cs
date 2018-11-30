@@ -29,9 +29,24 @@ public class ScoreManager : MonoBehaviour {
 			characterList.Add(character);
 		}
 
+		// Initlialize the relation states
 		Text[] stateTexts = relationBar.GetComponentsInChildren<Text>();
-		stateTexts[1].text = Character.RelationState.Unknown.ToString();
-		stateTexts[3].text = Character.RelationState.Acquaintance.ToString();
+
+		Text currentState = stateTexts[1];
+		Text nextState = stateTexts[2];
+
+		currentState.text = Character.RelationState.Unknown.ToString();
+		nextState.text = Character.RelationState.Acquaintance.ToString();
+
+		// Initialize the score bars (arrows)
+		Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
+
+		foreach (Image bar in scoreBars)
+		{
+			var tempColor = bar.color;
+			tempColor.a = 0.25f;
+			bar.color = tempColor;
+		}
 	}
 
 	public Character getCharacterByName(string characterName)
