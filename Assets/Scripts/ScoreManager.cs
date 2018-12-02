@@ -9,7 +9,6 @@ public class ScoreManager : MonoBehaviour {
 	
 	public CharacterManager characterManager;
 
-	// ELements that the ScoreManager will modify
 	public Text scoreText;
 	public Animator scoreAnimator;
 	public GameObject relationBar;
@@ -42,6 +41,16 @@ public class ScoreManager : MonoBehaviour {
 		stateTexts[1].text = newState.ToString();
 	}
 
+	private void resetBar() {
+		Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
+		var tempColor = scoreBars[0].color;
+		tempColor.a = 0.25f;
+
+		for(int i=0; i < scoreBars.Length; ++i) {
+			scoreBars[i].color = tempColor;
+		}
+	}
+
 	public void updatePoints(int points)
 	{
 		int oldScore = characterManager.currentCharacter.score;
@@ -64,6 +73,13 @@ public class ScoreManager : MonoBehaviour {
 			tempColor.a = 0.25f;
 
 			for (int i=oldScore; i > newScore && i > 0; --i) {
+				scoreBars[i].color = tempColor;
+			}
+		} else {
+			resetBar();
+			
+			tempColor.a = 0.75f;
+			for(int i=0; i < oldScore; ++i) {
 				scoreBars[i].color = tempColor;
 			}
 		}

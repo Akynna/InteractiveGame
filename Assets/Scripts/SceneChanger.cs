@@ -9,10 +9,8 @@ public class SceneChanger : MonoBehaviour {
 	public Animator animator;
 	public DialogueManager dialogueManager;
 	public SpriteRenderer backgroundSprite;
-	public SpriteRenderer characterSprite;
 	public Camera mainCamera;
-	public string currentBackgroundName;
-	public Character currentCharacter;
+	private string currentBackgroundName;
 	private int sceneToLoad;
 	
 	void Start () {
@@ -20,14 +18,6 @@ public class SceneChanger : MonoBehaviour {
 		// Set the initial background
 		currentBackgroundName = dialogueManager.currentSceneDialogues[0].background;
 		switchBackground(currentBackgroundName);
-
-		// Set the character to None
-		characterSprite.sprite = null;
-	}
-
-	// Update is called once per frame
-	void Update () {
-
 	}
 
 	public void switchBackground(string backgroundName)

@@ -13,10 +13,14 @@ public class CharacterManager : MonoBehaviour {
 
 	public DialoguesTable dialoguesTable;
 
+	public int isFeedBack;
+	public string currentSpriteName;
+
 	// Use this for initialization
 	void Start () {
 
 		currentCharacter = new Character("Unknownnn", 0, Character.RelationState.Unknown);
+		isFeedBack = 0;
 
 		// Get characters' names
 		HashSet<string> characterNames = dialoguesTable.getCharacterNames();
@@ -37,6 +41,7 @@ public class CharacterManager : MonoBehaviour {
 		{
 			if (String.Equals(character.name, characterName))
 			{
+				// Debug.Log(characterName);
 				return new Character(character.name, character.score, character.relationState);
 			}
 		}	
@@ -44,31 +49,35 @@ public class CharacterManager : MonoBehaviour {
 		return null;
 	}
 
-	public void switchCharacter(string imageName)
+	public void updateCharacterSprite()
 	{
-		if(imageName != "Me")
-			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + imageName);
+		characterSprite.sprite = Resources.Load<Sprite>("Characters/" + currentSpriteName);
 	}
 
-	// Change the expression of a character
-    public void changeCharacterFace(int faceType) {
+	// Choose randomly whether or not the character should give a feedback
+	public void randomFeedback(int answerType) {
 
-        string imageName = name;
+		// Generate a random number between 0 and 1
+		System.Random r = new System.Random();
+		int	giveFeedback = 1; // r.Next(0, 2);
 
-		switch(faceType) 
+		if(giveFeedback == 1)
 		{
-			case 1:
-				// Debug.Log("good");
-				imageName += " Good";
-				break;
-			case 2:
-				//Debug.Log("bad.");
-                imageName += " Bad";
-				break;
-			default:
-				//Debug.Log("neutral");
-				break;
+			switch(answerType) 
+			{
+				case 1:
+					currentSpriteName += " Good";
+					isFeedBack = 1;
+					break;
+				case 2:
+					currentSpriteName += " Bad";
+					isFeedBack = 1;
+					break;
+				default:
+					break;
+			}
+		} else {
+			isFeedBack = 0;
 		}
-        switchCharacter(imageName);
 	}
 }

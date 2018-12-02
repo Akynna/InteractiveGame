@@ -10,11 +10,9 @@ public class DialogueManager : MonoBehaviour {
 	public DialoguesTable dialoguesTable;
 	public DialogueTrigger dialogueTrigger;
 	public ScoreManager scoreManager;
-
 	public CharacterManager characterManager;
 	
 	// Variables that the DialogueManager will change
-	public string currentScene = "intro_0";
 	public List<DialoguesTable.Row> currentSceneDialogues;
 	private Queue<string> characterNames;
 	private Queue<string> sentences;
@@ -23,25 +21,28 @@ public class DialogueManager : MonoBehaviour {
 	// Element of one dialogue element
 	public Text nameText;
 	public Text dialogueText;
-	public Animator dialogueBoxAnimator;
-	public Animator choicePanelAnimator;
+
 	public GameObject choicesPanel;
 	private Button[] buttonList;
+	public Button continueButton;
+
+	// Animators
+	public Animator dialogueBoxAnimator;
+	public Animator choicePanelAnimator;
 
 	// Variables for the backgrounds
 	public SceneChanger sceneChanger;
-	public Boolean switchBackground = false;
 
 	private float[] y_positions = new float[3];
-
+	private int isFeedBack = 0;
 
 	// Initialization
 	void Start () {
-		sentences = new Queue<string>();
+
 		characterNames = new Queue<string>();
+		sentences = new Queue<string>();
 		
 		// Initialize the first scene
-		currentScene = "intro_0";
 		currentSceneDialogues = dialoguesTable.FindAll_sceneID("intro_0");
 
 		// Launch the first scene's
@@ -51,10 +52,10 @@ public class DialogueManager : MonoBehaviour {
 		buttonList = choicesPanel.GetComponentsInChildren<Button>();
 
 		for(int i=0; i < 3; ++i) {
-			y_positions[0] = buttonList[0].transform.position.y;
-			y_positions[1] = buttonList[1].transform.position.y;
-			y_positions[2] = buttonList[2].transform.position.y;
+			y_positions[i] = buttonList[i].transform.position.y;
 		}
+
+		continueButton.onClick.AddListener(() => displayNextSentence());
 	}
 
 	public void startDialogue(Dialogue dialogue) 
@@ -91,17 +92,10 @@ public class DialogueManager : MonoBehaviour {
 			endDialogue();
 		} else
 		{
-			// Set the character's name and sprite
+			// Set the character's name
 			string characterName = characterNames.Dequeue();
-			
 			nameText.text = characterName;
 
-			// Find the current character talking
-			if (characterName != "Me") {
-				characterManager.currentCharacter = characterManager.getCharacterByName(characterName);
-				characterManager.switchCharacter(characterName);
-			}
-			
 			// Collect the next sentence
 			string sentence = sentences.Dequeue();
 
@@ -111,6 +105,22 @@ public class DialogueManager : MonoBehaviour {
 				StopAllCoroutines();
 				StartCoroutine(typeSentence(sentence));
 			}
+
+			// Find the current character talking and set the appropriate sprite
+			if(characterManager.isFeedBack == 0) {
+				if(characterName != "Me" && characterManager.currentCharacter.name != characterName)
+				{
+					characterManager.currentCharacter = characterManager.getCharacterByName(characterName);
+					characterManager.currentSpriteName = characterName;
+				} 
+			} else
+			{
+				characterManager.isFeedBack = 0;
+				characterManager.currentCharacter.name = " ";
+			}
+
+			scoreManager.updatePoints(0);
+			characterManager.updateCharacterSprite();
 		}
 	}
 
@@ -128,7 +138,6 @@ public class DialogueManager : MonoBehaviour {
 
 	private void endDialogue()
 	{
-		// Debug.Log("End of conversation.");
 		dialogueBoxAnimator.SetBool("isOpen", false);
 
 		// Get the last rows of the scene
@@ -146,13 +155,8 @@ public class DialogueManager : MonoBehaviour {
 		 
 	}
 
-	// TODO : Make choices appear randomly on buttons
 	private void showChoices(DialoguesTable.Row rowWithChoices) 
 	{
-
-		//Debug.Log(choicesPanel.transform.);
-
-		// Debug.Log(buttonList[0].transform.position);
 		// Randomly assign a choice to a button
 		System.Random r = new System.Random();
 		int randIndex = r.Next(0, 3);
@@ -169,10 +173,7 @@ public class DialogueManager : MonoBehaviour {
 			buttonList[i].GetComponentsInChildren<Text>()[1].text = (randIndex + 1).ToString();
 			usedNumbers.Add(randIndex);
 		}
-
 		usedNumbers.Clear();
-
-		// TODO : Repair bug
 
 		buttonList[0].GetComponentInChildren<Text>().text = rowWithChoices.good_answer;
 		buttonList[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
@@ -182,12 +183,18 @@ public class DialogueManager : MonoBehaviour {
 		int badScore = 0;
 		int neutralScore = 0;
 
-		if(rowWithChoices.good_score != "NA") {
+		if(rowWithChoices.neutral_score != "NA") {
 			goodScore = int.Parse(rowWithChoices.good_score);
 			badScore = int.Parse(rowWithChoices.bad_score);
 			neutralScore = int.Parse(rowWithChoices.neutral_score);
 		}
 
+		// Remove old listeners
+		buttonList[0].onClick.RemoveAllListeners();
+		buttonList[1].onClick.RemoveAllListeners();
+		buttonList[2].onClick.RemoveAllListeners();
+
+		// Add new listeners to buttons
 		buttonList[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodScore));
 		buttonList[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badScore));
 		buttonList[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralScore));
@@ -203,11 +210,14 @@ public class DialogueManager : MonoBehaviour {
 			// Hide the choice panel
 			choicePanelAnimator.SetBool("isDisplayed", false);
 
-			// Give a random feedback
-			randomFeedback(answerType);
+			if(score != 0) {
 
-			// Modify the relation score
-			scoreManager.updatePoints(score);
+				// Give a random feedback
+				characterManager.randomFeedback(answerType);
+
+				// Modify the relation score
+				scoreManager.updatePoints(score);
+			}	
 		}
 
 		if(sceneID == "end") {
@@ -215,43 +225,15 @@ public class DialogueManager : MonoBehaviour {
 			
 		} else {
 			// Load the dialogues of the next scene in the Dialogue Manager
-			currentScene = sceneID;
 			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
 
 			// Switch the character and background images if needed
 			sceneChanger.switchBackground(currentSceneDialogues[0].background);
-			characterManager.switchCharacter("");
 
 			// Trigger the dialogues of the next scene
 			dialogueTrigger.triggerDialogue();
 		}
 	}
 	
-	// Choose randomly whether or not the character should give a feedback
-	public void randomFeedback(int answerType) {
-
-		// Generate a random number between 0 and 1
-		System.Random r = new System.Random();
-		int	giveFeedback = r.Next(0, 2);
-
-		// Debug.Log("Feedback: " + giveFeedback);
-
-		if(giveFeedback == 1)
-		{
-			switch(answerType) 
-			{
-				case 1:
-					// Debug.Log("good");
-					break;
-				case 2:
-					// Debug.Log("bad.");
-					break;
-				default:
-					// Debug.Log("neutral");
-					break;
-			}
-			// Make the character smile
-			// Display the score increasing or decreasing
-		}
-	}
+	
 }
