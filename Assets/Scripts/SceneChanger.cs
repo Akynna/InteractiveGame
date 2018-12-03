@@ -16,7 +16,8 @@ public class SceneChanger : MonoBehaviour {
 	void Start () {
 
 		// Set the initial background
-		currentBackgroundName = dialogueManager.currentSceneDialogues[0].background;
+		currentBackgroundName = "";
+		// Debug.Log(dialogueManager.currentSceneDialogues.Count);
 		switchBackground(currentBackgroundName);
 	}
 
