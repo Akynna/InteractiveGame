@@ -14,14 +14,16 @@ public class Character {
     }
     public string name;
 
-    public int score;
+    public int empathyScore;
+    public int skillScore;
     public RelationState relationState;
     public SpriteRenderer spriteRenderer;
 
-    public Character(string name, int score, RelationState relationState)
+    public Character(string name, int empathyScore, int skillScore, RelationState relationState)
     {
         this.name = name;
-        this.score = score;
+        this.empathyScore = empathyScore;
+        this.skillScore = skillScore;
         this.relationState = relationState;
     }
 }

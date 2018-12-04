@@ -16,23 +16,23 @@ public class ScoreManager : MonoBehaviour {
 	void Start () {
 
 		// Initlialize the relation states
-		Text[] stateTexts = relationBar.GetComponentsInChildren<Text>();
+		// Text[] stateTexts = relationBar.GetComponentsInChildren<Text>();
 
-		Text currentState = stateTexts[1];
-		Text nextState = stateTexts[2];
+		// Text currentState = stateTexts[1];
+		// Text nextState = stateTexts[2];
 
-		currentState.text = Character.RelationState.Unknown.ToString();
-		nextState.text = Character.RelationState.Acquaintance.ToString();
+		// currentState.text = Character.RelationState.Unknown.ToString();
+		// nextState.text = Character.RelationState.Acquaintance.ToString();
 
 		// Initialize the score bars (arrows)
-		Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
+		/*Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
 
 		foreach (Image bar in scoreBars)
 		{
 			var tempColor = bar.color;
 			tempColor.a = 0.25f;
 			bar.color = tempColor;
-		}
+		}*/
 	}
 
 	public void changeCurrentState(Character.RelationState newState)
@@ -51,55 +51,90 @@ public class ScoreManager : MonoBehaviour {
 		}
 	}
 
-	public void updatePoints(int points)
+	public void updatePoints(int empathyScore, int skillScore)
 	{
-		int oldScore = characterManager.currentCharacter.score;
-		int newScore = characterManager.currentCharacter.score + points;
+		int oldEmpathyScore = characterManager.currentCharacter.empathyScore;
+		int newEmpathyScore = characterManager.currentCharacter.empathyScore + empathyScore;
+
+		int oldSkillScore = characterManager.currentCharacter.skillScore;
+		int newSkillScore = characterManager.currentCharacter.skillScore + skillScore;
+
+		int finalEmpathyScore = oldEmpathyScore;
+		int finalSkillScore = oldSkillScore;
 
 		// Initialize the score bars (arrows)
-		Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
-		var tempColor = scoreBars[0].color;
+		//Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
+		//var tempColor = scoreBars[0].color;
 
-		if (oldScore < newScore) {
-			upScore(newScore - oldScore);
-			tempColor.a = 0.75f;
+
+
+		if (oldEmpathyScore < newEmpathyScore) {
+			upScore(empathyScore, 1);
+			/*tempColor.a = 0.75f;
 
 			for (int i=oldScore; i < newScore && i < scoreBars.Length; ++i) {
 				scoreBars[i].color = tempColor;
-			}
+			}*/
 
-		} else if (newScore < oldScore) {
-			downScore(oldScore - newScore);
-			tempColor.a = 0.25f;
+		} else if (newEmpathyScore < oldEmpathyScore) {
+			downScore(empathyScore, 1);
+			/*tempColor.a = 0.25f;
 
 			for (int i=oldScore; i > newScore && i > 0; --i) {
 				scoreBars[i].color = tempColor;
-			}
+			}*/
 		} else {
-			resetBar();
-			
-			tempColor.a = 0.75f;
+			// resetBar();
+
+			/*tempColor.a = 0.75f;
 			for(int i=0; i < oldScore; ++i) {
 				scoreBars[i].color = tempColor;
-			}
+			}*/
 		}
-		characterManager.currentCharacter.score += points;
+
+		// yield return new WaitForSeconds(5);
+
+		if(oldSkillScore < newSkillScore) {
+			upScore(skillScore, 2);
+		} else if(oldSkillScore > newSkillScore) {
+			downScore(skillScore, 2);
+		}
+
+		finalEmpathyScore += empathyScore;
+		finalSkillScore += skillScore;
+
+		// Update the character score
+		characterManager.updateCharacter(characterManager.currentCharacter.name, finalEmpathyScore, finalSkillScore, characterManager.currentCharacter.relationState);
+
+		Character charTest = characterManager.getCharacterByName(characterManager.currentCharacter.name);		
 	}
 
-	public void upScore(int points) {
+	public void upScore(int points, int scoreType) {
+		switch(scoreType) {
+			case 1:
+				scoreText.text = "Empathy Score : +" + points.ToString();
+				break;
+			case 2:
+				scoreText.text = "Skill Score : +" + points.ToString();
+				break;
+			default:
+				break;
+		}
 		scoreAnimator.SetTrigger("Up");
-		scoreText.text = "Score : +" + points.ToString();
 	}
 
-	public void downScore(int points)
+	public void downScore(int points, int scoreType)
 	{
+				switch(scoreType) {
+			case 1:
+				scoreText.text = "Empathy Score : " + points.ToString();
+				break;
+			case 2:
+				scoreText.text = "Skill Score : " + points.ToString();
+				break;
+			default:
+				break;
+		}
 		scoreAnimator.SetTrigger("Down");
-		scoreText.text = "Score : -" + points.ToString();
 	}
-
-	private void changeScoreBar(int changeType, int nbBars)
-	{
-			
-	}
-
 }

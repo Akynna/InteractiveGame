@@ -6,10 +6,9 @@ using System;
 
 public class CharacterManager : MonoBehaviour {
 
-
 	public Character currentCharacter;
 	public SpriteRenderer characterSprite;
-	public HashSet<Character> characterList;
+	public static List<Character> characterList;
 
 	public DialoguesTable dialoguesTable;
 
@@ -19,18 +18,20 @@ public class CharacterManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		currentCharacter = new Character("Unknownnn", 0, Character.RelationState.Unknown);
+		currentCharacter = new Character("Unknown", 0, 0, Character.RelationState.Unknown);
 		isFeedBack = 0;
 
 		// Get characters' names
 		HashSet<string> characterNames = dialoguesTable.getCharacterNames();
 
 		// Initialize the score and state of all characters
-		characterList = new HashSet<Character>();
+		characterList = new List<Character>();
 
 		foreach(string characterName in characterNames) {
-			Character character = new Character(characterName, 0, Character.RelationState.Unknown);
-			characterList.Add(character);
+			if(characterName != "Me" && characterName != "NA") {
+				Character character = new Character(characterName, 0, 0, Character.RelationState.Unknown);
+				characterList.Add(character);
+			}
 		}
 		
 	}
@@ -41,17 +42,53 @@ public class CharacterManager : MonoBehaviour {
 		{
 			if (String.Equals(character.name, characterName))
 			{
-				// Debug.Log(characterName);
-				return new Character(character.name, character.score, character.relationState);
+				return new Character(character.name, character.empathyScore, character.skillScore, character.relationState);
 			}
 		}	
 		Debug.Log("No such character found.");
 		return null;
 	}
 
+	public void updateCharacter(string characterName, int newEmpathyScore, int newSkillScore, Character.RelationState newRelationState)
+	{
+		bool updated = false;
+		for(int i = 0; i < characterList.Count; ++i)
+		{
+			if (String.Equals(characterList[i].name, characterName))
+			{
+				Character character = characterList[i];
+
+				character.empathyScore = newEmpathyScore;
+				character.skillScore = newSkillScore;
+				character.relationState = newRelationState;
+
+				characterList[i] = character;
+				updated = true;
+			}
+		}
+		if(!updated) {
+			Debug.Log("No such character found. Update failed.");
+		}
+	}
+
+	public void displaycharactersList() {
+		foreach(Character character in characterList) {
+			Debug.Log("Character name : " + character.name);
+			Debug.Log("Empathy Score : " + character.empathyScore);
+			Debug.Log("Skill Score : " + character.skillScore);
+		}
+	}
+
 	public void updateCharacterSprite()
 	{
 		characterSprite.sprite = Resources.Load<Sprite>("Characters/" + currentSpriteName);
+	}
+
+	public void updateCharacterSprite(string spriteName)
+	{
+		if(spriteName != currentSpriteName) {
+			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + spriteName);
+		}
 	}
 
 	// Choose randomly whether or not the character should give a feedback
