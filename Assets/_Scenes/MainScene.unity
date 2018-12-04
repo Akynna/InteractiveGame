@@ -994,6 +994,10 @@ Prefab:
       propertyPath: m_Name
       value: CurrentStateText
       objectReference: {fileID: 0}
+    - target: {fileID: 1348437432635492, guid: 3efbd6e51b98e31469056332881f2548, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3efbd6e51b98e31469056332881f2548, type: 2}
   m_IsPrefabAsset: 0
@@ -2560,6 +2564,10 @@ Prefab:
       propertyPath: m_Name
       value: NextStateText
       objectReference: {fileID: 0}
+    - target: {fileID: 1348437432635492, guid: 3efbd6e51b98e31469056332881f2548, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3efbd6e51b98e31469056332881f2548, type: 2}
   m_IsPrefabAsset: 0
@@ -3347,7 +3355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1627476631
 RectTransform:
   m_ObjectHideFlags: 0

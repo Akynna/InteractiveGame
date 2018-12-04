@@ -34,7 +34,6 @@ public class DialogueManager : MonoBehaviour {
 	public SceneChanger sceneChanger;
 
 	private float[] y_positions = new float[3];
-	private int isFeedBack = 0;
 
 	// Initialization
 	void Start () {
@@ -108,7 +107,7 @@ public class DialogueManager : MonoBehaviour {
 
 			// Find the current character talking and set the appropriate sprite
 			if(characterManager.isFeedBack == 0) {
-				if(characterName != "Me" && characterManager.currentCharacter.name != characterName)
+				if(characterName != "Me" && (characterManager.currentCharacter.name != characterName || characterManager.currentSpriteName != characterName))
 				{
 					characterManager.currentCharacter = characterManager.getCharacterByName(characterName);
 					characterManager.currentSpriteName = characterName;
@@ -116,10 +115,8 @@ public class DialogueManager : MonoBehaviour {
 			} else
 			{
 				characterManager.isFeedBack = 0;
-				characterManager.currentCharacter.name = " ";
 			}
 
-			scoreManager.updatePoints(0);
 			characterManager.updateCharacterSprite();
 		}
 	}
@@ -150,9 +147,8 @@ public class DialogueManager : MonoBehaviour {
 		} else 
 		{	
 			// Switch to the default neutral scene
-			switchScene(lastRow.next_scene_neutral, 0, 0);
+			switchScene(lastRow.next_scene_neutral, 0, 0, 0);
 		}
-		 
 	}
 
 	private void showChoices(DialoguesTable.Row rowWithChoices) 
@@ -179,30 +175,40 @@ public class DialogueManager : MonoBehaviour {
 		buttonList[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
 		buttonList[2].GetComponentInChildren<Text>().text = rowWithChoices.neutral_answer;
 
-		int goodScore = 0;
-		int badScore = 0;
-		int neutralScore = 0;
+		// Initialize both empathy and emp score
+		int goodEmpathyScore = 0;
+		int badEmpathyScore = 0;
+		int neutralEmpathyScore = 0;
 
-		if(rowWithChoices.neutral_score != "NA") {
-			goodScore = int.Parse(rowWithChoices.good_score);
-			badScore = int.Parse(rowWithChoices.bad_score);
-			neutralScore = int.Parse(rowWithChoices.neutral_score);
+		int goodSkillScore = 0;
+		int badSkillScore = 0;
+		int neutralSkillScore = 0;
+
+		// Parse the scores if they exist
+		if(rowWithChoices.neutral_skill_score != "NA") {
+			goodEmpathyScore = int.Parse(rowWithChoices.good_emp_score);
+			badEmpathyScore = int.Parse(rowWithChoices.bad_emp_score);
+			neutralEmpathyScore = int.Parse(rowWithChoices.neutral_emp_score);
+
+			goodSkillScore = int.Parse(rowWithChoices.good_skill_score);
+			badSkillScore = int.Parse(rowWithChoices.bad_skill_score);
+			neutralSkillScore = int.Parse(rowWithChoices.neutral_skill_score);
 		}
-
+		
 		// Remove old listeners
 		buttonList[0].onClick.RemoveAllListeners();
 		buttonList[1].onClick.RemoveAllListeners();
 		buttonList[2].onClick.RemoveAllListeners();
 
 		// Add new listeners to buttons
-		buttonList[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodScore));
-		buttonList[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badScore));
-		buttonList[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralScore));
+		buttonList[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodEmpathyScore, goodSkillScore));
+		buttonList[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badEmpathyScore, badSkillScore));
+		buttonList[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralEmpathyScore, neutralSkillScore));
 
 		choicePanelAnimator.SetBool("isDisplayed", true);
 	}
 
-	public void switchScene(string sceneID, int answerType, int score)
+	public void switchScene(string sceneID, int answerType, int empathyScore, int skillScore)
 	{
 		// If we previously displayed the choice panel,
 		if(choicePanelAnimator.GetBool("isDisplayed"))
@@ -210,19 +216,18 @@ public class DialogueManager : MonoBehaviour {
 			// Hide the choice panel
 			choicePanelAnimator.SetBool("isDisplayed", false);
 
-			if(score != 0) {
+			if(empathyScore != 0) {
 
 				// Give a random feedback
 				characterManager.randomFeedback(answerType);
 
 				// Modify the relation score
-				scoreManager.updatePoints(score);
+				scoreManager.updatePoints(empathyScore, skillScore);
 			}	
 		}
 
 		if(sceneID == "end") {
 			sceneChanger.FadeToLevel(2);
-			
 		} else {
 			// Load the dialogues of the next scene in the Dialogue Manager
 			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
