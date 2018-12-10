@@ -136,13 +136,10 @@ This part covers the technical part of the game and explains how I have
 
 TODO :
 
-Random button choices
-Change face
-
-find stylus !!!
+Fix score animation to display both scores instead of 1
 
 Scores 
-Test audio files
+Test audio files (add sound on dialogues, music)
 
 ​		
 
