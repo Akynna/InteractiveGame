@@ -35,11 +35,19 @@ public class DialogueManager : MonoBehaviour {
 
 	private float[] y_positions = new float[3];
 
+	// Used to save the logs
+	private List<string> listAnswers;
+
+	// Used for the sound of dialogue
+	public AudioSource effectsSource;
+
+
 	// Initialization
 	void Start () {
 
 		characterNames = new Queue<string>();
 		sentences = new Queue<string>();
+		listAnswers = new List<string>();
 		
 		// Initialize the first scene
 		currentSceneDialogues = dialoguesTable.FindAll_sceneID("intro_0");
@@ -124,6 +132,7 @@ public class DialogueManager : MonoBehaviour {
 	IEnumerator typeSentence(string sentence)
 	{
 		dialogueText.text = "";
+		effectsSource.Play();
 
 		// Display the letters of the dialogue one by one
 		foreach(char letter in sentence.ToCharArray())
@@ -131,6 +140,8 @@ public class DialogueManager : MonoBehaviour {
 			dialogueText.text += letter;
 			yield return null;
 		}
+
+		effectsSource.Pause();
 	}
 
 	private void endDialogue()
@@ -147,7 +158,7 @@ public class DialogueManager : MonoBehaviour {
 		} else 
 		{	
 			// Switch to the default neutral scene
-			switchScene(lastRow.next_scene_neutral, 0, 0, 0);
+			switchScene(lastRow.next_scene_neutral, 0, 0, 0, "");
 		}
 	}
 
@@ -201,14 +212,14 @@ public class DialogueManager : MonoBehaviour {
 		buttonList[2].onClick.RemoveAllListeners();
 
 		// Add new listeners to buttons
-		buttonList[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodEmpathyScore, goodSkillScore));
-		buttonList[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badEmpathyScore, badSkillScore));
-		buttonList[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralEmpathyScore, neutralSkillScore));
+		buttonList[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodEmpathyScore, goodSkillScore, rowWithChoices.good_answer));
+		buttonList[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badEmpathyScore, badSkillScore, rowWithChoices.bad_answer));
+		buttonList[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralEmpathyScore, neutralSkillScore, rowWithChoices.neutral_answer));
 
 		choicePanelAnimator.SetBool("isDisplayed", true);
 	}
 
-	public void switchScene(string sceneID, int answerType, int empathyScore, int skillScore)
+	public void switchScene(string sceneID, int answerType, int empathyScore, int skillScore, string answerText)
 	{
 		// If we previously displayed the choice panel,
 		if(choicePanelAnimator.GetBool("isDisplayed"))
@@ -226,8 +237,11 @@ public class DialogueManager : MonoBehaviour {
 			}	
 		}
 
+		listAnswers.Add(answerText);
+
 		if(sceneID == "end") {
 			sceneChanger.FadeToLevel(2);
+			saveAnswers();
 		} else {
 			// Load the dialogues of the next scene in the Dialogue Manager
 			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
@@ -237,6 +251,17 @@ public class DialogueManager : MonoBehaviour {
 
 			// Trigger the dialogues of the next scene
 			dialogueTrigger.triggerDialogue();
+		}
+	}
+
+	private void saveAnswers() {
+
+		using (System.IO.StreamWriter file = 
+            new System.IO.StreamWriter("testfile.txt", true))
+
+		foreach(string answer in listAnswers)
+		{
+			file.WriteLine(answer);
 		}
 	}
 	
