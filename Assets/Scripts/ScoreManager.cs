@@ -104,9 +104,7 @@ public class ScoreManager : MonoBehaviour {
 		finalSkillScore += skillScore;
 
 		// Update the character score
-		characterManager.updateCharacter(characterManager.currentCharacter.name, finalEmpathyScore, finalSkillScore, characterManager.currentCharacter.relationState);
-
-		Character charTest = characterManager.getCharacterByName(characterManager.currentCharacter.name);		
+		characterManager.updateCharacter(characterManager.currentCharacter.name, finalEmpathyScore, finalSkillScore, characterManager.currentCharacter.relationState);	
 	}
 
 	public void upScore(int points, int scoreType) {

@@ -11,4 +11,6 @@ public class Dialogue {
 	[TextArea(3, 10)]
 	public List<string> sentences = new List<string>();
 
+	public List<string> audioFileNames; 
+
 }

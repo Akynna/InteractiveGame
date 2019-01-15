@@ -8,27 +8,27 @@ public class SceneChanger : MonoBehaviour {
 
 	public Animator animator;
 	public DialogueManager dialogueManager;
+	public CharacterManager characterManager;
 	public SpriteRenderer backgroundSprite;
 	public Camera mainCamera;
-	private string currentBackgroundName;
+	public string currentBackgroundName;
 	private int sceneToLoad;
 	
 	void Start () {
-
-		// Set the initial background
-		currentBackgroundName = "";
-		// Debug.Log(dialogueManager.currentSceneDialogues.Count);
-		switchBackground(currentBackgroundName);
 	}
 
 	public void switchBackground(string backgroundName)
 	{
-		// If we notice a change in the background
+		// If we notice a change in the background	
 		if (currentBackgroundName != backgroundName) {
 
 			// Update the background and resize it to the screen
 			backgroundSprite.sprite = Resources.Load<Sprite>("Backgrounds/Hospital/" + backgroundName);
+			currentBackgroundName = backgroundName;
 			ResizeSpriteToScreen();
+
+			// Reset the current character sprite
+			characterManager.resetCharacterSprite();
 		}
 	}
 

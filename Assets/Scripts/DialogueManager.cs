@@ -9,13 +9,19 @@ public class DialogueManager : MonoBehaviour {
 	// Variables that the DialogueManager need to access
 	public DialoguesTable dialoguesTable;
 	public DialogueTrigger dialogueTrigger;
+
+	// Managers with whom the Dialogue Manager communicates
 	public ScoreManager scoreManager;
 	public CharacterManager characterManager;
+	public AudioManager audioManager;
 	
 	// Variables that the DialogueManager will change
 	public List<DialoguesTable.Row> currentSceneDialogues;
+
+
 	private Queue<string> characterNames;
 	private Queue<string> sentences;
+	private Queue<string> audioNames;
 	
 
 	// Element of one dialogue element
@@ -47,6 +53,8 @@ public class DialogueManager : MonoBehaviour {
 
 		characterNames = new Queue<string>();
 		sentences = new Queue<string>();
+		audioNames = new Queue<string>();
+
 		listAnswers = new List<string>();
 		
 		// Initialize the first scene
@@ -63,6 +71,8 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 		continueButton.onClick.AddListener(() => displayNextSentence());
+
+		sceneChanger.switchBackground(currentSceneDialogues[0].background);
 	}
 
 	public void startDialogue(Dialogue dialogue) 
@@ -71,6 +81,7 @@ public class DialogueManager : MonoBehaviour {
 		// Clear previous messages
 		characterNames.Clear();
 		sentences.Clear();
+		audioNames.Clear();
 
 		// Move up the dialogue box
 		dialogueBoxAnimator.SetBool("isOpen", true);
@@ -85,6 +96,12 @@ public class DialogueManager : MonoBehaviour {
 		foreach (string sentence in dialogue.sentences)
 		{
 			sentences.Enqueue(sentence);
+		}
+
+		// Add the new next audio sentences in the queue
+		foreach (string audioFile in dialogue.audioFileNames)
+		{
+			audioNames.Enqueue(audioFile);
 		}
 
 		// Display the first sentence of the dialogue
@@ -106,6 +123,10 @@ public class DialogueManager : MonoBehaviour {
 			// Collect the next sentence
 			string sentence = sentences.Dequeue();
 
+			// Update the dialogue audio file
+			string audioName = audioNames.Dequeue();
+			audioManager.updateEffectSound(audioName);
+
 			// Add animation to text
 			if(dialogueBoxAnimator.GetBool("isOpen"))
 			{
@@ -113,26 +134,15 @@ public class DialogueManager : MonoBehaviour {
 				StartCoroutine(typeSentence(sentence));
 			}
 
-			// Find the current character talking and set the appropriate sprite
-			if(characterManager.isFeedBack == 0) {
-				if(characterName != "Me" && (characterManager.currentCharacter.name != characterName || characterManager.currentSpriteName != characterName))
-				{
-					characterManager.currentCharacter = characterManager.getCharacterByName(characterName);
-					characterManager.currentSpriteName = characterName;
-				} 
-			} else
-			{
-				characterManager.isFeedBack = 0;
-			}
-
-			characterManager.updateCharacterSprite();
+			// Update character sprite
+			characterManager.updateCharacterSprite(characterName);
 		}
 	}
 
 	IEnumerator typeSentence(string sentence)
 	{
 		dialogueText.text = "";
-		effectsSource.Play();
+		audioManager.playEffect();
 
 		// Display the letters of the dialogue one by one
 		foreach(char letter in sentence.ToCharArray())
@@ -141,7 +151,7 @@ public class DialogueManager : MonoBehaviour {
 			yield return null;
 		}
 
-		effectsSource.Pause();
+		audioManager.pauseEffect();
 	}
 
 	private void endDialogue()
@@ -246,7 +256,7 @@ public class DialogueManager : MonoBehaviour {
 			// Load the dialogues of the next scene in the Dialogue Manager
 			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
 
-			// Switch the character and background images if needed
+			// Switch the background image if needed
 			sceneChanger.switchBackground(currentSceneDialogues[0].background);
 
 			// Trigger the dialogues of the next scene
@@ -257,7 +267,7 @@ public class DialogueManager : MonoBehaviour {
 	private void saveAnswers() {
 
 		using (System.IO.StreamWriter file = 
-            new System.IO.StreamWriter("testfile.txt", true))
+            new System.IO.StreamWriter("testfile.txt", false))
 
 		foreach(string answer in listAnswers)
 		{

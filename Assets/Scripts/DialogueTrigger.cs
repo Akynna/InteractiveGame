@@ -14,6 +14,7 @@ public class DialogueTrigger : MonoBehaviour {
 		dialogue = new Dialogue();
 		dialogue.names = new List<string>();
 		dialogue.sentences = new List<string>();
+		dialogue.audioFileNames = new List<string>();
 	}
 
 	public void triggerDialogue()
@@ -21,6 +22,7 @@ public class DialogueTrigger : MonoBehaviour {
 		// Clear the list at the beginning
 		dialogue.names.Clear();
 		dialogue.sentences.Clear();
+		dialogue.audioFileNames.Clear();
 
 		List<DialoguesTable.Row> sceneDialogues = dialogueManager.currentSceneDialogues;
 
@@ -28,6 +30,7 @@ public class DialogueTrigger : MonoBehaviour {
 		{
 			dialogue.names.Add(row.character);
 			dialogue.sentences.Add(row.dialogue);
+			dialogue.audioFileNames.Add(row.dialogue_audio);
 		}
 		
 		dialogueManager.startDialogue(dialogue);

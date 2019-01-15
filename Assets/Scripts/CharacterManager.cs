@@ -15,6 +15,8 @@ public class CharacterManager : MonoBehaviour {
 	public int isFeedBack;
 	public string currentSpriteName;
 
+	private int reset = 0;
+
 	// Use this for initialization
 	void Start () {
 
@@ -84,11 +86,29 @@ public class CharacterManager : MonoBehaviour {
 		characterSprite.sprite = Resources.Load<Sprite>("Characters/" + currentSpriteName);
 	}
 
-	public void updateCharacterSprite(string spriteName)
+	public void updateCharacterSprite(string characterName)
 	{
-		if(spriteName != currentSpriteName) {
-			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + spriteName);
+		if(isFeedBack == 0) {
+			if(characterName != "Me" && (currentCharacter.name != characterName || currentSpriteName != characterName))
+			{
+				currentCharacter = getCharacterByName(characterName);
+				currentSpriteName = characterName;
+			} 
+		} else
+		{
+			isFeedBack = 0;
 		}
+
+		if(reset != 1 || characterName != "Me") {
+			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + currentSpriteName);
+		} else {
+			reset = 0;
+		}
+	}
+
+	public void resetCharacterSprite() {
+		reset = 1;
+		characterSprite.sprite = null;
 	}
 
 	// Choose randomly whether or not the character should give a feedback
@@ -102,7 +122,7 @@ public class CharacterManager : MonoBehaviour {
 		{
 			switch(answerType) 
 			{
-				case 1:
+				case 1:	
 					currentSpriteName += " Good";
 					isFeedBack = 1;
 					break;
