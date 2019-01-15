@@ -1,0 +1,37 @@
+
+
+
+
+ADA Summary
+
+
+Who knows 5 a day ?
+
+We then looked at the top consumers of fruits and vegetables. We observe that they are mostly European.
+Despite having normalized to the number of product per country, those results must be taken with a pinch
+of salt as Open Food Fact is more contributed to by Europeans and thus some other regions might be lacking a lot of data.
+
+FAT = ENERGY ?
+
+Our next observation was focused on fat nutriment. When looking at the top 10 countries that consume
+the most fat, we discovered that some of them were also in the top 10 sugar consumers. We were kind of surprised to discover
+that Costa Rica tends to consume more fat than others, while the following countries are quite similar in their fat consumption.
+
+SIMILAR COUNTRIES
+
+Our last analysis treated how countries can be similar to each other.
+
+A first comparison was made to find countries that are the closest to Switzerland, in terms of number of products sold.
+Two kind of normalization were tested: the first one was to normalize with respect to the number of products sold in each country,
+while the second method divides the number of products a country has in common with Switzerland by the total number of products sold in Switzerland. 
+Depending on which normalization is chosen, the results are different: with the first one, Mali and Zimbabwe are the closest to Switzerland,
+while with the second method, only France is similar to our country.
+
+
+Another comparison was made to observe the similarity between all countries in the world. For this purpose, we have computed clusters of countries
+based on their food nutriments. For each country, the nutriments values were defined on the median.
+Using the elbow method and the Principal Component Analysis, we were able to find the ideal number of cluster and to determine which nutriment has
+the most influence in the clustering. To visualize our clustering, we have used a Hierarchical Clustering Dendrogram.
+We observed that some good number of clusters might be 3 or 4.
+When plotting a visualization of countries' similarity, we surprisingly observe that some of them that are similar in proximity are not necessarily similar in food consumption !
+
