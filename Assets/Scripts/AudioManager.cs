@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour {
 	public Slider musicVolumeSlider;
 	public AudioSource musicPlayer;
 	public Slider effectsVolumeSlider;
+	public AudioSource speechPlayer;
 	public AudioSource effectsPlayer;
 
 	// Use this for initialization
@@ -27,6 +28,7 @@ public class AudioManager : MonoBehaviour {
 	private void SetEffetcsListenerVolume(float volume)
     {
         effectsPlayer.volume = volume;
+		speechPlayer.volume = volume;
     }
 	
 	// Update is called once per frame
@@ -35,15 +37,14 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	public void playEffect() {
-		effectsPlayer.Play();
+		speechPlayer.Play();
 	}
 
 	public void pauseEffect() {
-		effectsPlayer.Pause();
+		speechPlayer.Pause();
 	}
 
 	public void updateEffectSound(string audioName) {
-		effectsPlayer.clip = Resources.Load<AudioClip>("Soundtracks/Effects/" + audioName);
-		// effectsPlayer.loop = true;
+		speechPlayer.clip = Resources.Load<AudioClip>("Soundtracks/Effects/" + audioName);
 	}
 }

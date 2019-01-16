@@ -9,8 +9,12 @@ public class ScoreManager : MonoBehaviour {
 	
 	public CharacterManager characterManager;
 
-	public Text scoreText;
-	public Animator scoreAnimator;
+	public Text empathyScoreText;
+	public Animator empathyScoreAnimator;
+
+	public Text skillScoreText;
+	public Animator skillScoreAnimator;
+
 	public GameObject relationBar;
 
 	void Start () {
@@ -69,7 +73,8 @@ public class ScoreManager : MonoBehaviour {
 
 
 		if (oldEmpathyScore < newEmpathyScore) {
-			upScore(empathyScore, 1);
+			//StopAllCoroutines();
+			StartCoroutine(upScore(empathyScore, 1));
 			/*tempColor.a = 0.75f;
 
 			for (int i=oldScore; i < newScore && i < scoreBars.Length; ++i) {
@@ -77,7 +82,8 @@ public class ScoreManager : MonoBehaviour {
 			}*/
 
 		} else if (newEmpathyScore < oldEmpathyScore) {
-			downScore(empathyScore, 1);
+			//StopAllCoroutines();
+			StartCoroutine(downScore(empathyScore, 1));
 			/*tempColor.a = 0.25f;
 
 			for (int i=oldScore; i > newScore && i > 0; --i) {
@@ -95,9 +101,11 @@ public class ScoreManager : MonoBehaviour {
 		// yield return new WaitForSeconds(5);
 
 		if(oldSkillScore < newSkillScore) {
-			upScore(skillScore, 2);
+			//StopAllCoroutines();
+			StartCoroutine(upScore(skillScore, 2));
 		} else if(oldSkillScore > newSkillScore) {
-			downScore(skillScore, 2);
+			//StopAllCoroutines();
+			StartCoroutine(downScore(skillScore, 2));
 		}
 
 		finalEmpathyScore += empathyScore;
@@ -107,32 +115,38 @@ public class ScoreManager : MonoBehaviour {
 		characterManager.updateCharacter(characterManager.currentCharacter.name, finalEmpathyScore, finalSkillScore, characterManager.currentCharacter.relationState);	
 	}
 
-	public void upScore(int points, int scoreType) {
+	IEnumerator upScore(int points, int scoreType) {
 		switch(scoreType) {
 			case 1:
-				scoreText.text = "Empathy Score : +" + points.ToString();
+				empathyScoreText.text = "Empathy Score : +" + points.ToString();
+				empathyScoreAnimator.SetTrigger("Up");
 				break;
 			case 2:
-				scoreText.text = "Skill Score : +" + points.ToString();
+				yield return new WaitForSeconds(1);
+				skillScoreText.text = "Skill Score : +" + points.ToString();
+				skillScoreAnimator.SetTrigger("Up");
 				break;
 			default:
 				break;
 		}
-		scoreAnimator.SetTrigger("Up");
+		yield return null;
 	}
 
-	public void downScore(int points, int scoreType)
+	IEnumerator downScore(int points, int scoreType)
 	{
-				switch(scoreType) {
+		switch(scoreType) {
 			case 1:
-				scoreText.text = "Empathy Score : " + points.ToString();
+				empathyScoreText.text = "Empathy Score : " + points.ToString();
+				empathyScoreAnimator.SetTrigger("Down");
 				break;
 			case 2:
-				scoreText.text = "Skill Score : " + points.ToString();
+				yield return new WaitForSeconds(1);
+				skillScoreText.text = "Skill Score : " + points.ToString();
+				skillScoreAnimator.SetTrigger("Down");
 				break;
 			default:
 				break;
 		}
-		scoreAnimator.SetTrigger("Down");
+		yield return null;
 	}
 }
