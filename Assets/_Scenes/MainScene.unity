@@ -2612,10 +2612,10 @@ RectTransform:
   m_Father: {fileID: 1566286473}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -369.81, y: 222.24}
-  m_SizeDelta: {x: 24.48, y: 23.43}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 45, y: -45}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &988064886
 MonoBehaviour:
@@ -2952,6 +2952,7 @@ MonoBehaviour:
   characterManager: {fileID: 1284055989}
   backgroundSprite: {fileID: 276528606}
   mainCamera: {fileID: 1318633684}
+  currentBackgroundName: 
 --- !u!1 &1110461690
 GameObject:
   m_ObjectHideFlags: 0
@@ -3439,7 +3440,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9bdb5accf3c90974aa7db97e80c58e59, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5855,7 +5856,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -146.3}
+  m_AnchoredPosition: {x: 0, y: -134.37}
   m_SizeDelta: {x: 800, y: 206.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &2064520210
