@@ -162,13 +162,13 @@ public class DialogueManager : MonoBehaviour {
 		DialoguesTable.Row lastRow = currentSceneDialogues[currentSceneDialogues.Count - 1];
 
 		// If there is a choice to make at the end of the dialogue, display the choices
-		if(lastRow.neutral_answer != "NA")
+		if(lastRow.answer1 != "NA")
 		{
 			showChoices(lastRow);
 		} else 
 		{	
 			// Switch to the default neutral scene
-			switchScene(lastRow.next_scene_neutral, 0, 0, 0, "");
+			switchScene(lastRow.next_scene1, 0, 0, 0, "");
 		}
 	}
 
@@ -192,9 +192,9 @@ public class DialogueManager : MonoBehaviour {
 		}
 		usedNumbers.Clear();
 
-		buttonList[0].GetComponentInChildren<Text>().text = rowWithChoices.good_answer;
-		buttonList[1].GetComponentInChildren<Text>().text = rowWithChoices.bad_answer;
-		buttonList[2].GetComponentInChildren<Text>().text = rowWithChoices.neutral_answer;
+		buttonList[0].GetComponentInChildren<Text>().text = rowWithChoices.answer1;
+		buttonList[1].GetComponentInChildren<Text>().text = rowWithChoices.answer2;
+		buttonList[2].GetComponentInChildren<Text>().text = rowWithChoices.answer3;
 
 		// Initialize both empathy and emp score
 		int goodEmpathyScore = 0;
@@ -206,14 +206,14 @@ public class DialogueManager : MonoBehaviour {
 		int neutralSkillScore = 0;
 
 		// Parse the scores if they exist
-		if(rowWithChoices.neutral_skill_score != "NA") {
-			goodEmpathyScore = int.Parse(rowWithChoices.good_emp_score);
-			badEmpathyScore = int.Parse(rowWithChoices.bad_emp_score);
-			neutralEmpathyScore = int.Parse(rowWithChoices.neutral_emp_score);
+		if(rowWithChoices.score1 != "NA") {
+			goodEmpathyScore = int.Parse(rowWithChoices.score1);
+			badEmpathyScore = int.Parse(rowWithChoices.score2);
+			neutralEmpathyScore = int.Parse(rowWithChoices.score3);
 
-			goodSkillScore = int.Parse(rowWithChoices.good_skill_score);
-			badSkillScore = int.Parse(rowWithChoices.bad_skill_score);
-			neutralSkillScore = int.Parse(rowWithChoices.neutral_skill_score);
+			goodSkillScore = int.Parse(rowWithChoices.score1);
+			badSkillScore = int.Parse(rowWithChoices.score2);
+			neutralSkillScore = int.Parse(rowWithChoices.score3);
 		}
 		
 		// Remove old listeners
@@ -222,9 +222,9 @@ public class DialogueManager : MonoBehaviour {
 		buttonList[2].onClick.RemoveAllListeners();
 
 		// Add new listeners to buttons
-		buttonList[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_good, 1, goodEmpathyScore, goodSkillScore, rowWithChoices.good_answer));
-		buttonList[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_bad, 2, badEmpathyScore, badSkillScore, rowWithChoices.bad_answer));
-		buttonList[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene_neutral, 0, neutralEmpathyScore, neutralSkillScore, rowWithChoices.neutral_answer));
+		buttonList[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene1, 1, goodEmpathyScore, goodSkillScore, rowWithChoices.answer1));
+		buttonList[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene2, 2, badEmpathyScore, badSkillScore, rowWithChoices.answer2));
+		buttonList[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene3, 0, neutralEmpathyScore, neutralSkillScore, rowWithChoices.answer3));
 
 		choicePanelAnimator.SetBool("isDisplayed", true);
 	}

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class DialoguesTable : MonoBehaviour
 {
-    public TextAsset file;
+	public TextAsset file;
 	public List<Row> rowList = new List<Row>();
 	public bool isLoaded = false;
 
@@ -23,18 +23,17 @@ public class DialoguesTable : MonoBehaviour
 		public string character;
 		public string dialogue;
 		public string dialogue_audio;
-		public string good_answer;
-		public string bad_answer;
-		public string neutral_answer;
-		public string good_emp_score;
-		public string bad_emp_score;
-		public string neutral_emp_score;
-		public string good_skill_score;
-		public string bad_skill_score;
-		public string neutral_skill_score;
-		public string next_scene_good;
-		public string next_scene_bad;
-		public string next_scene_neutral;
+		public string main_skill;
+		public string sub_skill;
+		public string answer1;
+		public string answer2;
+		public string answer3;
+		public string score1;
+		public string score2;
+		public string score3;
+		public string next_scene1;
+		public string next_scene2;
+		public string next_scene3;
 		public string background;
 		public string background_music;
 
@@ -74,20 +73,19 @@ public class DialoguesTable : MonoBehaviour
 			row.character = grid[i][1];
 			row.dialogue = grid[i][2];
 			row.dialogue_audio = grid[i][3];
-			row.good_answer = grid[i][4];
-			row.bad_answer = grid[i][5];
-			row.neutral_answer = grid[i][6];
-			row.good_emp_score = grid[i][7];
-			row.bad_emp_score = grid[i][8];
-			row.neutral_emp_score = grid[i][9];
-			row.good_skill_score = grid[i][10];
-			row.bad_skill_score = grid[i][11];
-			row.neutral_skill_score = grid[i][12];
-			row.next_scene_good = grid[i][13];
-			row.next_scene_bad = grid[i][14];
-			row.next_scene_neutral = grid[i][15];
-			row.background = grid[i][16];
-			row.background_music = grid[i][17];
+			row.main_skill = grid[i][4];
+			row.sub_skill = grid[i][5];
+			row.answer1 = grid[i][6];
+			row.answer2 = grid[i][7];
+			row.answer3 = grid[i][8];
+			row.score1 = grid[i][9];
+			row.score2 = grid[i][10];
+			row.score3 = grid[i][11];
+			row.next_scene1 = grid[i][12];
+			row.next_scene2 = grid[i][13];
+			row.next_scene3 = grid[i][14];
+			row.background = grid[i][15];
+			row.background_music = grid[i][16];
 
 			rowList.Add(row);
 		}
@@ -138,101 +136,93 @@ public class DialoguesTable : MonoBehaviour
 	{
 		return rowList.FindAll(x => x.dialogue_audio == find);
 	}
-	public Row Find_good_answer(string find)
+	public Row Find_main_skill(string find)
 	{
-		return rowList.Find(x => x.good_answer == find);
+		return rowList.Find(x => x.main_skill == find);
 	}
-	public List<Row> FindAll_good_answer(string find)
+	public List<Row> FindAll_main_skill(string find)
 	{
-		return rowList.FindAll(x => x.good_answer == find);
+		return rowList.FindAll(x => x.main_skill == find);
 	}
-	public Row Find_bad_answer(string find)
+	public Row Find_sub_skill(string find)
 	{
-		return rowList.Find(x => x.bad_answer == find);
+		return rowList.Find(x => x.sub_skill == find);
 	}
-	public List<Row> FindAll_bad_answer(string find)
+	public List<Row> FindAll_sub_skill(string find)
 	{
-		return rowList.FindAll(x => x.bad_answer == find);
+		return rowList.FindAll(x => x.sub_skill == find);
 	}
-	public Row Find_neutral_answer(string find)
+	public Row Find_answer1(string find)
 	{
-		return rowList.Find(x => x.neutral_answer == find);
+		return rowList.Find(x => x.answer1 == find);
 	}
-	public List<Row> FindAll_neutral_answer(string find)
+	public List<Row> FindAll_answer1(string find)
 	{
-		return rowList.FindAll(x => x.neutral_answer == find);
+		return rowList.FindAll(x => x.answer1 == find);
 	}
-	public Row Find_good_emp_score(string find)
+	public Row Find_answer2(string find)
 	{
-		return rowList.Find(x => x.good_emp_score == find);
+		return rowList.Find(x => x.answer2 == find);
 	}
-	public List<Row> FindAll_good_emp_score(string find)
+	public List<Row> FindAll_answer2(string find)
 	{
-		return rowList.FindAll(x => x.good_emp_score == find);
+		return rowList.FindAll(x => x.answer2 == find);
 	}
-	public Row Find_bad_emp_score(string find)
+	public Row Find_answer3(string find)
 	{
-		return rowList.Find(x => x.bad_emp_score == find);
+		return rowList.Find(x => x.answer3 == find);
 	}
-	public List<Row> FindAll_bad_emp_score(string find)
+	public List<Row> FindAll_answer3(string find)
 	{
-		return rowList.FindAll(x => x.bad_emp_score == find);
+		return rowList.FindAll(x => x.answer3 == find);
 	}
-	public Row Find_neutral_emp_score(string find)
+	public Row Find_score1(string find)
 	{
-		return rowList.Find(x => x.neutral_emp_score == find);
+		return rowList.Find(x => x.score1 == find);
 	}
-	public List<Row> FindAll_neutral_emp_score(string find)
+	public List<Row> FindAll_score1(string find)
 	{
-		return rowList.FindAll(x => x.neutral_emp_score == find);
+		return rowList.FindAll(x => x.score1 == find);
 	}
-	public Row Find_good_skill_score(string find)
+	public Row Find_score2(string find)
 	{
-		return rowList.Find(x => x.good_skill_score == find);
+		return rowList.Find(x => x.score2 == find);
 	}
-	public List<Row> FindAll_good_skill_score(string find)
+	public List<Row> FindAll_score2(string find)
 	{
-		return rowList.FindAll(x => x.good_skill_score == find);
+		return rowList.FindAll(x => x.score2 == find);
 	}
-	public Row Find_bad_skill_score(string find)
+	public Row Find_score3(string find)
 	{
-		return rowList.Find(x => x.bad_skill_score == find);
+		return rowList.Find(x => x.score3 == find);
 	}
-	public List<Row> FindAll_bad_skill_score(string find)
+	public List<Row> FindAll_score3(string find)
 	{
-		return rowList.FindAll(x => x.bad_skill_score == find);
+		return rowList.FindAll(x => x.score3 == find);
 	}
-	public Row Find_neutral_skill_score(string find)
+	public Row Find_next_scene1(string find)
 	{
-		return rowList.Find(x => x.neutral_skill_score == find);
+		return rowList.Find(x => x.next_scene1 == find);
 	}
-	public List<Row> FindAll_neutral_skill_score(string find)
+	public List<Row> FindAll_next_scene1(string find)
 	{
-		return rowList.FindAll(x => x.neutral_skill_score == find);
+		return rowList.FindAll(x => x.next_scene1 == find);
 	}
-	public Row Find_next_scene_good(string find)
+	public Row Find_next_scene2(string find)
 	{
-		return rowList.Find(x => x.next_scene_good == find);
+		return rowList.Find(x => x.next_scene2 == find);
 	}
-	public List<Row> FindAll_next_scene_good(string find)
+	public List<Row> FindAll_next_scene2(string find)
 	{
-		return rowList.FindAll(x => x.next_scene_good == find);
+		return rowList.FindAll(x => x.next_scene2 == find);
 	}
-	public Row Find_next_scene_bad(string find)
+	public Row Find_next_scene3(string find)
 	{
-		return rowList.Find(x => x.next_scene_bad == find);
+		return rowList.Find(x => x.next_scene3 == find);
 	}
-	public List<Row> FindAll_next_scene_bad(string find)
+	public List<Row> FindAll_next_scene3(string find)
 	{
-		return rowList.FindAll(x => x.next_scene_bad == find);
-	}
-	public Row Find_next_scene_neutral(string find)
-	{
-		return rowList.Find(x => x.next_scene_neutral == find);
-	}
-	public List<Row> FindAll_next_scene_neutral(string find)
-	{
-		return rowList.FindAll(x => x.next_scene_neutral == find);
+		return rowList.FindAll(x => x.next_scene3 == find);
 	}
 	public Row Find_background(string find)
 	{
