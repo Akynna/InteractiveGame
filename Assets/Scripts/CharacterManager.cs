@@ -4,13 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+/*
+ *	This Manager handle everything that is related to the Character with
+ * 	which the user is interacting. This class can be adapted to keep track
+ * 	of the relation state the user can have with a character
+ * 
+ */
 public class CharacterManager : MonoBehaviour {
 
+	// Managers with whom the Character Manager communicates
+	public StoryManager StoryManager;
+
+	// Elements that this Manager will handle
+	// private Queue<string> characterNames;
+	// private Queue<string> characterSpritesNames;
+	// private Queue<string> 
+
+	// Elements that the Manager will keep track of
 	public Character currentCharacter;
 	public SpriteRenderer characterSprite;
 	public static List<Character> characterList;
 
-	public DialoguesTable dialoguesTable;
+	
 
 	public int isFeedBack;
 	public string currentSpriteName;
@@ -20,11 +35,15 @@ public class CharacterManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+	}
+
+	public void Initialize() {
+
+		// Initialize the current character
 		currentCharacter = new Character("Unknown", 0, 0, Character.RelationState.Unknown);
-		isFeedBack = 0;
 
 		// Get characters' names
-		HashSet<string> characterNames = dialoguesTable.getCharacterNames();
+		HashSet<string> characterNames = StoryManager.getCharacterNames();
 
 		// Initialize the score and state of all characters
 		characterList = new List<Character>();
@@ -35,8 +54,8 @@ public class CharacterManager : MonoBehaviour {
 				characterList.Add(character);
 			}
 		}
-		
 	}
+
 
 	public Character getCharacterByName(string characterName)
 	{
@@ -51,9 +70,10 @@ public class CharacterManager : MonoBehaviour {
 		return null;
 	}
 
-	public void updateCharacter(string characterName, int newEmpathyScore, int newSkillScore, Character.RelationState newRelationState)
+	public void UpdateCharacter(string characterName, int newEmpathyScore, int newSkillScore, Character.RelationState newRelationState)
 	{
 		bool updated = false;
+		
 		for(int i = 0; i < characterList.Count; ++i)
 		{
 			if (String.Equals(characterList[i].name, characterName))
@@ -68,6 +88,7 @@ public class CharacterManager : MonoBehaviour {
 				updated = true;
 			}
 		}
+
 		if(!updated) {
 			Debug.Log("No such character found. Update failed.");
 		}
@@ -86,9 +107,9 @@ public class CharacterManager : MonoBehaviour {
 		characterSprite.sprite = Resources.Load<Sprite>("Characters/" + currentSpriteName);
 	}
 
-	public void updateCharacterSprite(string characterName)
+	public void updateCharacterSprite(string characterSpriteName)
 	{
-		if(isFeedBack == 0) {
+		/*if(isFeedBack == 0) {
 			if(characterName != "Me" && (currentCharacter.name != characterName || currentSpriteName != characterName))
 			{
 				currentCharacter = getCharacterByName(characterName);
@@ -103,7 +124,10 @@ public class CharacterManager : MonoBehaviour {
 			characterSprite.sprite = Resources.Load<Sprite>("Characters/" + currentSpriteName);
 		} else {
 			reset = 0;
-		}
+		}*/
+
+		// Debug.Log(characterSpriteName);
+		characterSprite.sprite = Resources.Load<Sprite>("Characters/" + characterSpriteName);
 	}
 
 	public void resetCharacterSprite() {

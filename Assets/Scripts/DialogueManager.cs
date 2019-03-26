@@ -1,67 +1,64 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+/*
+ *	This Manager is one of the most important one 
+ *
+ */
 public class DialogueManager : MonoBehaviour {
 
-	// Variables that the DialogueManager need to access
-	public DialoguesTable dialoguesTable;
-	public DialogueTrigger dialogueTrigger;
-
 	// Managers with whom the Dialogue Manager communicates
-	public ScoreManager scoreManager;
-	public CharacterManager characterManager;
-	public AudioManager audioManager;
-	
-	// Variables that the DialogueManager will change
-	public List<DialoguesTable.Row> currentSceneDialogues;
+	public StoryManager StoryManager;
+	public AudioManager AudioManager;
+	public CharacterManager CharacterManager;
 
+	public Dialogue dialogue;
 
+	// Ordered elements of a dialogue
 	private Queue<string> characterNames;
+	private Queue<string> characterSpritesNames;
 	private Queue<string> sentences;
 	private Queue<string> audioNames;
 	
-
-	// Element of one dialogue element
+	// Elements that the Manager will keep track of
 	public Text nameText;
 	public Text dialogueText;
 
-	public GameObject choicesPanel;
-	private Button[] buttonList;
-	public Button continueButton;
 
-	// Animators
+	//====================================
+	//		VISUAL INTERFACE ELEMENTS
+	//====================================
+
+	// Buttons
+	public Button continueButton;
+	private Button[] buttonList;
+	private float[] y_positions = new float[3];
+	public GameObject choicesPanel;
+
+	// Animators of the dialogue box
 	public Animator dialogueBoxAnimator;
 	public Animator choicePanelAnimator;
+	
+	
+	public void Start()
+	{	
+		// Initialize the dialogue content
+		dialogue = new Dialogue();
 
-	// Variables for the backgrounds
-	public SceneChanger sceneChanger;
+		dialogue.names = new List<string>();
+		dialogue.spritesNames = new List<string>();
+		dialogue.sentences = new List<string>();
+		dialogue.audioFileNames = new List<string>();
+	}
 
-	private float[] y_positions = new float[3];
-
-	// Used to save the logs
-	private List<string> listAnswers;
-
-	// Used for the sound of dialogue
-	public AudioSource effectsSource;
-
-
-	// Initialization
-	void Start () {
-
+	public void Initialize() {
 		characterNames = new Queue<string>();
+		characterSpritesNames = new Queue<string>();
 		sentences = new Queue<string>();
 		audioNames = new Queue<string>();
-
-		listAnswers = new List<string>();
-		
-		// Initialize the first scene
-		currentSceneDialogues = dialoguesTable.FindAll_sceneID("intro_0");
-
-		// Launch the first scene's
-		dialogueTrigger.triggerDialogue();
 
 		// Initialize the button positions
 		buttonList = choicesPanel.GetComponentsInChildren<Button>();
@@ -71,8 +68,28 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 		continueButton.onClick.AddListener(() => displayNextSentence());
+	}
 
-		sceneChanger.switchBackground(currentSceneDialogues[0].background);
+	public void TriggerDialogue()
+	{
+		// Clear the list at the beginning
+		dialogue.names.Clear();
+		dialogue.spritesNames.Clear();
+		dialogue.sentences.Clear();
+		dialogue.audioFileNames.Clear();
+
+		// Get the dialogues of the current scene
+		List<DialoguesTable.Row> sceneDialogues = StoryManager.currentSceneDialogues;
+
+		foreach(DialoguesTable.Row row in sceneDialogues)
+		{
+			dialogue.names.Add(row.character);
+			dialogue.spritesNames.Add(row.character_image);
+			dialogue.sentences.Add(row.dialogue);
+			dialogue.audioFileNames.Add(row.dialogue_audio);
+		}
+		
+		startDialogue(dialogue);
 	}
 
 	public void startDialogue(Dialogue dialogue) 
@@ -80,6 +97,7 @@ public class DialogueManager : MonoBehaviour {
 
 		// Clear previous messages
 		characterNames.Clear();
+		characterSpritesNames.Clear();
 		sentences.Clear();
 		audioNames.Clear();
 
@@ -90,6 +108,12 @@ public class DialogueManager : MonoBehaviour {
 		foreach (string name in dialogue.names)
 		{
 			characterNames.Enqueue(name);
+		}
+
+		// List the characters sprites that will be displayed
+		foreach (string name in dialogue.spritesNames)
+		{
+			characterSpritesNames.Enqueue(name);
 		}
 
 		// Add the new next sentences in the queue
@@ -116,16 +140,16 @@ public class DialogueManager : MonoBehaviour {
 			endDialogue();
 		} else
 		{
-			// Set the character's name
+			// Collect the next dialogue informations
 			string characterName = characterNames.Dequeue();
-			nameText.text = characterName;
-
-			// Collect the next sentence
+			string spriteName = characterSpritesNames.Dequeue();
 			string sentence = sentences.Dequeue();
-
-			// Update the dialogue audio file
 			string audioName = audioNames.Dequeue();
-			audioManager.updateEffectSound(audioName);
+
+			// Update the character's name and dialogue's sound
+			nameText.text = characterName;
+			CharacterManager.currentCharacter = CharacterManager.getCharacterByName(characterName);
+			AudioManager.updateEffectSound(audioName);
 
 			// Add animation to text
 			if(dialogueBoxAnimator.GetBool("isOpen"))
@@ -135,14 +159,14 @@ public class DialogueManager : MonoBehaviour {
 			}
 
 			// Update character sprite
-			characterManager.updateCharacterSprite(characterName);
+			CharacterManager.updateCharacterSprite(spriteName);
 		}
 	}
 
 	IEnumerator typeSentence(string sentence)
 	{
 		dialogueText.text = "";
-		audioManager.playEffect();
+		AudioManager.playEffect();
 
 		// Display the letters of the dialogue one by one
 		foreach(char letter in sentence.ToCharArray())
@@ -151,7 +175,7 @@ public class DialogueManager : MonoBehaviour {
 			yield return null;
 		}
 
-		audioManager.pauseEffect();
+		AudioManager.pauseEffect();
 	}
 
 	private void endDialogue()
@@ -159,7 +183,7 @@ public class DialogueManager : MonoBehaviour {
 		dialogueBoxAnimator.SetBool("isOpen", false);
 
 		// Get the last rows of the scene
-		DialoguesTable.Row lastRow = currentSceneDialogues[currentSceneDialogues.Count - 1];
+		DialoguesTable.Row lastRow = StoryManager.currentSceneDialogues[StoryManager.currentSceneDialogues.Count - 1];
 
 		// If there is a choice to make at the end of the dialogue, display the choices
 		if(lastRow.answer1 != "NA")
@@ -168,11 +192,11 @@ public class DialogueManager : MonoBehaviour {
 		} else 
 		{	
 			// Switch to the default neutral scene
-			switchScene(lastRow.next_scene1, 0, 0, 0, "");
+			StoryManager.SwitchScene(lastRow.next_scene1, 0, 0, 0, "");
 		}
 	}
 
-	private void showChoices(DialoguesTable.Row rowWithChoices) 
+	public void showChoices(DialoguesTable.Row rowWithChoices) 
 	{
 		// Randomly assign a choice to a button
 		System.Random r = new System.Random();
@@ -222,58 +246,24 @@ public class DialogueManager : MonoBehaviour {
 		buttonList[2].onClick.RemoveAllListeners();
 
 		// Add new listeners to buttons
-		buttonList[0].onClick.AddListener(() => switchScene(rowWithChoices.next_scene1, 1, goodEmpathyScore, goodSkillScore, rowWithChoices.answer1));
-		buttonList[1].onClick.AddListener(() => switchScene(rowWithChoices.next_scene2, 2, badEmpathyScore, badSkillScore, rowWithChoices.answer2));
-		buttonList[2].onClick.AddListener(() => switchScene(rowWithChoices.next_scene3, 0, neutralEmpathyScore, neutralSkillScore, rowWithChoices.answer3));
+		buttonList[0].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene1, 1, goodEmpathyScore, goodSkillScore, rowWithChoices.answer1));
+		buttonList[1].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene2, 2, badEmpathyScore, badSkillScore, rowWithChoices.answer2));
+		buttonList[2].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene3, 0, neutralEmpathyScore, neutralSkillScore, rowWithChoices.answer3));
 
 		choicePanelAnimator.SetBool("isDisplayed", true);
 	}
 
-	public void switchScene(string sceneID, int answerType, int empathyScore, int skillScore, string answerText)
-	{
+	public Boolean WasAChoice() {
+
 		// If we previously displayed the choice panel,
-		if(choicePanelAnimator.GetBool("isDisplayed"))
-		{
+		if(choicePanelAnimator.GetBool("isDisplayed")) {
+
 			// Hide the choice panel
 			choicePanelAnimator.SetBool("isDisplayed", false);
 
-			if(empathyScore != 0) {
-
-				// Give a random feedback
-				characterManager.randomFeedback(answerType);
-
-				// Modify the relation score
-				scoreManager.updatePoints(empathyScore, skillScore);
-			}	
+			return true;
 		}
-
-		listAnswers.Add(answerText);
-
-		if(sceneID == "end") {
-			sceneChanger.FadeToLevel(2);
-			saveAnswers();
-		} else {
-			// Load the dialogues of the next scene in the Dialogue Manager
-			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
-
-			// Switch the background image if needed
-			sceneChanger.switchBackground(currentSceneDialogues[0].background);
-
-			// Trigger the dialogues of the next scene
-			dialogueTrigger.triggerDialogue();
-		}
+		return false;
+		
 	}
-
-	private void saveAnswers() {
-
-		using (System.IO.StreamWriter file = 
-            new System.IO.StreamWriter("testfile.txt", false))
-
-		foreach(string answer in listAnswers)
-		{
-			file.WriteLine(answer);
-		}
-	}
-	
-	
 }

@@ -15,12 +15,50 @@ public class DialoguesTable : MonoBehaviour
 		Debug.Log("CSV file loaded.");
 	}
 
+	public HashSet<string> getCharacterNames()
+	{
+
+		HashSet<string> names = new HashSet<string>();
+
+		foreach(Row row in rowList)
+		{
+			names.Add(row.character);
+		}
+
+		return names;
+	}
+
+	public HashSet<string> getMainSkillsNames()
+	{
+		HashSet<string> mainSkills = new HashSet<string>();
+
+		foreach(Row row in rowList)
+		{
+			mainSkills.Add(row.main_skill);
+		}
+
+		return mainSkills;
+	}
+
+	public HashSet<string> getSubskillsNames()
+	{
+		HashSet<string> subSkills = new HashSet<string>();
+
+		foreach(Row row in rowList)
+		{
+			subSkills.Add(row.sub_skill);
+		}
+
+		return subSkills;
+	}
+
 
 	[System.Serializable]
 	public class Row
 	{
 		public string sceneID;
 		public string character;
+		public string character_image;
 		public string dialogue;
 		public string dialogue_audio;
 		public string main_skill;
@@ -49,19 +87,6 @@ public class DialoguesTable : MonoBehaviour
 		return rowList;
 	}
 
-    public HashSet<string> getCharacterNames()
-	{
-
-		HashSet<string> names = new HashSet<string>();
-
-		foreach(Row row in rowList)
-		{
-			names.Add(row.character);
-		}
-
-		return names;
-	}
-
 	public void Load(TextAsset csv)
 	{
 		rowList.Clear();
@@ -71,21 +96,22 @@ public class DialoguesTable : MonoBehaviour
 			Row row = new Row();
 			row.sceneID = grid[i][0];
 			row.character = grid[i][1];
-			row.dialogue = grid[i][2];
-			row.dialogue_audio = grid[i][3];
-			row.main_skill = grid[i][4];
-			row.sub_skill = grid[i][5];
-			row.answer1 = grid[i][6];
-			row.answer2 = grid[i][7];
-			row.answer3 = grid[i][8];
-			row.score1 = grid[i][9];
-			row.score2 = grid[i][10];
-			row.score3 = grid[i][11];
-			row.next_scene1 = grid[i][12];
-			row.next_scene2 = grid[i][13];
-			row.next_scene3 = grid[i][14];
-			row.background = grid[i][15];
-			row.background_music = grid[i][16];
+			row.character_image = grid[i][2];
+			row.dialogue = grid[i][3];
+			row.dialogue_audio = grid[i][4];
+			row.main_skill = grid[i][5];
+			row.sub_skill = grid[i][6];
+			row.answer1 = grid[i][7];
+			row.answer2 = grid[i][8];
+			row.answer3 = grid[i][9];
+			row.score1 = grid[i][10];
+			row.score2 = grid[i][11];
+			row.score3 = grid[i][12];
+			row.next_scene1 = grid[i][13];
+			row.next_scene2 = grid[i][14];
+			row.next_scene3 = grid[i][15];
+			row.background = grid[i][16];
+			row.background_music = grid[i][17];
 
 			rowList.Add(row);
 		}
@@ -119,6 +145,14 @@ public class DialoguesTable : MonoBehaviour
 	public List<Row> FindAll_character(string find)
 	{
 		return rowList.FindAll(x => x.character == find);
+	}
+	public Row Find_character_image(string find)
+	{
+		return rowList.Find(x => x.character_image == find);
+	}
+	public List<Row> FindAll_character_image(string find)
+	{
+		return rowList.FindAll(x => x.character_image == find);
 	}
 	public Row Find_dialogue(string find)
 	{
