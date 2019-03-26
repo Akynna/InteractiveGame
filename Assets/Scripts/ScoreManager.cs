@@ -5,9 +5,13 @@ using UnityEngine.UI;
 using System;
 public class ScoreManager : MonoBehaviour {
 
+	// Managers with whom the Score Manager communicates
+	public StoryManager StoryManager;
+	public CharacterManager CharacterManager;
+
 	public HashSet<Character> characterList;
 	
-	public CharacterManager characterManager;
+	
 
 	public Text empathyScoreText;
 	public Animator empathyScoreAnimator;
@@ -57,11 +61,11 @@ public class ScoreManager : MonoBehaviour {
 
 	public void updatePoints(int empathyScore, int skillScore)
 	{
-		int oldEmpathyScore = characterManager.currentCharacter.empathyScore;
-		int newEmpathyScore = characterManager.currentCharacter.empathyScore + empathyScore;
+		int oldEmpathyScore = CharacterManager.currentCharacter.empathyScore;
+		int newEmpathyScore = CharacterManager.currentCharacter.empathyScore + empathyScore;
 
-		int oldSkillScore = characterManager.currentCharacter.skillScore;
-		int newSkillScore = characterManager.currentCharacter.skillScore + skillScore;
+		int oldSkillScore = CharacterManager.currentCharacter.skillScore;
+		int newSkillScore = CharacterManager.currentCharacter.skillScore + skillScore;
 
 		int finalEmpathyScore = oldEmpathyScore;
 		int finalSkillScore = oldSkillScore;
@@ -112,7 +116,7 @@ public class ScoreManager : MonoBehaviour {
 		finalSkillScore += skillScore;
 
 		// Update the character score
-		characterManager.updateCharacter(characterManager.currentCharacter.name, finalEmpathyScore, finalSkillScore, characterManager.currentCharacter.relationState);	
+		CharacterManager.UpdateCharacter(CharacterManager.currentCharacter.name, finalEmpathyScore, finalSkillScore, CharacterManager.currentCharacter.relationState);	
 	}
 
 	IEnumerator upScore(int points, int scoreType) {
