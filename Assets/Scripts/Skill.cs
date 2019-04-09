@@ -21,12 +21,23 @@ public class Skill {
     {
         this.name = name;
         this.skillMastery = skillMastery;
+        this.subSkills = new List<Skill>();
     }
 
-     public Skill(string name, Mastery skillMastery, List<Skill> subSkills)
+    // Constructor for a main skill
+    public Skill(string name, Mastery skillMastery, List<Skill> subSkills)
     {
         this.name = name;
         this.skillMastery = skillMastery;
         this.subSkills = subSkills;
     }
+
+    /*public List<Skill> GetSkillsWithMastery(Mastery mastery) {
+
+        List<Skill> skills = new List<Skill>();
+        
+
+        //return 
+    }*/
+
 }

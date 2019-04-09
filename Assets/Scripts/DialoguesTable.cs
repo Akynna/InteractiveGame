@@ -15,44 +15,6 @@ public class DialoguesTable : MonoBehaviour
 		Debug.Log("CSV file loaded.");
 	}
 
-	public HashSet<string> getCharacterNames()
-	{
-
-		HashSet<string> names = new HashSet<string>();
-
-		foreach(Row row in rowList)
-		{
-			names.Add(row.character);
-		}
-
-		return names;
-	}
-
-	public HashSet<string> getMainSkillsNames()
-	{
-		HashSet<string> mainSkills = new HashSet<string>();
-
-		foreach(Row row in rowList)
-		{
-			mainSkills.Add(row.main_skill);
-		}
-
-		return mainSkills;
-	}
-
-	public HashSet<string> getSubskillsNames()
-	{
-		HashSet<string> subSkills = new HashSet<string>();
-
-		foreach(Row row in rowList)
-		{
-			subSkills.Add(row.sub_skill);
-		}
-
-		return subSkills;
-	}
-
-
 	[System.Serializable]
 	public class Row
 	{

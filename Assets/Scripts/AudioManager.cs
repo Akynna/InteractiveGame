@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour {
 		musicVolumeSlider.onValueChanged.AddListener(SetMusicListenerVolume);
 		effectsVolumeSlider.onValueChanged.AddListener(SetEffetcsListenerVolume);
 
-		updateEffectSound("");
+		UpdateEffectSound("");
 	}
 
 	private void SetMusicListenerVolume(float volume)
@@ -36,15 +36,15 @@ public class AudioManager : MonoBehaviour {
 		
 	}
 
-	public void playEffect() {
+	public void PlayEffect() {
 		speechPlayer.Play();
 	}
 
-	public void pauseEffect() {
+	public void PauseEffect() {
 		speechPlayer.Pause();
 	}
 
-	public void updateEffectSound(string audioName) {
+	public void UpdateEffectSound(string audioName) {
 		speechPlayer.clip = Resources.Load<AudioClip>("Soundtracks/Effects/" + audioName);
 	}
 }

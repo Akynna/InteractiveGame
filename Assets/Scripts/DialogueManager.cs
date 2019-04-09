@@ -55,6 +55,8 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	public void Initialize() {
+
+		// Initialize the stack of elements of a dialogue
 		characterNames = new Queue<string>();
 		characterSpritesNames = new Queue<string>();
 		sentences = new Queue<string>();
@@ -67,7 +69,7 @@ public class DialogueManager : MonoBehaviour {
 			y_positions[i] = buttonList[i].transform.position.y;
 		}
 
-		continueButton.onClick.AddListener(() => displayNextSentence());
+		continueButton.onClick.AddListener(() => DisplayNextSentence());
 	}
 
 	public void TriggerDialogue()
@@ -89,10 +91,10 @@ public class DialogueManager : MonoBehaviour {
 			dialogue.audioFileNames.Add(row.dialogue_audio);
 		}
 		
-		startDialogue(dialogue);
+		StartDialogue(dialogue);
 	}
 
-	public void startDialogue(Dialogue dialogue) 
+	public void StartDialogue(Dialogue dialogue) 
 	{
 
 		// Clear previous messages
@@ -129,15 +131,15 @@ public class DialogueManager : MonoBehaviour {
 		}
 
 		// Display the first sentence of the dialogue
-		displayNextSentence();
+		DisplayNextSentence();
 	}
 
-	public void displayNextSentence()	
+	public void DisplayNextSentence()	
 	{
 		// Check if there is more sentences in the queue
 		if(sentences.Count == 0)
 		{
-			endDialogue();
+			EndDialogue();
 		} else
 		{
 			// Collect the next dialogue informations
@@ -148,25 +150,25 @@ public class DialogueManager : MonoBehaviour {
 
 			// Update the character's name and dialogue's sound
 			nameText.text = characterName;
-			CharacterManager.currentCharacter = CharacterManager.getCharacterByName(characterName);
-			AudioManager.updateEffectSound(audioName);
+			CharacterManager.currentCharacter = CharacterManager.GetCharacterByName(characterName);
+			AudioManager.UpdateEffectSound(audioName);
 
 			// Add animation to text
 			if(dialogueBoxAnimator.GetBool("isOpen"))
 			{
 				StopAllCoroutines();
-				StartCoroutine(typeSentence(sentence));
+				StartCoroutine(TypeSentence(sentence));
 			}
 
 			// Update character sprite
-			CharacterManager.updateCharacterSprite(spriteName);
+			CharacterManager.UpdateCharacterSprite(spriteName);
 		}
 	}
 
-	IEnumerator typeSentence(string sentence)
+	IEnumerator TypeSentence(string sentence)
 	{
 		dialogueText.text = "";
-		AudioManager.playEffect();
+		AudioManager.PlayEffect();
 
 		// Display the letters of the dialogue one by one
 		foreach(char letter in sentence.ToCharArray())
@@ -175,10 +177,10 @@ public class DialogueManager : MonoBehaviour {
 			yield return null;
 		}
 
-		AudioManager.pauseEffect();
+		AudioManager.PauseEffect();
 	}
 
-	private void endDialogue()
+	private void EndDialogue()
 	{
 		dialogueBoxAnimator.SetBool("isOpen", false);
 

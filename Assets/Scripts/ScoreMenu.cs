@@ -23,6 +23,5 @@ public class ScoreMenu : MonoBehaviour {
 			empScoresText.text += character.empathyScore + "\n";
 			skillScoresText.text += character.skillScore + "\n";
 		}
-
 	}
 }

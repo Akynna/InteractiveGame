@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class SceneChanger : MonoBehaviour {
 
 	public Animator animator;
-	public StoryManager dialogueManager;
 	public CharacterManager characterManager;
 	public SpriteRenderer backgroundSprite;
 	public Camera mainCamera;
@@ -18,7 +17,7 @@ public class SceneChanger : MonoBehaviour {
 		currentBackgroundName = "";
 	}
 
-	public void switchBackground(string backgroundName)
+	public void SwitchBackground(string backgroundName)
 	{
 		// If we notice a change in the background	
 		if (currentBackgroundName != backgroundName) {
@@ -29,10 +28,8 @@ public class SceneChanger : MonoBehaviour {
 			ResizeSpriteToScreen();
 
 			// Reset the current character sprite
-			characterManager.resetCharacterSprite();
+			characterManager.ResetCharacterSprite();
 		}
-
-
 	}
 
 	public void FadeToLevel(int levelIndex)

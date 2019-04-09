@@ -43,13 +43,13 @@ public class ScoreManager : MonoBehaviour {
 		}*/
 	}
 
-	public void changeCurrentState(Character.RelationState newState)
+	public void ChangeCurrentState(Character.RelationState newState)
 	{
 		Text[] stateTexts = relationBar.GetComponentsInChildren<Text>();
 		stateTexts[1].text = newState.ToString();
 	}
 
-	private void resetBar() {
+	private void ResetBar() {
 		Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
 		var tempColor = scoreBars[0].color;
 		tempColor.a = 0.25f;
@@ -59,7 +59,7 @@ public class ScoreManager : MonoBehaviour {
 		}
 	}
 
-	public void updatePoints(int empathyScore, int skillScore)
+	public void UpdatePoints(int empathyScore, int skillScore)
 	{
 		int oldEmpathyScore = CharacterManager.currentCharacter.empathyScore;
 		int newEmpathyScore = CharacterManager.currentCharacter.empathyScore + empathyScore;
@@ -78,7 +78,7 @@ public class ScoreManager : MonoBehaviour {
 
 		if (oldEmpathyScore < newEmpathyScore) {
 			//StopAllCoroutines();
-			StartCoroutine(upScore(empathyScore, 1));
+			StartCoroutine(UpScore(empathyScore, 1));
 			/*tempColor.a = 0.75f;
 
 			for (int i=oldScore; i < newScore && i < scoreBars.Length; ++i) {
@@ -87,7 +87,7 @@ public class ScoreManager : MonoBehaviour {
 
 		} else if (newEmpathyScore < oldEmpathyScore) {
 			//StopAllCoroutines();
-			StartCoroutine(downScore(empathyScore, 1));
+			StartCoroutine(DownScore(empathyScore, 1));
 			/*tempColor.a = 0.25f;
 
 			for (int i=oldScore; i > newScore && i > 0; --i) {
@@ -106,10 +106,10 @@ public class ScoreManager : MonoBehaviour {
 
 		if(oldSkillScore < newSkillScore) {
 			//StopAllCoroutines();
-			StartCoroutine(upScore(skillScore, 2));
+			StartCoroutine(UpScore(skillScore, 2));
 		} else if(oldSkillScore > newSkillScore) {
 			//StopAllCoroutines();
-			StartCoroutine(downScore(skillScore, 2));
+			StartCoroutine(DownScore(skillScore, 2));
 		}
 
 		finalEmpathyScore += empathyScore;
@@ -119,7 +119,7 @@ public class ScoreManager : MonoBehaviour {
 		CharacterManager.UpdateCharacter(CharacterManager.currentCharacter.name, finalEmpathyScore, finalSkillScore, CharacterManager.currentCharacter.relationState);	
 	}
 
-	IEnumerator upScore(int points, int scoreType) {
+	IEnumerator UpScore(int points, int scoreType) {
 		switch(scoreType) {
 			case 1:
 				empathyScoreText.text = "Empathy Score : +" + points.ToString();
@@ -136,7 +136,7 @@ public class ScoreManager : MonoBehaviour {
 		yield return null;
 	}
 
-	IEnumerator downScore(int points, int scoreType)
+	IEnumerator DownScore(int points, int scoreType)
 	{
 		switch(scoreType) {
 			case 1:

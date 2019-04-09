@@ -15,27 +15,13 @@ public class CharacterManager : MonoBehaviour {
 	// Managers with whom the Character Manager communicates
 	public StoryManager StoryManager;
 
-	// Elements that this Manager will handle
-	// private Queue<string> characterNames;
-	// private Queue<string> characterSpritesNames;
-	// private Queue<string> 
-
 	// Elements that the Manager will keep track of
 	public Character currentCharacter;
+	public string currentSpriteName;
 	public SpriteRenderer characterSprite;
 	public static List<Character> characterList;
-
-	
-
 	public int isFeedBack;
-	public string currentSpriteName;
-
 	private int reset = 0;
-
-	// Use this for initialization
-	void Start () {
-
-	}
 
 	public void Initialize() {
 
@@ -43,7 +29,7 @@ public class CharacterManager : MonoBehaviour {
 		currentCharacter = new Character("Unknown", 0, 0, Character.RelationState.Unknown);
 
 		// Get characters' names
-		HashSet<string> characterNames = StoryManager.getCharacterNames();
+		HashSet<string> characterNames = StoryManager.GetCharacterNames();
 
 		// Initialize the score and state of all characters
 		characterList = new List<Character>();
@@ -56,8 +42,7 @@ public class CharacterManager : MonoBehaviour {
 		}
 	}
 
-
-	public Character getCharacterByName(string characterName)
+	public Character GetCharacterByName(string characterName)
 	{
 		foreach(Character character in characterList)
 		{
@@ -102,12 +87,12 @@ public class CharacterManager : MonoBehaviour {
 		}
 	}
 
-	public void updateCharacterSprite()
+	public void UpdateCharacterSprite()
 	{
 		characterSprite.sprite = Resources.Load<Sprite>("Characters/" + currentSpriteName);
 	}
 
-	public void updateCharacterSprite(string characterSpriteName)
+	public void UpdateCharacterSprite(string characterSpriteName)
 	{
 		/*if(isFeedBack == 0) {
 			if(characterName != "Me" && (currentCharacter.name != characterName || currentSpriteName != characterName))
@@ -130,13 +115,13 @@ public class CharacterManager : MonoBehaviour {
 		characterSprite.sprite = Resources.Load<Sprite>("Characters/" + characterSpriteName);
 	}
 
-	public void resetCharacterSprite() {
+	public void ResetCharacterSprite() {
 		reset = 1;
 		characterSprite.sprite = null;
 	}
 
 	// Choose randomly whether or not the character should give a feedback
-	public void randomFeedback(int answerType) {
+	public void RandomFeedback(int answerType) {
 
 		// Generate a random number between 0 and 1
 		System.Random r = new System.Random();
