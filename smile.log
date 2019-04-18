@@ -1,18 +1,10 @@
-[ 22.03.2019 - 15:09:22 ]
+[ 18.04.2019 - 15:32:02 ]
     (MSG) [2] in SMILExtract : openSMILE starting!
-[ 22.03.2019 - 15:09:22 ]
-    (MSG) [2] in SMILExtract : config file is: C:\Users\Alvaro\Desktop\Cours\Master\Semester4\opensmile\opensmile-2.3.0\config\ComParE_2016.conf
-[ 22.03.2019 - 15:09:22 ]
+[ 18.04.2019 - 15:32:02 ]
+    (MSG) [2] in SMILExtract : config file is: C:/Users/Alvaro/Desktop/Cours/Master/Semester4/opensmile\opensmile-2.3.0\config\IS10_paraling.conf
+[ 18.04.2019 - 15:32:02 ]
     (MSG) [2] in cComponentManager : successfully registered 95 component types.
-[ 22.03.2019 - 15:09:22 ]
-    (MSG) [2] in instance 'lldsink' : No filename given, disabling this sink component.
-[ 22.03.2019 - 15:09:22 ]
-    (MSG) [2] in instance 'lldhtksink' : No filename given, disabling this sink component.
-[ 22.03.2019 - 15:09:22 ]
-    (MSG) [2] in instance 'lldarffsink' : No filename given, disabling this sink component.
-[ 22.03.2019 - 15:09:22 ]
-    (MSG) [2] in instance 'arffsink' : No filename given, disabling this sink component.
-[ 22.03.2019 - 15:09:22 ]
-    (MSG) [2] in instance 'htksink' : No filename given, disabling this sink component.
-[ 22.03.2019 - 15:09:22 ]
-    (ERROR) [1] in cCsvSink : Error opening file 'Output.csv' for writing (component instance 'csvsink', type 'cCsvSink')
+[ 18.04.2019 - 15:32:02 ]
+    (ERROR) [1] in configManager : cFileConfigReader::openInput : cannot open input file 'C:/Users/Alvaro/Desktop/Cours/Master/Semester4/shared/standard_wave_input.conf.inc'. Fatal!
+[ 18.04.2019 - 15:32:02 ]
+    (ERROR) [1] in configManager : cFileConfigReader::openInput : cannot open input file 'C:/Users/Alvaro/Desktop/Cours/Master/Semester4/shared/standard_wave_input.conf.inc'. Fatal!
