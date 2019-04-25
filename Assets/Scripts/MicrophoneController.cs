@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Diagnostics;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 /* This scripts takes care of the control of the microphone. It saves the audio as a .wav file
 and then analyzes it with opensmile to retrieve all the interesting features in a .csv file*/
@@ -23,7 +24,7 @@ public class MicrophoneController : MonoBehaviour
     //private string configFundamental = "ComParE_2016.conf";
 
     // Values for the Loudness analysis
-    private string output = "ouputData.csv";
+    private string output = "outputData.csv";
     private string config = "IS10_paraling.conf";
 
     void Awake()
@@ -71,7 +72,7 @@ public class MicrophoneController : MonoBehaviour
         UnityEngine.Debug.Log(prediction);
 
         // Destroy the CSVs
-        //destroyCSV();
+        destroyCSV();
 
     }
 
@@ -130,14 +131,20 @@ public class MicrophoneController : MonoBehaviour
 
             string arg = "";
 
-            var projectPath = Application.dataPath;
-            int position = projectPath.Length - "SemesterProject\\InteractiveGame\\Assets".Length;
-            projectPath = projectPath.Substring(0, position);
-            UnityEngine.Debug.Log(projectPath);
+            string projectPath = Application.dataPath;
+            int pos = projectPath.IndexOf("Assets");
+            var prPath = projectPath.Remove(pos);
+
+            string pattern = @"/";
+
+            string replacement = "\\";
+
+            projectPath = Regex.Replace(prPath, pattern, replacement,
+                                              RegexOptions.IgnoreCase);
 
             if (mode == 0)
             {
-                var audioPath = projectPath + "SemesterProject\\InteractiveGame\\Assets\\record.wav";
+                var audioPath = projectPath + "Assets\\record.wav";
                 var config = projectPath + "opensmile\\opensmile-2.3.0\\config\\" + configMode;
                 var osmilexe = projectPath + "opensmile\\opensmile-2.3.0\\bin\\Win32\\SMILExtract_Release.exe";
 
@@ -148,7 +155,7 @@ public class MicrophoneController : MonoBehaviour
             {
                 // Creation of the paths
                 // Need to update those paths to relative ones
-                var path = projectPath + "SemesterProject\\InteractiveGame\\";
+                var path = projectPath;
 
                 // Call the whole argument
                 arg = "del /f " + path + filename;
