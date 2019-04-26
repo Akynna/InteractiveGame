@@ -7,7 +7,7 @@ using System;
 /*
  *	This Manager handle everything that is related to the Character with
  * 	which the user is interacting. This class can be adapted to keep track
- * 	of the relation state the user can have with a character
+ * 	of the relation state the user can have with a character.
  * 
  */
 public class CharacterManager : MonoBehaviour {
@@ -48,14 +48,18 @@ public class CharacterManager : MonoBehaviour {
 		{
 			if (String.Equals(character.name, characterName))
 			{
-				return new Character(character.name, character.empathyScore, character.skillScore, character.relationState);
+				return new Character(character.name, character.empathyScore, character.taskScore, character.relationState);
 			}
-		}	
-		Debug.Log("No such character found.");
+		}
+
+		if(characterName != "Me") {
+			Debug.Log("No such character found.");
+		}
+		
 		return null;
 	}
 
-	public void UpdateCharacter(string characterName, int newEmpathyScore, int newSkillScore, Character.RelationState newRelationState)
+	public void UpdateCharacter(string characterName, int newEmpathyScore, int newTaskScore, Character.RelationState newRelationState)
 	{
 		bool updated = false;
 		
@@ -66,7 +70,7 @@ public class CharacterManager : MonoBehaviour {
 				Character character = characterList[i];
 
 				character.empathyScore = newEmpathyScore;
-				character.skillScore = newSkillScore;
+				character.taskScore = newTaskScore;
 				character.relationState = newRelationState;
 
 				characterList[i] = character;
@@ -83,7 +87,7 @@ public class CharacterManager : MonoBehaviour {
 		foreach(Character character in characterList) {
 			Debug.Log("Character name : " + character.name);
 			Debug.Log("Empathy Score : " + character.empathyScore);
-			Debug.Log("Skill Score : " + character.skillScore);
+			Debug.Log("Task Score : " + character.taskScore);
 		}
 	}
 

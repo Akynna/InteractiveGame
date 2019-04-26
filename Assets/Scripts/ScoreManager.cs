@@ -59,61 +59,66 @@ public class ScoreManager : MonoBehaviour {
 		}
 	}
 
-	public void UpdatePoints(int empathyScore, int skillScore)
-	{
+	public void UpdatePoints(string skillName, int skillScore)
+	{	
 		int oldEmpathyScore = CharacterManager.currentCharacter.empathyScore;
-		int newEmpathyScore = CharacterManager.currentCharacter.empathyScore + empathyScore;
-
-		int oldSkillScore = CharacterManager.currentCharacter.skillScore;
-		int newSkillScore = CharacterManager.currentCharacter.skillScore + skillScore;
+		int oldSkillScore = CharacterManager.currentCharacter.taskScore;
 
 		int finalEmpathyScore = oldEmpathyScore;
 		int finalSkillScore = oldSkillScore;
 
-		// Initialize the score bars (arrows)
-		//Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
-		//var tempColor = scoreBars[0].color;
+		if(skillName == "Empathy") {
+			int newEmpathyScore = CharacterManager.currentCharacter.empathyScore + skillScore;
 
-
-
-		if (oldEmpathyScore < newEmpathyScore) {
+			if (oldEmpathyScore < newEmpathyScore) {
 			//StopAllCoroutines();
-			StartCoroutine(UpScore(empathyScore, 1));
+				StartCoroutine(UpScore(skillScore, 1));
 			/*tempColor.a = 0.75f;
 
 			for (int i=oldScore; i < newScore && i < scoreBars.Length; ++i) {
 				scoreBars[i].color = tempColor;
 			}*/
 
-		} else if (newEmpathyScore < oldEmpathyScore) {
+			} else if (newEmpathyScore < oldEmpathyScore) {
 			//StopAllCoroutines();
-			StartCoroutine(DownScore(empathyScore, 1));
+				StartCoroutine(DownScore(skillScore, 1));
 			/*tempColor.a = 0.25f;
 
 			for (int i=oldScore; i > newScore && i > 0; --i) {
 				scoreBars[i].color = tempColor;
 			}*/
-		} else {
+			} else {
 			// resetBar();
 
 			/*tempColor.a = 0.75f;
 			for(int i=0; i < oldScore; ++i) {
 				scoreBars[i].color = tempColor;
 			}*/
-		}
+			}
 
-		// yield return new WaitForSeconds(5);
+			finalEmpathyScore += skillScore;
+		} else if(skillName == "Task") {
+			
+			int newSkillScore = CharacterManager.currentCharacter.taskScore + skillScore;
 
-		if(oldSkillScore < newSkillScore) {
+			if(oldSkillScore < newSkillScore) {
 			//StopAllCoroutines();
 			StartCoroutine(UpScore(skillScore, 2));
-		} else if(oldSkillScore > newSkillScore) {
-			//StopAllCoroutines();
-			StartCoroutine(DownScore(skillScore, 2));
+			} else if(oldSkillScore > newSkillScore) {
+				//StopAllCoroutines();
+				StartCoroutine(DownScore(skillScore, 2));
+			}
+
+			finalSkillScore += skillScore;
+		} else {
+			Debug.Log("This skill name does not exist !");
 		}
 
-		finalEmpathyScore += empathyScore;
-		finalSkillScore += skillScore;
+		// Initialize the score bars (arrows)
+		//Image[] scoreBars = GameObject.Find("PointsBar").GetComponentsInChildren<Image>();
+		//var tempColor = scoreBars[0].color;
+
+		// yield return new WaitForSeconds(5);	
 
 		// Update the character score
 		CharacterManager.UpdateCharacter(CharacterManager.currentCharacter.name, finalEmpathyScore, finalSkillScore, CharacterManager.currentCharacter.relationState);	
@@ -127,7 +132,7 @@ public class ScoreManager : MonoBehaviour {
 				break;
 			case 2:
 				yield return new WaitForSeconds(1);
-				skillScoreText.text = "Skill Score : +" + points.ToString();
+				skillScoreText.text = "Task Score : +" + points.ToString();
 				skillScoreAnimator.SetTrigger("Up");
 				break;
 			default:
@@ -145,7 +150,7 @@ public class ScoreManager : MonoBehaviour {
 				break;
 			case 2:
 				yield return new WaitForSeconds(1);
-				skillScoreText.text = "Skill Score : " + points.ToString();
+				skillScoreText.text = "Task Score : " + points.ToString();
 				skillScoreAnimator.SetTrigger("Down");
 				break;
 			default:

@@ -15,15 +15,15 @@ public class Character {
     public string name;
 
     public int empathyScore;
-    public int skillScore;
+    public int taskScore;
     public RelationState relationState;
     public SpriteRenderer spriteRenderer;
 
-    public Character(string name, int empathyScore, int skillScore, RelationState relationState)
+    public Character(string name, int empathyScore, int taskScore, RelationState relationState)
     {
         this.name = name;
         this.empathyScore = empathyScore;
-        this.skillScore = skillScore;
+        this.taskScore = taskScore;
         this.relationState = relationState;
     }
 }

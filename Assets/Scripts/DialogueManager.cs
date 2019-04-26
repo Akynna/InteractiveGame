@@ -5,7 +5,8 @@ using UnityEngine.UI;
 using System;
 
 /*
- *	This Manager is one of the most important one 
+ *	This Manager is one of the most important one. It handles the order
+ *  of the dialogues and also how they are displayed on the screen.
  *
  */
 public class DialogueManager : MonoBehaviour {
@@ -150,7 +151,11 @@ public class DialogueManager : MonoBehaviour {
 
 			// Update the character's name and dialogue's sound
 			nameText.text = characterName;
-			CharacterManager.currentCharacter = CharacterManager.GetCharacterByName(characterName);
+
+			if(characterName!= "Me") {
+				CharacterManager.currentCharacter = CharacterManager.GetCharacterByName(characterName);
+			}
+			
 			AudioManager.UpdateEffectSound(audioName);
 
 			// Add animation to text
@@ -194,7 +199,7 @@ public class DialogueManager : MonoBehaviour {
 		} else 
 		{	
 			// Switch to the default neutral scene
-			StoryManager.SwitchScene(lastRow.next_scene1, 0, 0, 0, "");
+			StoryManager.SwitchScene(lastRow.next_scene1, "", "", 0, "");
 		}
 	}
 
@@ -222,14 +227,18 @@ public class DialogueManager : MonoBehaviour {
 		buttonList[1].GetComponentInChildren<Text>().text = rowWithChoices.answer2;
 		buttonList[2].GetComponentInChildren<Text>().text = rowWithChoices.answer3;
 
+		// Find the current skill and subskill that are evaluated
+		string skillName = rowWithChoices.main_skill;
+		string subskillName = rowWithChoices.sceneID;
+
 		// Initialize both empathy and emp score
 		int goodEmpathyScore = 0;
 		int badEmpathyScore = 0;
 		int neutralEmpathyScore = 0;
 
-		int goodSkillScore = 0;
+		/*int goodSkillScore = 0;
 		int badSkillScore = 0;
-		int neutralSkillScore = 0;
+		int neutralSkillScore = 0;*/
 
 		// Parse the scores if they exist
 		if(rowWithChoices.score1 != "NA") {
@@ -237,9 +246,9 @@ public class DialogueManager : MonoBehaviour {
 			badEmpathyScore = int.Parse(rowWithChoices.score2);
 			neutralEmpathyScore = int.Parse(rowWithChoices.score3);
 
-			goodSkillScore = int.Parse(rowWithChoices.score1);
+			/*goodSkillScore = int.Parse(rowWithChoices.score1);
 			badSkillScore = int.Parse(rowWithChoices.score2);
-			neutralSkillScore = int.Parse(rowWithChoices.score3);
+			neutralSkillScore = int.Parse(rowWithChoices.score3);*/
 		}
 		
 		// Remove old listeners
@@ -248,9 +257,9 @@ public class DialogueManager : MonoBehaviour {
 		buttonList[2].onClick.RemoveAllListeners();
 
 		// Add new listeners to buttons
-		buttonList[0].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene1, 1, goodEmpathyScore, goodSkillScore, rowWithChoices.answer1));
-		buttonList[1].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene2, 2, badEmpathyScore, badSkillScore, rowWithChoices.answer2));
-		buttonList[2].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene3, 0, neutralEmpathyScore, neutralSkillScore, rowWithChoices.answer3));
+		buttonList[0].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene1, skillName, subskillName, goodEmpathyScore, rowWithChoices.answer1));
+		buttonList[1].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene2, skillName, subskillName, badEmpathyScore, rowWithChoices.answer2));
+		buttonList[2].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene3, skillName, subskillName, neutralEmpathyScore, rowWithChoices.answer3));
 
 		choicePanelAnimator.SetBool("isDisplayed", true);
 	}

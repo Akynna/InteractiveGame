@@ -42,7 +42,7 @@ public class StoryManager : MonoBehaviour {
 		// Initialize all the Managers
 		CharacterManager.Initialize();
 		DialogueManager.Initialize();
-		//SkillManager.Initialize();
+		SkillManager.Initialize();
 		
 		// Used to save the logs
 		listAnswers = new List<string>();
@@ -81,8 +81,11 @@ public class StoryManager : MonoBehaviour {
 
 		foreach(DialoguesTable.Row row in dialoguesTable.rowList)
 		{
-			mainSkills.Add(row.main_skill);
+			if(row.main_skill != "NA") {
+				mainSkills.Add(row.main_skill);
+			}
 		}
+
 
 		return mainSkills;
 	}
@@ -97,7 +100,8 @@ public class StoryManager : MonoBehaviour {
 
 		foreach(DialoguesTable.Row row in rows)
 		{
-			subSkills.Add(row.sub_skill);
+			// Add the name of the corresponding scene associated with that skill
+			subSkills.Add(row.sceneID);
 		}
 
 		return subSkills;
@@ -108,21 +112,26 @@ public class StoryManager : MonoBehaviour {
 	//			HELPER FUNCTIONS
 	//=======================================
 
-	public void SwitchScene(string sceneID, int answerType, int empathyScore, int skillScore, string answerText)
+	public void SwitchScene(string sceneID, string skillName, string subskillName, int score, string answerText)
 	{
 		// If we previously displayed the choice panel
 		if(DialogueManager.WasAChoice())
 		{	
-			if(empathyScore != 0) {
+			if(score != 0) {
 
 				// Give a random feedback
 				// characterManager.randomFeedback(answerType);
-				//Debug.Log("coucou");
+
 				// Modify the relation score
-				ScoreManager.UpdatePoints(empathyScore, skillScore);
-			}	
+				ScoreManager.UpdatePoints(skillName, score);
+			}
+
+			
+			// Update the skill probabilities after evaluating the current skill
+			SkillManager.UpdateSkill(skillName, subskillName, score);
 		}
 
+		// Record the answer given in a file
 		listAnswers.Add(answerText);
 
 		if(sceneID == "end") {
@@ -131,8 +140,26 @@ public class StoryManager : MonoBehaviour {
 
 		} else {
 			// Load the dialogues of the next scene in the Dialogue Manager
-			// TODO : CHOOSE THE NEXT SCENE DEPENDING ON PROBABILITIES 
-			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(sceneID);
+			// TODO : CHOOSE THE NEXT SCENE DEPENDING ON PROBABILITIES
+
+			string nextSceneID = "";
+
+			// If we specified in the CSV that we want to choose automatically the next scene
+			if(sceneID == "auto") {
+		
+				// Choose one of the next scene depending on probs
+				string newSkillName = SkillManager.ChooseSkill();
+				//Debug.Log("Skill name chosen: " + skill.name);
+				nextSceneID = SkillManager.ChooseSubskill(newSkillName);
+			}
+			
+			// Otherwise, just switch to the chosen scene given as argument
+			else {
+				nextSceneID = sceneID;
+			}
+
+
+			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(nextSceneID);
 
 			// Switch the background image if needed
 			sceneChanger.SwitchBackground(currentSceneDialogues[0].background);

@@ -3093,7 +3093,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1053554678}
-  dialogueManager: {fileID: 1628375379}
   characterManager: {fileID: 1284055989}
   backgroundSprite: {fileID: 276528606}
   mainCamera: {fileID: 1318633684}
@@ -4479,9 +4478,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StoryManager: {fileID: 1628375379}
+  currentSpriteName: 
   characterSprite: {fileID: 1044065414}
   isFeedBack: 0
-  currentSpriteName: 
 --- !u!4 &1284055990
 Transform:
   m_ObjectHideFlags: 0
@@ -5761,6 +5760,7 @@ MonoBehaviour:
   CharacterManager: {fileID: 1284055989}
   DialogueManager: {fileID: 183283617}
   ScoreManager: {fileID: 214199892}
+  SkillManager: {fileID: 1691869030}
   currentSceneDialogues: []
   sceneChanger: {fileID: 1053554679}
   effectsSource: {fileID: 1166726473}
@@ -5906,12 +5906,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2283220c36e155142bf50e1ba140486d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialoguesTable: {fileID: 1894899458}
+  StoryManager: {fileID: 1628375379}
   mainScoreGoal: 100
-  probabilities:
-  - 0
-  - 0
-  - 0
 --- !u!4 &1691869031
 Transform:
   m_ObjectHideFlags: 0
@@ -6144,7 +6140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ad991a2d40c6c42acb466e7e55b5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  file: {fileID: 4900000, guid: 1703e5715d9352f42bee2e363e219542, type: 3}
+  file: {fileID: 4900000, guid: c0f092f3f2f593d49af34a2d4e32e92b, type: 3}
   rowList: []
   isLoaded: 0
 --- !u!1 &1915081958
