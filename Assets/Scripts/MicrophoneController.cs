@@ -27,6 +27,9 @@ public class MicrophoneController : MonoBehaviour
     private string output = "outputData.csv";
     private string config = "IS10_paraling.conf";
 
+    private string recordName = "record";
+    private string id = "";
+
     void Awake()
     {
         MachineLearning.readyW();   
@@ -61,8 +64,9 @@ public class MicrophoneController : MonoBehaviour
         // Cuts the recording when the stop button is pressed
         EndRecording(myAudioClip, null);
 
+        string date = DateTime.Now.ToString("yyyyMMddHHmmss");
         // Saves the audio clip as a .wav
-        SavWav.Save("record", myAudioClip.clip);
+        SavWav.Save(recordName + id + date, myAudioClip.clip);
 
         // Analyzes the clip with opensmile
         callOpenSmile();
@@ -154,7 +158,6 @@ public class MicrophoneController : MonoBehaviour
             else if(mode == 1)
             {
                 // Creation of the paths
-                // Need to update those paths to relative ones
                 var path = projectPath;
 
                 // Call the whole argument
