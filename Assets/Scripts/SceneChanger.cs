@@ -6,8 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour {
 
+	// Managers that need to save their data throughout the scenes
+	public CharacterManager CharacterManager;
+	public AudioManager AudioManager;
+
 	public Animator animator;
-	public CharacterManager characterManager;
 	public SpriteRenderer backgroundSprite;
 	public Camera mainCamera;
 	public string currentBackgroundName;
@@ -28,7 +31,7 @@ public class SceneChanger : MonoBehaviour {
 			ResizeSpriteToScreen();
 
 			// Reset the current character sprite
-			characterManager.ResetCharacterSprite();
+			CharacterManager.ResetCharacterSprite();
 		}
 	}
 
@@ -36,6 +39,7 @@ public class SceneChanger : MonoBehaviour {
 	{
 		animator.SetTrigger("FadeOut");
 		sceneToLoad = levelIndex;
+		AudioManager.SaveSliderValues();
 	}
 
 	public void OnFadeComplete()

@@ -212,6 +212,7 @@ public class DialogueManager : MonoBehaviour {
 		// Create a list of used number to avoid repetition
 		List<int> usedNumbers = new List<int>();
 
+		// Mix the buttons positions, so the answers are unordered
 		for(int i=0; i < 3; ++i)
 		{
 			while(usedNumbers.Contains(randIndex)) {
@@ -223,6 +224,7 @@ public class DialogueManager : MonoBehaviour {
 		}
 		usedNumbers.Clear();
 
+		// Assign to each button an answer
 		buttonList[0].GetComponentInChildren<Text>().text = rowWithChoices.answer1;
 		buttonList[1].GetComponentInChildren<Text>().text = rowWithChoices.answer2;
 		buttonList[2].GetComponentInChildren<Text>().text = rowWithChoices.answer3;
