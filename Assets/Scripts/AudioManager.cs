@@ -12,29 +12,42 @@ public class AudioManager : MonoBehaviour {
 	public AudioSource speechPlayer;
 	public AudioSource effectsPlayer;
 
+	public static float currentMusicVolume;
+	public static float currentEffectsVolume;
+
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 		musicVolumeSlider.onValueChanged.AddListener(SetMusicListenerVolume);
-		effectsVolumeSlider.onValueChanged.AddListener(SetEffetcsListenerVolume);
+		effectsVolumeSlider.onValueChanged.AddListener(SetEffectsListenerVolume);
 
 		UpdateEffectSound("");
+	}
+
+	public void Initialize() {
+
+		// Set the volumes to the ones from the previous scene
+		musicPlayer.volume = PlayerPrefs.GetFloat("MusicSliderVolumeLevel", musicPlayer.volume);
+		effectsPlayer.volume = PlayerPrefs.GetFloat("EffectsSliderVolumeLevel", effectsPlayer.volume);
+
+		// Set the slider values to the ones from the previous scene
+		musicVolumeSlider.value = musicPlayer.volume;
+		effectsVolumeSlider.value = effectsPlayer.volume;
+
 	}
 
 	private void SetMusicListenerVolume(float volume)
     {
         musicPlayer.volume = volume;
+		currentMusicVolume = volume;
     }
 
-	private void SetEffetcsListenerVolume(float volume)
+	private void SetEffectsListenerVolume(float volume)
     {
         effectsPlayer.volume = volume;
 		speechPlayer.volume = volume;
+
+		currentEffectsVolume = volume;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public void PlayEffect() {
 		speechPlayer.Play();
@@ -47,4 +60,11 @@ public class AudioManager : MonoBehaviour {
 	public void UpdateEffectSound(string audioName) {
 		speechPlayer.clip = Resources.Load<AudioClip>("Soundtracks/Effects/" + audioName);
 	}
+
+	// Used to save the volume when switching scene
+	public void SaveSliderValues()
+ 	{
+     	PlayerPrefs.SetFloat("MusicSliderVolumeLevel", currentMusicVolume);
+		PlayerPrefs.SetFloat("EffectsSliderVolumeLevel", currentEffectsVolume);
+ 	}
 }

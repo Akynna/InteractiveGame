@@ -40,9 +40,11 @@ public class StoryManager : MonoBehaviour {
 	void Start () {
 
 		// Initialize all the Managers
+		AudioManager.Initialize();
 		CharacterManager.Initialize();
 		DialogueManager.Initialize();
 		SkillManager.Initialize();
+		
 		
 		// Used to save the logs
 		listAnswers = new List<string>();

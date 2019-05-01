@@ -892,18 +892,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114490001667362966, guid: 034e8c0887d1f4445a259f4d29ed66fa,
-        type: 3}
-      propertyPath: m_Text
-      value: '2nd choice here
-
-        Two lines max'
-      objectReference: {fileID: 0}
-    - target: {fileID: 114022919644970220, guid: 034e8c0887d1f4445a259f4d29ed66fa,
-        type: 3}
-      propertyPath: m_Text
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 224841709625514936, guid: 034e8c0887d1f4445a259f4d29ed66fa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -958,6 +946,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.058000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 114490001667362966, guid: 034e8c0887d1f4445a259f4d29ed66fa,
+        type: 3}
+      propertyPath: m_Text
+      value: '2nd choice here
+
+        Two lines max'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114022919644970220, guid: 034e8c0887d1f4445a259f4d29ed66fa,
+        type: 3}
+      propertyPath: m_Text
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 034e8c0887d1f4445a259f4d29ed66fa, type: 3}
@@ -3635,8 +3635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cffd0ba56e737c408d07fae7bbb7eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterManager: {fileID: 1284055989}
+  AudioManager: {fileID: 470040922}
   animator: {fileID: 1053554678}
-  characterManager: {fileID: 1284055989}
   backgroundSprite: {fileID: 276528606}
   mainCamera: {fileID: 1318633684}
   currentBackgroundName: 
@@ -4215,20 +4216,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114490001667362966, guid: 034e8c0887d1f4445a259f4d29ed66fa,
-        type: 3}
-      propertyPath: m_Text
-      value: '3rd choice here
-
-        Two lines max'
-      objectReference: {fileID: 0}
-    - target: {fileID: 114022919644970220, guid: 034e8c0887d1f4445a259f4d29ed66fa,
-        type: 3}
-      propertyPath: m_Text
-      value: '3
-
-'
-      objectReference: {fileID: 0}
     - target: {fileID: 224841709625514936, guid: 034e8c0887d1f4445a259f4d29ed66fa,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -4283,6 +4270,20 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.059000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 114490001667362966, guid: 034e8c0887d1f4445a259f4d29ed66fa,
+        type: 3}
+      propertyPath: m_Text
+      value: '3rd choice here
+
+        Two lines max'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114022919644970220, guid: 034e8c0887d1f4445a259f4d29ed66fa,
+        type: 3}
+      propertyPath: m_Text
+      value: '3
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 034e8c0887d1f4445a259f4d29ed66fa, type: 3}

@@ -10,3 +10,9 @@ http://babich.biz/button-ux-design-best-practices-types-and-states/
 
 https://material.io/
 http://www.vcskicks.com/random-element.php
+
+
+Bayesian Knowledge Tracing
+https://projects.invisionapp.com/share/DJMVBZMTEK4#/screens/308165796
+https://en.wikipedia.org/wiki/Bayesian_Knowledge_Tracing
+PDF: More Accurate Student Modeling Through Contextual Estimation of Slip and Guess Probabilities in Bayesian Knowledge Tracing 

@@ -14,11 +14,19 @@ public class SkillManager : MonoBehaviour {
 	// We will especially keep track of their subskills
 	public static List<Skill> skillsList = new List<Skill>();
 
+
+	// FIRST METHOD: Thibault's Algorithm
+
 	// Used to keep track of Skills' probabilities
 	public List<KeyValuePair<string, double>> skillsProbs = new List<KeyValuePair<string, double>>();
 
 	// Score goal a skill has to reach to move to the next level
 	public int mainScoreGoal = 1;
+
+	// SECOND METHOD: Bayesian Knowledge Tracing Algorithm
+
+
+
 
 	public void Initialize() {
 
