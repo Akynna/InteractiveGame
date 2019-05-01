@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 /* This scripts takes care of the control of the microphone. It saves the audio as a .wav file
 and then analyzes it with opensmile to retrieve all the interesting features in a .csv file*/
@@ -15,21 +16,21 @@ public class MicrophoneController : MonoBehaviour
     // Need to use an AudioSource to reduce the clip time
     AudioSource myAudioClip;
 
+    // Buttons for the recording
     GameObject startButton;
     GameObject stopButton;
 
-    // Values for the Fundamental Frequency analysis
-    //private string outputFundamental = "outputF0.csv";
-    //private string outputFundamental = "animated3.csv";
-    //private string configFundamental = "ComParE_2016.conf";
-
-    // Values for the Loudness analysis
+    // Opensmile files configuration
     private string output = "outputData.csv";
     private string config = "IS10_paraling.conf";
 
-    private string recordName = "record";
-    private string id = "";
+    // Naming and formating of the record
+    public static string recordName = "record";
+    public static string id = ""; // Hold the id of the user TODO : UPDATE WHEN CREATED
+    public static string dateFormat = "yyyyMMddHHmmss";
+    public static string date;
 
+    // On Awake, get ready the W vector for Machine Learning
     void Awake()
     {
         MachineLearning.readyW();   
@@ -37,6 +38,7 @@ public class MicrophoneController : MonoBehaviour
 
     void Start()
     {
+        // Get the AudioSource for the microphone
         myAudioClip = this.GetComponent<AudioSource>();
 
         startButton = GameObject.Find("StartRecordButton");
@@ -57,14 +59,13 @@ public class MicrophoneController : MonoBehaviour
 
     public void stopRecord()
     {
-
         stopButton.SetActive(false);
         startButton.SetActive(true);
 
         // Cuts the recording when the stop button is pressed
         EndRecording(myAudioClip, null);
 
-        string date = DateTime.Now.ToString("yyyyMMddHHmmss");
+        date = DateTime.Now.ToString(dateFormat);
         // Saves the audio clip as a .wav
         SavWav.Save(recordName + id + date, myAudioClip.clip);
 
@@ -112,14 +113,12 @@ public class MicrophoneController : MonoBehaviour
     {
         // opensmile mode = 0
         commandPromptCalls(0, output, config);
-        //commandPromptCalls(0, outputLoudness, configLoudness);
     }
 
     void destroyCSV()
     {
         // delete mode = 1
         commandPromptCalls(1, output);
-        //commandPromptCalls(1, outputLoudness);
     }
 
     void commandPromptCalls(int mode, string filename, string configMode = "")
@@ -148,7 +147,7 @@ public class MicrophoneController : MonoBehaviour
 
             if (mode == 0)
             {
-                var audioPath = projectPath + "Assets\\record.wav";
+                var audioPath = projectPath + "Assets\\" + recordName + id + date + ".wav";
                 var config = projectPath + "opensmile\\opensmile-2.3.0\\config\\" + configMode;
                 var osmilexe = projectPath + "opensmile\\opensmile-2.3.0\\bin\\Win32\\SMILExtract_Release.exe";
 
