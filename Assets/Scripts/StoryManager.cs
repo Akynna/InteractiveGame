@@ -128,9 +128,13 @@ public class StoryManager : MonoBehaviour {
 				ScoreManager.UpdatePoints(skillName, score);
 			}
 
-			
+			// First method to update skill
 			// Update the skill probabilities after evaluating the current skill
-			SkillManager.UpdateSkill(skillName, subskillName, score);
+			// SkillManager.UpdateSkill(skillName, subskillName, score);
+
+			// Second method to update skill
+			// Update the skill probabilities after evaluating the current skill
+			SkillManager.BKT(skillName, subskillName, score);
 		}
 
 		// Record the answer given in a file
