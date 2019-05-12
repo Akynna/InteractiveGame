@@ -21,7 +21,7 @@ public class MicrophoneController : MonoBehaviour
     GameObject stopButton;
 
     // Opensmile files configuration
-    private string output = "outputData.csv";
+    public static string output = "outputData";
     private string config = "IS10_paraling.conf";
 
     // Naming and formating of the record
@@ -33,7 +33,7 @@ public class MicrophoneController : MonoBehaviour
     // On Awake, get ready the W vector for Machine Learning
     void Awake()
     {
-        MachineLearning.readyW();   
+        MachineLearning.ReadyW();   
     }
 
     void Start()
@@ -48,7 +48,7 @@ public class MicrophoneController : MonoBehaviour
         startButton.SetActive(true);
     }
 
-    public void startRecord()
+    public void StartRecord()
     {
         stopButton.SetActive(true);
         startButton.SetActive(false);
@@ -57,7 +57,7 @@ public class MicrophoneController : MonoBehaviour
         myAudioClip.clip = Microphone.Start(null, false, 50, 44100);
     }
 
-    public void stopRecord()
+    public void StopRecord()
     {
         stopButton.SetActive(false);
         startButton.SetActive(true);
@@ -70,15 +70,11 @@ public class MicrophoneController : MonoBehaviour
         SavWav.Save(recordName + id + date, myAudioClip.clip);
 
         // Analyzes the clip with opensmile
-        callOpenSmile();
+        CallOpenSmile(output + id + date + ".csv", config);
 
         // Get all the information from CSVs
-        var prediction = MachineLearning.predictWithData(output);
+        var prediction = MachineLearning.PredictWithData(output + id + date + ".csv");
         UnityEngine.Debug.Log(prediction);
-
-        // Destroy the CSVs
-        destroyCSV();
-
     }
 
     void EndRecording(AudioSource audS, string deviceName)
@@ -109,28 +105,17 @@ public class MicrophoneController : MonoBehaviour
         audS.clip = newClip;
     }
 
-    void callOpenSmile()
+    void CallOpenSmile(string filename, string configMode)
     {
-        // opensmile mode = 0
-        commandPromptCalls(0, output, config);
-    }
 
-    void destroyCSV()
-    {
-        // delete mode = 1
-        commandPromptCalls(1, output);
-    }
-
-    void commandPromptCalls(int mode, string filename, string configMode = "")
-    {
         try
         {
             // Start process
             Process myProcess = new Process();
-            myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; // Hide the window
+            myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             myProcess.StartInfo.CreateNoWindow = true;
             myProcess.StartInfo.UseShellExecute = false;
-            myProcess.StartInfo.FileName = "cmd.exe"; // Open a Command prompt at windows
+            myProcess.StartInfo.FileName = "cmd.exe";
 
             string arg = "";
 
@@ -145,23 +130,14 @@ public class MicrophoneController : MonoBehaviour
             projectPath = Regex.Replace(prPath, pattern, replacement,
                                               RegexOptions.IgnoreCase);
 
-            if (mode == 0)
-            {
-                var audioPath = projectPath + "Assets\\" + recordName + id + date + ".wav";
-                var config = projectPath + "opensmile\\opensmile-2.3.0\\config\\" + configMode;
-                var osmilexe = projectPath + "opensmile\\opensmile-2.3.0\\bin\\Win32\\SMILExtract_Release.exe";
 
-                // Call the whole argument
-                arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + filename;
-            }
-            else if(mode == 1)
-            {
-                // Creation of the paths
-                var path = projectPath;
+            var audioPath = projectPath + "Assets\\" + recordName + id + date + ".wav";
+            var config = projectPath + "opensmile\\opensmile-2.3.0\\config\\" + configMode;
+            var osmilexe = projectPath + "opensmile\\opensmile-2.3.0\\bin\\Win32\\SMILExtract_Release.exe";
 
-                // Call the whole argument
-                arg = "del /f " + path + filename;
-            }
+            // Call the whole argument
+            arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + filename;
+
 
             // Call the necessary functions to execute the command
             myProcess.StartInfo.Arguments = "/c" + arg;
@@ -169,7 +145,7 @@ public class MicrophoneController : MonoBehaviour
             myProcess.Start();
             myProcess.WaitForExit();
             int ExitCode = myProcess.ExitCode;
-            //print(ExitCode);
+
         }
         catch (Exception e)
         {
