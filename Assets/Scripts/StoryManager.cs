@@ -119,7 +119,7 @@ public class StoryManager : MonoBehaviour {
 		// If we previously displayed the choice panel
 		if(DialogueManager.WasAChoice())
 		{	
-			if(score != 0) {
+			if(score != 0 && skillName != "NA") {
 
 				// Give a random feedback
 				// characterManager.randomFeedback(answerType);
@@ -130,11 +130,11 @@ public class StoryManager : MonoBehaviour {
 
 			// First method to update skill
 			// Update the skill probabilities after evaluating the current skill
-			// SkillManager.UpdateSkill(skillName, subskillName, score);
+			SkillManager.UpdateSkill(skillName, subskillName, score);
 
 			// Second method to update skill
 			// Update the skill probabilities after evaluating the current skill
-			SkillManager.BKT(skillName, subskillName, score);
+			// SkillManager.BKT(skillName, subskillName, score);
 		}
 
 		// Record the answer given in a file
