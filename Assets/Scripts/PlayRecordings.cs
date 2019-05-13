@@ -95,7 +95,7 @@ public class PlayRecordings : MonoBehaviour
             // Position of elements in screen space
             position = new Vector3(position.x, position.y - obj.GetComponent<RectTransform>().rect.height);
             obj.transform.position = position;
-            obj.transform.parent = canvas.transform;
+            obj.transform.SetParent(canvas.transform);
             obj.GetComponentInChildren<Image>().GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, obj.GetComponent<RectTransform>().sizeDelta.y);
         }
     }
@@ -158,12 +158,13 @@ public class PlayRecordings : MonoBehaviour
         //data[0].Insert(0, score); // Compute an appropriate score or type of data
 
         // Delete Associated CSV
-        FileManager.AddToCSV(MachineLearning.dataFile, label, data, ";");
+        FileManager.AddToCSV(MachineLearning.dataFile, datafilename, label, ";");
         string path = Application.dataPath;
         int pos = path.IndexOf("Assets");
         path = path.Remove(pos);
         FileManager.DeleteFile(path, datafilename);
 
+        targets.Clear();
         targets.Add(obj.transform.position);
         foreach(GameObject trg in GameObject.FindGameObjectsWithTag(audioPlayersTag))
         {
@@ -192,7 +193,6 @@ public class PlayRecordings : MonoBehaviour
     private WWW GetAudioFromFile(string path, string filename)
     {
         string audioToLoad = Path.Combine(path, filename);
-        Debug.Log(audioToLoad);
         WWW request = new WWW(audioToLoad);
         return request;
     }

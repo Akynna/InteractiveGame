@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections;
+using UnityEngine.UI;
 
 /* This scripts takes care of the control of the microphone. It saves the audio as a .wav file
 and then analyzes it with opensmile to retrieve all the interesting features in a .csv file*/
@@ -19,6 +20,10 @@ public class MicrophoneController : MonoBehaviour
     // Buttons for the recording
     GameObject startButton;
     GameObject stopButton;
+
+    public GameObject startTemplate;
+    public GameObject stopTemplate;
+    public GameObject canvas;
 
     // Opensmile files configuration
     public static string output = "outputData";
@@ -41,17 +46,37 @@ public class MicrophoneController : MonoBehaviour
         // Get the AudioSource for the microphone
         myAudioClip = this.GetComponent<AudioSource>();
 
-        startButton = GameObject.Find("StartRecordButton");
-        stopButton = GameObject.Find("StopRecordButton");
+        //startButton = GameObject.Find("StartRecordButton");
+        //stopButton = GameObject.Find("StopRecordButton");
 
-        stopButton.SetActive(false);
-        startButton.SetActive(true);
+        CreateStartButton();
+
+        //stopButton.SetActive(false);
+        //startButton.SetActive(true);
+    }
+
+    void CreateStartButton()
+    {
+        startButton = Instantiate(startTemplate);
+        startButton.GetComponentInChildren<Button>().onClick.AddListener(() => StartRecord());
+        startButton.transform.parent = canvas.transform;
+        startButton.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f);
+    }
+
+    void CreateStopButton()
+    {
+        stopButton = Instantiate(stopTemplate);
+        stopButton.GetComponentInChildren<Button>().onClick.AddListener(() => StopRecord());
+        stopButton.transform.parent = canvas.transform;
+        stopButton.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f);
     }
 
     public void StartRecord()
     {
-        stopButton.SetActive(true);
-        startButton.SetActive(false);
+        //stopButton.SetActive(true);
+        //startButton.SetActive(false);
+        Destroy(startButton);
+        CreateStopButton();
 
         // Default microphone
         myAudioClip.clip = Microphone.Start(null, false, 50, 44100);
@@ -59,8 +84,10 @@ public class MicrophoneController : MonoBehaviour
 
     public void StopRecord()
     {
-        stopButton.SetActive(false);
-        startButton.SetActive(true);
+        //stopButton.SetActive(false);
+        //startButton.SetActive(true);
+        Destroy(stopButton);
+        CreateStartButton();
 
         // Cuts the recording when the stop button is pressed
         EndRecording(myAudioClip, null);

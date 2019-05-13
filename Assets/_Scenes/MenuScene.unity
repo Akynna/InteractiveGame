@@ -323,15 +323,20 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
       value: FadeOut
       objectReference: {fileID: 0}
+    - target: {fileID: 114593927681764552, guid: d9ccdb52ae85f144aaed318fbe9e233d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114533186844704304, guid: d9ccdb52ae85f144aaed318fbe9e233d,
         type: 3}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114533186844704304, guid: d9ccdb52ae85f144aaed318fbe9e233d,
         type: 3}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9ccdb52ae85f144aaed318fbe9e233d, type: 3}
@@ -2866,12 +2871,12 @@ PrefabInstance:
     - target: {fileID: 114533186844704304, guid: d9ccdb52ae85f144aaed318fbe9e233d,
         type: 3}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114533186844704304, guid: d9ccdb52ae85f144aaed318fbe9e233d,
         type: 3}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114533186844704304, guid: d9ccdb52ae85f144aaed318fbe9e233d,
         type: 3}

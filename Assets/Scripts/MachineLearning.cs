@@ -29,6 +29,7 @@ public static class MachineLearning
             dataRead.RemoveAt(dataRead.Count - 1);
 
             globalW = SgdSVM(y, dataRead);
+
             FileManager.WriteCSV(globalW, fileW, ",");
         }
         else

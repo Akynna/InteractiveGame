@@ -14,24 +14,32 @@ public class FileManager : MonoBehaviour
     private static string f0Key = "F0";
     private static string loudnessKey = "loudness";
 
-    public static List<List<float>> ReadCSV(string filename, char separator)
+    public static List<List<float>> ReadCSV(string filename, char separator, bool skipHeader = false, bool skipLabel = false)
     {
         List<List<float>> data = new List<List<float>>();
 
         using (var reader = new StreamReader(filename))
         {
-            var line = reader.ReadLine();
-
-            List<float> lineData = new List<float>();
-
-            foreach (string cell in line.Split(separator))
+            while (!reader.EndOfStream)
             {
-                // Take only the columns that are among the chosen ones
-                float cellAdd = (float)double.Parse(cell);
-                lineData.Add(cellAdd);
+                var line = reader.ReadLine();
+                List<float> lineData = new List<float>();
+                var skipLbl = skipLabel;
+                if (!skipHeader)
+                {
+                    foreach (string cell in line.Split(separator))
+                    {
+                        if (!skipLbl)
+                        {
+                            float cellAdd = (float)double.Parse(cell);
+                            lineData.Add(cellAdd);
+                        }
+                        skipLbl = false;
+                    }
+                }
+                skipHeader = false;
+                data.Add(lineData);
             }
-
-            data.Add(lineData);
         }
         return data;
     }
@@ -46,6 +54,8 @@ public class FileManager : MonoBehaviour
         List<List<float>> data = new List<List<float>>();
         List<float> dataRow = new List<float>();
 
+        int headerLength = 0;
+
         using (var reader = new StreamReader(filename))
         {
             // Use rows to know if you are reading the header of the data  itself
@@ -59,6 +69,7 @@ public class FileManager : MonoBehaviour
                 {
                     foreach (string cell in line.Split(';'))
                     {
+                        
                         // Take only the columns that are among the chosen ones
                         if (populateColumns.Contains(columns))
                         {
@@ -81,6 +92,7 @@ public class FileManager : MonoBehaviour
                 else
                 {
                     int idx = 0;
+                    headerLength = line.Split(';').Length;
                     foreach (string cell in line.Split(';'))
                     {
                         if (cell.Contains(f0Key) || cell.Contains(loudnessKey))
@@ -119,10 +131,13 @@ public class FileManager : MonoBehaviour
         }
     }
 
-    /*public static void AddToCSV(string fileToWrite, string fileToRead, string separator)
+    public static void AddToCSV(string fileToWrite, string fileToRead, string label, string separator)
     {
-        AddToCSV(fileToWrite, ReadCSV(fileToRead, ';'), separator);
-    }*/
+        List<List<float>> data = ReadCSV(fileToRead, ';', true, true);
+        foreach (float f in data[0])
+            UnityEngine.Debug.Log(f);
+        AddToCSV(fileToWrite, label, data, separator);
+    }
 
     public static void DeleteFile(string path, string filename)
     {
