@@ -197,7 +197,7 @@ public class DialogueManager : MonoBehaviour {
 		{
 			showChoices(lastRow);
 		} else 
-		{	
+		{
 			// Switch to the default neutral scene
 			StoryManager.SwitchScene(lastRow.next_scene1, "", "", 0, "");
 		}
