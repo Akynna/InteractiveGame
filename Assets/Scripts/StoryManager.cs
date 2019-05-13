@@ -119,7 +119,7 @@ public class StoryManager : MonoBehaviour {
 		// If we previously displayed the choice panel
 		if(DialogueManager.WasAChoice())
 		{	
-			if(score != 0) {
+			if(score != 0 && skillName != "NA") {
 
 				// Give a random feedback
 				// characterManager.randomFeedback(answerType);
