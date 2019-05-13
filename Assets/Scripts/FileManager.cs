@@ -141,14 +141,49 @@ public class FileManager : MonoBehaviour
 
     public static void DeleteFile(string path, string filename)
     {
-        try
+        string os = SystemInfo.operatingSystem;
+        if (os.Contains("Windows"))
         {
-            // Start process
-            Process myProcess = new Process();
-            myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; // Hide the window
-            myProcess.StartInfo.CreateNoWindow = true;
-            myProcess.StartInfo.UseShellExecute = false;
-            myProcess.StartInfo.FileName = "cmd.exe"; // Open a Command prompt at windows
+            try
+            {
+                // Start process
+                Process myProcess = new Process();
+                myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; // Hide the window
+                myProcess.StartInfo.CreateNoWindow = true;
+                myProcess.StartInfo.UseShellExecute = false;
+                myProcess.StartInfo.FileName = "cmd.exe"; // Open a Command prompt at windows
+
+                string arg = "";
+
+                string projectPath = Path.Combine(path, filename);
+
+                string pattern = @"/";
+
+                string replacement = "\\";
+
+                string finalPath = Regex.Replace(projectPath, pattern, replacement,
+                                                  RegexOptions.IgnoreCase);
+
+                // Call the whole argument
+                arg = "del /f " + finalPath;
+
+                // Call the necessary functions to execute the command
+                myProcess.StartInfo.Arguments = "/c" + arg;
+                myProcess.EnableRaisingEvents = true;
+                myProcess.Start();
+                myProcess.WaitForExit();
+                int ExitCode = myProcess.ExitCode;
+                //print(ExitCode);
+            }
+            catch (Exception e)
+            {
+                print(e);
+            }
+        }
+        else if(os.Contains("Mac"))
+        {
+            ProcessStartInfo proc = new ProcessStartInfo();
+            proc.FileName = "open";
 
             string arg = "";
 
@@ -161,20 +196,18 @@ public class FileManager : MonoBehaviour
             string finalPath = Regex.Replace(projectPath, pattern, replacement,
                                               RegexOptions.IgnoreCase);
 
-            // Call the whole argument
-            arg = "del /f " + finalPath;
+            //proc.WorkingDirectory = "/users/myUserName";
+            //proc.Arguments = "talk.sh"; Argument
 
-            // Call the necessary functions to execute the command
-            myProcess.StartInfo.Arguments = "/c" + arg;
-            myProcess.EnableRaisingEvents = true;
-            myProcess.Start();
-            myProcess.WaitForExit();
-            int ExitCode = myProcess.ExitCode;
-            //print(ExitCode);
-        }
-        catch (Exception e)
+
+            proc.WindowStyle = ProcessWindowStyle.Minimized;
+            proc.CreateNoWindow = true;
+            Process.Start(proc);
+
+        } else if (os.Contains("Linux"))
         {
-            print(e);
+
         }
+        
     }
 }

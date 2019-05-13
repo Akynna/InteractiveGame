@@ -134,15 +134,57 @@ public class MicrophoneController : MonoBehaviour
 
     void CallOpenSmile(string filename, string configMode)
     {
-
-        try
+        string os = SystemInfo.operatingSystem;
+        if (os.Contains("Windows"))
         {
-            // Start process
-            Process myProcess = new Process();
-            myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            myProcess.StartInfo.CreateNoWindow = true;
-            myProcess.StartInfo.UseShellExecute = false;
-            myProcess.StartInfo.FileName = "cmd.exe";
+            try
+            {
+                // Start process
+                Process myProcess = new Process();
+                myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                myProcess.StartInfo.CreateNoWindow = true;
+                myProcess.StartInfo.UseShellExecute = false;
+                myProcess.StartInfo.FileName = "cmd.exe";
+
+                string arg = "";
+
+                string projectPath = Application.dataPath;
+                int pos = projectPath.IndexOf("Assets");
+                var prPath = projectPath.Remove(pos);
+
+                string pattern = @"/";
+
+                string replacement = "\\";
+
+                projectPath = Regex.Replace(prPath, pattern, replacement,
+                                                  RegexOptions.IgnoreCase);
+
+
+                var audioPath = projectPath + "Assets\\" + recordName + id + date + ".wav";
+                var config = projectPath + "opensmile\\opensmile-2.3.0\\config\\" + configMode;
+                var osmilexe = projectPath + "opensmile\\opensmile-2.3.0\\bin\\Win32\\SMILExtract_Release.exe";
+
+                // Call the whole argument
+                arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + filename;
+
+
+                // Call the necessary functions to execute the command
+                myProcess.StartInfo.Arguments = "/c" + arg;
+                myProcess.EnableRaisingEvents = true;
+                myProcess.Start();
+                myProcess.WaitForExit();
+                int ExitCode = myProcess.ExitCode;
+
+            }
+            catch (Exception e)
+            {
+                print(e);
+            }
+        }
+        else if (os.Contains("Mac"))
+        {
+            ProcessStartInfo proc = new ProcessStartInfo();
+            proc.FileName = "open";
 
             string arg = "";
 
@@ -150,33 +192,25 @@ public class MicrophoneController : MonoBehaviour
             int pos = projectPath.IndexOf("Assets");
             var prPath = projectPath.Remove(pos);
 
-            string pattern = @"/";
-
-            string replacement = "\\";
-
-            projectPath = Regex.Replace(prPath, pattern, replacement,
-                                              RegexOptions.IgnoreCase);
-
-
-            var audioPath = projectPath + "Assets\\" + recordName + id + date + ".wav";
-            var config = projectPath + "opensmile\\opensmile-2.3.0\\config\\" + configMode;
-            var osmilexe = projectPath + "opensmile\\opensmile-2.3.0\\bin\\Win32\\SMILExtract_Release.exe";
+            var audioPath = projectPath + "Assets/" + recordName + id + date + ".wav";
+            var config = projectPath + "opensmile/opensmile-2.3.0/config/" + configMode;
+            var osmilexe = projectPath + "opensmile/opensmile-2.3.0/bin/Win32/SMILExtract_Release.exe";
 
             // Call the whole argument
             arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + filename;
 
+            //proc.WorkingDirectory = "/users/myUserName";
+            proc.Arguments = arg;
 
-            // Call the necessary functions to execute the command
-            myProcess.StartInfo.Arguments = "/c" + arg;
-            myProcess.EnableRaisingEvents = true;
-            myProcess.Start();
-            myProcess.WaitForExit();
-            int ExitCode = myProcess.ExitCode;
+
+            proc.WindowStyle = ProcessWindowStyle.Minimized;
+            proc.CreateNoWindow = true;
+            Process.Start(proc);
 
         }
-        catch (Exception e)
+        else if (os.Contains("Linux"))
         {
-            print(e);
+
         }
     }
 
