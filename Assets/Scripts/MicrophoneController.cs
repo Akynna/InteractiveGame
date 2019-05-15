@@ -20,9 +20,11 @@ public class MicrophoneController : MonoBehaviour
     // Buttons for the recording
     GameObject startButton;
     GameObject stopButton;
+    GameObject ans;
 
     public GameObject startTemplate;
     public GameObject stopTemplate;
+    public GameObject choice;
     public GameObject canvas;
 
     // Opensmile files configuration
@@ -35,31 +37,47 @@ public class MicrophoneController : MonoBehaviour
     public static string dateFormat = "yyyyMMddHHmmss";
     public static string date;
 
+    public static bool recording = false;
+    public static string answer = "";
+
     // On Awake, get ready the W vector for Machine Learning
     void Awake()
     {
-        MachineLearning.ReadyW();   
+        MachineLearning.ReadyW();
     }
 
     void Start()
     {
         // Get the AudioSource for the microphone
         myAudioClip = this.GetComponent<AudioSource>();
+    }
 
-        //startButton = GameObject.Find("StartRecordButton");
-        //stopButton = GameObject.Find("StopRecordButton");
+    void Update()
+    {
+        if (recording)
+        {
+            RecordChoice();
+            recording = false;
+        }
+    }
 
+    public void RecordChoice()
+    {
         CreateStartButton();
 
-        //stopButton.SetActive(false);
-        //startButton.SetActive(true);
+        ans = Instantiate(choice);
+        ans.transform.SetParent(canvas.transform);
+        ans.transform.position = new Vector3(Screen.width / 2f, 3f * Screen.height / 4f);
+
+        Text answerText = ans.GetComponentInChildren<Text>();
+        answerText.text = answer;
     }
 
     void CreateStartButton()
     {
         startButton = Instantiate(startTemplate);
         startButton.GetComponentInChildren<Button>().onClick.AddListener(() => StartRecord());
-        startButton.transform.parent = canvas.transform;
+        startButton.transform.SetParent(canvas.transform);
         startButton.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f);
     }
 
@@ -67,14 +85,12 @@ public class MicrophoneController : MonoBehaviour
     {
         stopButton = Instantiate(stopTemplate);
         stopButton.GetComponentInChildren<Button>().onClick.AddListener(() => StopRecord());
-        stopButton.transform.parent = canvas.transform;
+        stopButton.transform.SetParent(canvas.transform);
         stopButton.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f);
     }
 
     public void StartRecord()
     {
-        //stopButton.SetActive(true);
-        //startButton.SetActive(false);
         Destroy(startButton);
         CreateStopButton();
 
@@ -84,10 +100,8 @@ public class MicrophoneController : MonoBehaviour
 
     public void StopRecord()
     {
-        //stopButton.SetActive(false);
-        //startButton.SetActive(true);
         Destroy(stopButton);
-        CreateStartButton();
+        Destroy(ans);
 
         // Cuts the recording when the stop button is pressed
         EndRecording(myAudioClip, null);
@@ -102,6 +116,8 @@ public class MicrophoneController : MonoBehaviour
         // Get all the information from CSVs
         var prediction = MachineLearning.PredictWithData(output + id + date + ".csv");
         UnityEngine.Debug.Log(prediction);
+
+        recording = false;
     }
 
     void EndRecording(AudioSource audS, string deviceName)

@@ -116,6 +116,7 @@ public class StoryManager : MonoBehaviour {
 
 	public void SwitchScene(string sceneID, string skillName, string subskillName, int score, string answerText)
 	{
+
 		// If we previously displayed the choice panel
 		if(DialogueManager.WasAChoice())
 		{	
@@ -174,7 +175,11 @@ public class StoryManager : MonoBehaviour {
 			DialogueManager.TriggerDialogue();
 
 		}
-	}
+
+        MicrophoneController.recording = true;
+        MicrophoneController.answer = answerText;
+
+    }
 
 	private void SaveAnswers() {
 

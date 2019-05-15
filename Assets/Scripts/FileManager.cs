@@ -183,23 +183,9 @@ public class FileManager : MonoBehaviour
         else if(os.Contains("Mac"))
         {
             ProcessStartInfo proc = new ProcessStartInfo();
-            proc.FileName = "open";
-
-            string arg = "";
-
-            string projectPath = Path.Combine(path, filename);
-
-            string pattern = @"/";
-
-            string replacement = "\\";
-
-            string finalPath = Regex.Replace(projectPath, pattern, replacement,
-                                              RegexOptions.IgnoreCase);
-
-            //proc.WorkingDirectory = "/users/myUserName";
-            //proc.Arguments = "talk.sh"; Argument
-
-
+            proc.FileName = "rm";
+            proc.WorkingDirectory = path;
+            proc.Arguments = filename;
             proc.WindowStyle = ProcessWindowStyle.Minimized;
             proc.CreateNoWindow = true;
             Process.Start(proc);
