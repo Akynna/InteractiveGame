@@ -67,7 +67,8 @@ public class ScoreManager : MonoBehaviour {
 		int finalEmpathyScore = oldEmpathyScore;
 		int finalSkillScore = oldSkillScore;
 
-		if(skillName == "Empathy") {
+		//if(skillName == "Empathy") 
+		if(true){
 			int newEmpathyScore = CharacterManager.currentCharacter.empathyScore + skillScore;
 
 			if (oldEmpathyScore < newEmpathyScore) {
@@ -97,8 +98,9 @@ public class ScoreManager : MonoBehaviour {
 			}
 
 			finalEmpathyScore += skillScore;
-		} else if(skillName == "Task") {
-			
+		}// else if(skillName == "Task") {
+		
+		if(true){
 			int newSkillScore = CharacterManager.currentCharacter.taskScore + skillScore;
 
 			if(oldSkillScore < newSkillScore) {
