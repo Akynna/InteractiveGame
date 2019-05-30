@@ -2427,6 +2427,7 @@ MonoBehaviour:
     type: 3}
   stopTemplate: {fileID: 8538725432643025321, guid: efa094f558b3a7643a8091c482b93533,
     type: 3}
+  choice: {fileID: 1705977049217818, guid: 034e8c0887d1f4445a259f4d29ed66fa, type: 3}
   canvas: {fileID: 1566286469}
 --- !u!224 &656942910
 RectTransform:

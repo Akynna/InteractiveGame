@@ -34,7 +34,7 @@ public static class MachineLearning
         }
         else
         {
-            globalW = FileManager.ReadCSV(fileW, ',')[0];
+            globalW = FileManager.ReadCSV(fileW, ',', false, false)[0];
         }
     }
 

@@ -14,6 +14,8 @@ public class FileManager : MonoBehaviour
     private static string f0Key = "F0";
     private static string loudnessKey = "loudness";
 
+    static Type t = typeof(float);
+
     public static List<List<float>> ReadCSV(string filename, char separator, bool skipHeader = false, bool skipLabel = false)
     {
         List<List<float>> data = new List<List<float>>();
@@ -35,6 +37,30 @@ public class FileManager : MonoBehaviour
                             lineData.Add(cellAdd);
                         }
                         skipLbl = false;
+                    }
+                }
+                skipHeader = false;
+                data.Add(lineData);
+            }
+        }
+        return data;
+    }
+
+    public static List<List<string>> ReadCSV(string filename, char separator, bool skipHeader = false)
+    {
+        List<List<string>> data = new List<List<string>>();
+
+        using (var reader = new StreamReader(filename))
+        {
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                List<string> lineData = new List<string>();
+                if (!skipHeader)
+                {
+                    foreach (string cell in line.Split(separator))
+                    {
+                        lineData.Add(cell);
                     }
                 }
                 skipHeader = false;
@@ -134,8 +160,6 @@ public class FileManager : MonoBehaviour
     public static void AddToCSV(string fileToWrite, string fileToRead, string label, string separator)
     {
         List<List<float>> data = ReadCSV(fileToRead, ';', true, true);
-        foreach (float f in data[0])
-            UnityEngine.Debug.Log(f);
         AddToCSV(fileToWrite, label, data, separator);
     }
 
@@ -183,23 +207,9 @@ public class FileManager : MonoBehaviour
         else if(os.Contains("Mac"))
         {
             ProcessStartInfo proc = new ProcessStartInfo();
-            proc.FileName = "open";
-
-            string arg = "";
-
-            string projectPath = Path.Combine(path, filename);
-
-            string pattern = @"/";
-
-            string replacement = "\\";
-
-            string finalPath = Regex.Replace(projectPath, pattern, replacement,
-                                              RegexOptions.IgnoreCase);
-
-            //proc.WorkingDirectory = "/users/myUserName";
-            //proc.Arguments = "talk.sh"; Argument
-
-
+            proc.FileName = "rm";
+            proc.WorkingDirectory = path;
+            proc.Arguments = filename;
             proc.WindowStyle = ProcessWindowStyle.Minimized;
             proc.CreateNoWindow = true;
             Process.Start(proc);
