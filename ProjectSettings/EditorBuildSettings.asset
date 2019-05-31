@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/EndScene.unity
     guid: 27aa5b4423d7c52478e0dab26d0ba40e
+  - enabled: 1
+    path: Assets/_Scenes/ChapterSelection.unity
+    guid: 4d08ed9b88d375d45bad10bcee86edc8
   - enabled: 0
     path: Assets/_Scenes/Test.unity
     guid: 50a9bbfee5fa58a45965f33bfd90d6ba

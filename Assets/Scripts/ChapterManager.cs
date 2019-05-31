@@ -1,10 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChapterManager : MonoBehaviour
+// Custom class to compare arrays of strings of length 2
+class StringArrayEqualityComparer : IEqualityComparer<string[]>
+{
+    public bool Equals(string[] x, string[] y)
+    {
+        // Two items are equal if both keys and values are equal.
+        return x[0].Equals(y[0]) && x[1].Equals(y[1]) ;
+    }
+
+    public int GetHashCode(string[] obj)
+    {
+        return obj[0].GetHashCode();
+    }
+}
+
+    public class ChapterManager : MonoBehaviour
 {
 
     public DialoguesTable tables;
@@ -16,49 +32,56 @@ public class ChapterManager : MonoBehaviour
     string chapterTag = "Chapter";
     string playChapterName = "PlayChapter";
 
-    List<List<string>> scenes = new List<List<string>>();
-    List<string> header = new List<string>();
+    List<DialoguesTable.Row> rowTable;
+    List<List<string>> validity = new List<List<string>>();
 
-    string sceneFile = "Assets/Resources/Dialogues/test.csv";
+    string validationFile = "Assets/Resources/Dialogues/visited_mapping.csv";
 
     // Start is called before the first frame update
     void Start()
     {
-        scenes = new List<List<string>>(FileManager.ReadCSV(sceneFile, ',', false));
-        header = new List<string>(scenes[0]);
-        scenes.RemoveAt(0);
-        List<string> listOfScenes = new List<string>();
-
-        listOfScenes = scenes.Select(x => x[0]).Distinct().ToList();
-
-        StartTree(listOfScenes);
+        rowTable = new List<DialoguesTable.Row>(tables.GetRowList());
+        validity = new List<List<string>>(FileManager.ReadCSV(validationFile, ',', false));
+        
+        StartTree(rowTable);
     }
 
-    void StartTree(List<string> scenes)
+    /* Starts a new tree of scenes based on the schema passed as argument */
+    void StartTree(List<DialoguesTable.Row> rows)
     {
+        // Start on the top left corner of the screen
         float pos_x = 0;
         float pos_y = Screen.height;
 
-        string node = scenes[0];
+        string node = rows[0].sceneID;
+        int validity = IsVisited(node);
 
-        List<string> temp = new List<string>(scenes);
-        temp.RemoveAt(0);
+        GameObject chap = CreateNode(node, canvas.gameObject, pos_x, pos_y, validity);
 
-        GameObject chap = CreateNode(node, canvas.gameObject, pos_x, pos_y);
-
+        // Displace the first button with a small offset
         pos_y -= chap.GetComponentInChildren<RectTransform>().rect.height;
         pos_x += chap.GetComponentInChildren<RectTransform>().rect.width / 2f;
-
         chap.transform.position = new Vector3(pos_x, pos_y);
 
-        chap.GetComponent<Button>().onClick.AddListener(() => ExtendChapter(chap));
-        Button playChapter = GetDirectButtonChildrenByName(chap, playChapterName).GetComponent<Button>();
-        playChapter.onClick.AddListener(() => LoadDataPrevToThatPoint(chap));
+        AddInitialListeners(chap);
 
-        CreateBranches(chap, temp);
+        CreateBranches(chap, rows, validity);
     }
 
-    GameObject CreateNode(string node, GameObject parent, float pos_x, float pos_y)
+    int IsVisited(string node)
+    {
+        if (!node.Equals("end"))
+        {
+            return int.Parse(validity[1][validity[0].IndexOf(node)]);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    /* Function to initialize all default parameters for a chapter node */
+    GameObject CreateNode(string node, GameObject parent, float pos_x, float pos_y, int validity)
     {
         GameObject chap = Instantiate(mainChapter);
         Text txt = chap.GetComponentInChildren<Text>();
@@ -66,56 +89,62 @@ public class ChapterManager : MonoBehaviour
         chap.name = node;
         chap.transform.SetParent(parent.transform);
 
+        if(validity == 0)
+        {
+            GetDirectButtonChildrenByName(chap, playChapterName).GetComponent<Button>().interactable = false;
+        }
+
         return chap;
     }
 
-    void CreateBranches(GameObject chap, List<string> scenes)
+    /* Add all default listeners to the argument's object */
+    void AddInitialListeners(GameObject obj)
     {
-        List<string> res = new List<string>(scenes);
+        obj.GetComponent<Button>().onClick.AddListener(() => ExtendChapter(obj));
+        Button playChapter = GetDirectButtonChildrenByName(obj, playChapterName).GetComponent<Button>();
+        playChapter.onClick.AddListener(() => LoadDataPrevToThatPoint(obj));
+    }
 
-        List<GameObject> children = new List<GameObject>();
+    /* Creates the branching for each of the childs of the parent node (chap) */
+    void CreateBranches(GameObject chap, List<DialoguesTable.Row> rows, int validity)
+    {
+        DialoguesTable.Row rowWithChildren = rows[tables.FindAll_sceneID(rows[0].sceneID).Count - 1];
 
-        foreach (string child in scenes)
+        List<string> children = new List<string>(new string[] { rowWithChildren.next_scene1, rowWithChildren.next_scene2, rowWithChildren.next_scene3 });
+        children = new List<string>(children.Distinct());
+
+        if(children.Count == 1 && children[0].Equals("end"))
         {
-            if (child.Contains(chap.transform.name))
-            {
-                res.RemoveAt(res.IndexOf(child));
-
-                GameObject childChap = CreateNode(child, chap, chap.transform.position.x, chap.transform.position.y);
-                childChap.SetActive(false);
-                children.Add(childChap);
-            }
+            return;
         }
 
-        if(children.Count == 0 && res.Count > 0)
+        List<DialoguesTable.Row> res = new List<DialoguesTable.Row>(rows);
+        res.RemoveRange(0, tables.FindAll_sceneID(rows[0].sceneID).Count);
+
+        // A choice child is one which name contains the name of the father e.g: intro_0A is a choice child of intro_0
+        foreach (string child in children)
         {
-            GameObject nextNode = CreateNode(res[0], chap, chap.transform.position.x, chap.transform.position.y);
-            nextNode.SetActive(false);
-            res.RemoveAt(0);
-
-            nextNode.GetComponent<Button>().onClick.AddListener(() => ExtendChapter(nextNode));
-            Button playChapter = GetDirectButtonChildrenByName(nextNode, playChapterName).GetComponent<Button>();
-            playChapter.onClick.AddListener(() => LoadDataPrevToThatPoint(nextNode));
-
-            CreateBranches(nextNode, res);
-
-        }
-        else
-        {
-            foreach (GameObject child in children)
+            List<DialoguesTable.Row> childRes = new List<DialoguesTable.Row>(res);
+            foreach(string sibling in children)
             {
-                child.GetComponent<Button>().onClick.AddListener(() => ExtendChapter(child));
-                Button playChapter = GetDirectButtonChildrenByName(child, playChapterName).GetComponent<Button>();
-                playChapter.onClick.AddListener(() => LoadDataPrevToThatPoint(child));
-
-                CreateBranches(child, res);
+                if (!sibling.Equals(child))
+                {
+                    List<DialoguesTable.Row> childRows = new List<DialoguesTable.Row>(tables.FindAll_sceneID(sibling));
+                    childRes.RemoveRange(childRes.IndexOf(childRows[0]), childRows.Count);
+                }
             }
+            int visited = IsVisited(child) * validity;
+            GameObject childChap = CreateNode(child, chap, chap.transform.position.x, chap.transform.position.y, visited);
+            childChap.SetActive(false);
+            AddInitialListeners(childChap);
+            CreateBranches(childChap, childRes, visited);
         }
     }
 
+    /* Function given to chapter buttons that when clicked opens all the children nodes and displaces the buttons below */
     void ExtendChapter(GameObject chap)
     {
-
+        // Get all the button children from the given object 
         List<GameObject> children = new List<GameObject>();
         foreach (Transform subChap in chap.transform)
         {
@@ -123,6 +152,7 @@ public class ChapterManager : MonoBehaviour
                 children.Add(subChap.gameObject);
         }
 
+        // For each object below the given object displace them in order to make space for the new children
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag(chapterTag))
         {
             if (obj.transform.position.y < chap.transform.position.y)
@@ -131,6 +161,7 @@ public class ChapterManager : MonoBehaviour
             }
         }
 
+        // Make all the children for the given object appear
         for(int i = 0; i < children.Count; i++)
         {
             GameObject child = children[i];
@@ -138,12 +169,14 @@ public class ChapterManager : MonoBehaviour
             child.SetActive(true);
         }
 
+        // Change the function in the button to a new one that makes the children disappear
         chap.GetComponent<Button>().onClick.RemoveAllListeners();
         chap.GetComponent<Button>().onClick.AddListener(() => ReduceChapter(chap));
     }
 
     void ReduceChapter(GameObject chap)
     {
+        // Get all the button children from the given object
         List<GameObject> children = new List<GameObject>();
         foreach (Transform subChap in chap.transform)
         {
@@ -151,21 +184,22 @@ public class ChapterManager : MonoBehaviour
                 children.Add(subChap.gameObject);
         }
 
+        // Compute the distance all the objects below will have to move once the children disappear and displace them
         int displace = ReduceAllChildren(chap.transform, chapterTag);
-
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag(chapterTag))
         {
             if (obj.transform.position.y < chap.transform.position.y)
             {
-                //Debug.Log(obj.name + " ,"  + obj.transform.position.x + " ," + obj.transform.position.y);
                 obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y + obj.GetComponent<RectTransform>().rect.height * (displace));
             }
         }
 
+        // Change the function in the button to a new one that makes the children appear
         chap.GetComponent<Button>().onClick.RemoveAllListeners();
         chap.GetComponent<Button>().onClick.AddListener(() => ExtendChapter(chap));
     }
 
+    /* Makes all the children nodes from given object disappear. Returns the space created in units */
     private int ReduceAllChildren(Transform transform, string tag)
     {
         int acc = 0;
@@ -180,19 +214,39 @@ public class ChapterManager : MonoBehaviour
                 child.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
                 child.gameObject.GetComponent<Button>().onClick.AddListener(() => ExtendChapter(child.gameObject));
             }
-
-            
         }
         return acc;
     }
 
-    // TODO Load into your skills the necessary skills that the player should have at this point
+    // TODO Update this part
+    /* Load all the necessary data to load the game at the chosen point with the score untouched */
     void LoadDataPrevToThatPoint(GameObject obj)
     {
-        
+
         List<string> path = new List<string>();
         path.Add(obj.name);
+        Transform parent = obj.transform.parent;
+        while(parent != null)
+        {
+            path.Add(parent.gameObject.name);
+            parent = parent.parent;
+        }
+        path.RemoveAt(path.Count - 1);
 
+        int score = 0;
+        while(path.Count >= 2)
+        {
+            string currentNode = path[0];
+            path.RemoveAt(0);
+            List<DialoguesTable.Row> possibleRows = tables.FindAll_sceneID(path[0]);
+            DialoguesTable.Row scoreRow = possibleRows[possibleRows.Count - 1];
+            score += GetScore(currentNode, scoreRow);
+        }
+
+        Debug.Log(score);
+        /*// Get the path of options the player did to get to this scene
+        List<string> path = new List<string>();
+        path.Add(obj.name);
         Transform parent = obj.transform.parent;
         while(parent != null)
         {
@@ -201,7 +255,7 @@ public class ChapterManager : MonoBehaviour
         }
         path.RemoveAt(0);
 
-        List<string> names = scenes.Select(x => x[0]).ToList();
+        List<string> names = rowTable.Select(x => x.sceneID).Distinct().ToList();
         List<List<int>> ids = new List<List<int>>();
 
         foreach(string sceneName in path)
@@ -248,31 +302,62 @@ public class ChapterManager : MonoBehaviour
         }
 
         Debug.Log(score);
-        StartGameAtChosenPoint(path[path.Count - 1], score);
+        StartGameAtChosenPoint(path[path.Count - 1], score);*/
 
     }
 
-    int GetScoreOption(string name)
+    int GetScore(string node, DialoguesTable.Row row)
+    {
+        if (node.Equals(row.next_scene1))
+        {
+            return ParseScore(row.score1);
+        } else if (node.Equals(row.next_scene2))
+        {
+            return ParseScore(row.score2);
+        } else if (node.Equals(row.next_scene3))
+        {
+            return ParseScore(row.score3);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    int ParseScore(string score)
+    {
+        if (score.Equals("NA"))
+        {
+            return 0;
+        }
+        else
+        {
+            return int.Parse(score);
+        }
+    }
+
+    /* Get the option chosen by the player at that point in order to compute its score */
+   /* int GetScoreOption(string name)
     {
         if(name.Substring(name.Length - 1).Equals("A"))
         {
-            Debug.Log("Choice : A");
+            //Debug.Log("Choice : A");
             return 0;
         } else if (name.Substring(name.Length - 1).Equals("B"))
         {
-            Debug.Log("Choice : B");
+            //Debug.Log("Choice : B");
             return 1;
         }else if (name.Substring(name.Length - 1).Equals("C"))
         {
-            Debug.Log("Choice : C");
+            //Debug.Log("Choice : C");
             return 2;
         }
         else
         {
-            Debug.Log("Choice : None");
+            //Debug.Log("Choice : None");
             return -1;
         }
-    }
+    }*/
 
     //TODO Load the game at this point
     void StartGameAtChosenPoint(string name, int score)
@@ -280,63 +365,7 @@ public class ChapterManager : MonoBehaviour
         //TODO launch the scene with name = name and with a starting score = score
     }
 
-
-    /*List<string> CreateBranching(string parent, GameObject parentChap, List<string> children)
-    {
-        List<string> res = new List<string>(children);
-
-        foreach(string child in children)
-        {
-            if (child.Contains(parent))
-            {
-                List<string> temp = new List<string>(res);
-                temp.RemoveAt(res.IndexOf(child));
-
-                GameObject childChap = Instantiate(secondaryChapter);
-                Text txt = childChap.GetComponentInChildren<Text>();
-                txt.text = child;
-                childChap.name = child;
-                childChap.transform.SetParent(parentChap.transform);
-                childChap.SetActive(false);
-
-                res = new List<string>(CreateBranching(child, childChap, temp));
-            }
-            else
-            {
-                return res;
-            }
-        }
-        return res;
-    }*/
-
-
-    /*void CreateTree(List<string> scenes)
-    {
-        float pos_x = Screen.width / 2f;
-        float pos_y = Screen.height;
-        while(scenes.Count != 0)
-        {
-            string node = scenes[0];
-            //Debug.Log(node);
-            List<string> temp = new List<string>(scenes);
-            temp.RemoveAt(0);
-
-            GameObject chap = Instantiate(mainChapter);
-            Text txt = chap.GetComponentInChildren<Text>();
-            txt.text = node;
-            chap.name = node;
-            chap.transform.SetParent(canvas.transform);
-
-            pos_y -= chap.GetComponentInChildren<RectTransform>().rect.height;
-
-            chap.transform.position = new Vector3(pos_x, pos_y);
-
-            scenes = new List<string>(CreateBranching(node, chap, temp));
-
-            chap.GetComponent<Button>().onClick.AddListener(() => ExtendChapter(chap));
-        }
-    }*/
-
+    /* Gets the children buttons that are direct children of the node obj */
     GameObject GetDirectButtonChildrenByName(GameObject obj, string name)
     {
         foreach(Transform child in obj.transform)

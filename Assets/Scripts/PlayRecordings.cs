@@ -51,10 +51,11 @@ public class PlayRecordings : MonoBehaviour
         if (evaluating)
         {
             PlayRecords();
+            evaluating = false;
         }
+
         if (GameObject.FindGameObjectsWithTag(audioPlayersTag).Length == 0)
         {
-            evaluating = false;
             move = false;
             EnableButtons();
         }
@@ -65,7 +66,11 @@ public class PlayRecordings : MonoBehaviour
         }
     }
 
-    // TODO Change the name of this function to a better one once the trigger happens in the scene change
+    void OnApplicationQuit()
+    {
+        EnableButtons();
+    }
+
     /* OnClick function to launch the play of the records */
     public void PlayRecords()
     {
@@ -90,7 +95,6 @@ public class PlayRecordings : MonoBehaviour
             // Active fields
             obj.transform.Find(playBtn).GetComponent<Button>().onClick.AddListener(() => PlayChosenAudio(file, obj.GetComponentInChildren<AudioSource>()));
             obj.transform.Find(validateButton).GetComponent<Button>().onClick.AddListener(() => ValidateEvaluation(obj, file));
-            //obj.GetComponentInChildren<InputField>.
 
             // Position of elements in screen space
             position = new Vector3(position.x, position.y - obj.GetComponent<RectTransform>().rect.height);
@@ -138,7 +142,7 @@ public class PlayRecordings : MonoBehaviour
     void ValidateEvaluation(GameObject obj, string filename)
     {
         // Delete sound file
-        FileManager.DeleteFile(Application.dataPath, filename);
+        //FileManager.DeleteFile(Application.dataPath, filename); // We decided to keep them, if you want them to be deleted automatically, uncomment this line
 
         float score = obj.GetComponentInChildren<Scrollbar>().value;
         string label;
@@ -230,7 +234,7 @@ public class PlayRecordings : MonoBehaviour
         {
             if(button.tag != audioButtonsTag)
             {
-                button.enabled = false;
+                button.interactable = false;
             }
         }
     }
@@ -239,7 +243,7 @@ public class PlayRecordings : MonoBehaviour
     {
         foreach (Button button in Resources.FindObjectsOfTypeAll<Button>())
         {
-            button.enabled = true;
+            button.interactable = true;
         }
     }
 

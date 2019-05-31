@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 /*
  *	This is the main Manager. The Story Manager is the only one that have
@@ -33,6 +34,7 @@ public class StoryManager : MonoBehaviour {
 	// Used for the sound of dialogue
 	public AudioSource effectsSource;
 
+    public List<List<string>> chapterTracker;
 
 	//=======================================
 	//				INIALIZATION
@@ -57,7 +59,16 @@ public class StoryManager : MonoBehaviour {
 
 		// Launch the first scene !
 		DialogueManager.TriggerDialogue();
-	}
+
+        List<DialoguesTable.Row> rowTable = new List<DialoguesTable.Row>(dialoguesTable.GetRowList());
+        List<string> names = rowTable.Select(x => x.sceneID).Distinct().ToList();
+        chapterTracker = new List<List<string>>(FileManager.GetFileChapter(names));
+    }
+
+    void OnApplicationQuit()
+    {
+        FileManager.OverrideFileChapter(chapterTracker);
+    }
 
 	//=======================================
 	//			GETTERS & ACCESSORS
@@ -117,10 +128,15 @@ public class StoryManager : MonoBehaviour {
 	public void SwitchScene(string sceneID, string skillName, string subskillName, int score, string answerText)
 	{
 
+        // Track the scene
+        chapterTracker[1][chapterTracker[0].IndexOf(sceneID)] = "1";
+
 		// If we previously displayed the choice panel
 		if(DialogueManager.WasAChoice())
-		{	
-			if(score != 0 && skillName != "NA") {
+		{
+            MicrophoneController.recording = true;
+            MicrophoneController.answer = answerText;
+            if (score != 0 && skillName != "NA") {
 
 				// Give a random feedback
 				// characterManager.randomFeedback(answerType);
@@ -165,6 +181,12 @@ public class StoryManager : MonoBehaviour {
 				nextSceneID = sceneID;
 			}
 
+            // Put the name of the key that indicates new chapter
+            if (nextSceneID.Contains("intro_1"))
+            {
+                PlayRecordings.evaluating = true;
+            }
+
 
 			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(nextSceneID);
 
@@ -175,10 +197,6 @@ public class StoryManager : MonoBehaviour {
 			DialogueManager.TriggerDialogue();
 
 		}
-
-        MicrophoneController.recording = true;
-        MicrophoneController.answer = answerText;
-
     }
 
 	private void SaveAnswers() {

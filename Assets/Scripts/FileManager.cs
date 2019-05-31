@@ -14,6 +14,8 @@ public class FileManager : MonoBehaviour
     private static string f0Key = "F0";
     private static string loudnessKey = "loudness";
 
+    private static string validationFile = "Assets/Resources/Dialogues/visited_mapping.csv";
+
     static Type t = typeof(float);
 
     public static List<List<float>> ReadCSV(string filename, char separator, bool skipHeader = false, bool skipLabel = false)
@@ -147,6 +149,16 @@ public class FileManager : MonoBehaviour
         }
     }
 
+    public static void WriteCSVString(List<string> data, string filename, string separator)
+    {
+        string[] toWrite = data.ToArray();
+
+        using (var file = File.CreateText(filename))
+        {
+            file.WriteLine(string.Join(separator, toWrite));
+        }
+    }
+
     public static void AddToCSV(string fileToWrite, string label, List<List<float>> data, string separator)
     {
         foreach(List<float> line in data)
@@ -219,5 +231,30 @@ public class FileManager : MonoBehaviour
 
         }
         
+    }
+
+    public static List<List<string>> GetFileChapter(List<string> names)
+    {
+        if (!File.Exists(validationFile))
+        {
+            foreach(string name in names)
+            {
+                UnityEngine.Debug.Log(name);
+            }
+            UnityEngine.Debug.Log(names.Count);
+            WriteCSVString(names, validationFile, ",");
+            List<List<float>> zeros = new List<List<float>>();
+            zeros.Add(Enumerable.Repeat(0f, names.Count).ToList());
+            AddToCSV(validationFile, "0", zeros, ",");
+        }
+
+        return new List<List<string>>(ReadCSV(validationFile, ',', false));
+    }
+
+    public static void OverrideFileChapter(List<List<string>> data)
+    {
+        DeleteFile("", validationFile);
+        WriteCSVString(data[0], validationFile, ",");
+        File.AppendAllText(validationFile, string.Join(",", data[1].ToArray()) + Environment.NewLine);
     }
 }
