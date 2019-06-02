@@ -531,7 +531,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.10375, y: 0.24867119}
   m_AnchorMax: {x: 0.90125006, y: 0.703}
-  m_AnchoredPosition: {x: -0.0012207031, y: 0.024906158}
+  m_AnchoredPosition: {x: -0.0012207031, y: 0.024902344}
   m_SizeDelta: {x: 5024.3, y: 715.07}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &183283615
@@ -2427,8 +2427,10 @@ MonoBehaviour:
     type: 3}
   stopTemplate: {fileID: 8538725432643025321, guid: efa094f558b3a7643a8091c482b93533,
     type: 3}
-  choice: {fileID: 1705977049217818, guid: 034e8c0887d1f4445a259f4d29ed66fa, type: 3}
+  choice: {fileID: 8839277550380683238, guid: e5972ba87b2df9946a5daa8fb3ebf6f7, type: 3}
   canvas: {fileID: 1566286469}
+  dialoguePanel: {fileID: 1915081958}
+  dialogueAnimator: {fileID: 2064520210}
 --- !u!224 &656942910
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3508,7 +3510,6 @@ MonoBehaviour:
   animator: {fileID: 1053554678}
   backgroundSprite: {fileID: 276528606}
   mainCamera: {fileID: 1318633684}
-  currentBackgroundName: 
 --- !u!1001 &1088141052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6890,7 +6891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ad991a2d40c6c42acb466e7e55b5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  file: {fileID: 4900000, guid: cafd20f8e69dbbd41a51193e7fd72203, type: 3}
+  file: {fileID: 4900000, guid: 8babb36c9b8e2e841bc907f11f0bb1d8, type: 3}
   rowList: []
   isLoaded: 0
 --- !u!1 &1915081958

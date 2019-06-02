@@ -13,7 +13,7 @@ public class SceneChanger : MonoBehaviour {
 	public Animator animator;
 	public SpriteRenderer backgroundSprite;
 	public Camera mainCamera;
-	public string currentBackgroundName;
+	public static string currentBackgroundName;
 	private int sceneToLoad;
 	
 	void Start () {

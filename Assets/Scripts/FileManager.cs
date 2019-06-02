@@ -257,4 +257,14 @@ public class FileManager : MonoBehaviour
         WriteCSVString(data[0], validationFile, ",");
         File.AppendAllText(validationFile, string.Join(",", data[1].ToArray()) + Environment.NewLine);
     }
+
+    public static void WriteTextFile(string path, string filename, string text)
+    {
+        File.WriteAllText(Path.Combine(path, filename), text);
+    }
+
+    public static string ReadTextFile(string path, string filename)
+    {
+        return File.ReadAllText(Path.Combine(path, filename));
+    }
 }

@@ -65,6 +65,11 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
 
         AddInitialListeners(chap);
 
+        GameObject line = new GameObject();
+        line.transform.SetParent(canvas.transform);
+        line.AddComponent<LineRenderer>();
+        line.GetComponent<LineRenderer>().SetPositions(new Vector3[] { new Vector3(pos_x, pos_y - chap.GetComponentInChildren<RectTransform>().rect.height / 2f), new Vector3(pos_x, pos_y - chap.GetComponentInChildren<RectTransform>().rect.height) });
+
         CreateBranches(chap, rows, validity);
     }
 
@@ -72,6 +77,7 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     {
         if (!node.Equals("end"))
         {
+            Debug.Log(node);
             return int.Parse(validity[1][validity[0].IndexOf(node)]);
         }
         else
@@ -244,66 +250,6 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
         }
 
         Debug.Log(score);
-        /*// Get the path of options the player did to get to this scene
-        List<string> path = new List<string>();
-        path.Add(obj.name);
-        Transform parent = obj.transform.parent;
-        while(parent != null)
-        {
-            path.Insert(0, parent.gameObject.name);
-            parent = parent.parent;
-        }
-        path.RemoveAt(0);
-
-        List<string> names = rowTable.Select(x => x.sceneID).Distinct().ToList();
-        List<List<int>> ids = new List<List<int>>();
-
-        foreach(string sceneName in path)
-        {
-            List<int> tempIds = new List<int>();
-            for(int i = 0; i < names.Count; i++)
-            {
-                string scene = names[i];
-                if (scene.Equals(sceneName))
-                {
-                    tempIds.Add(i);
-                }
-            }
-            if(tempIds.Count > 0)
-            {
-                ids.Add(tempIds);
-            }
-        }
-
-        int score = 0;
-        int scoreOption = -1;
-
-        for (int i = path.Count - 1; i >= 0; i--)
-        {
-            string name = path[i];
-            
-            ids.RemoveAt(ids.Count - 1);
-            if (scoreOption != -1)
-            {
-                List<DialoguesTable.Row> rows = tables.FindAll_sceneID(name);
-                if(scoreOption == 0)
-                {
-                    score += int.Parse(rows[rows.Count - 1].score1);
-                } else if(scoreOption == 1)
-                {
-                    score += int.Parse(rows[rows.Count - 1].score2);
-                }
-                else
-                {
-                    score += int.Parse(rows[rows.Count - 1].score3);
-                }                
-            }
-            scoreOption = GetScoreOption(name);
-        }
-
-        Debug.Log(score);
-        StartGameAtChosenPoint(path[path.Count - 1], score);*/
-
     }
 
     int GetScore(string node, DialoguesTable.Row row)
@@ -335,30 +281,7 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
             return int.Parse(score);
         }
     }
-
-    /* Get the option chosen by the player at that point in order to compute its score */
-   /* int GetScoreOption(string name)
-    {
-        if(name.Substring(name.Length - 1).Equals("A"))
-        {
-            //Debug.Log("Choice : A");
-            return 0;
-        } else if (name.Substring(name.Length - 1).Equals("B"))
-        {
-            //Debug.Log("Choice : B");
-            return 1;
-        }else if (name.Substring(name.Length - 1).Equals("C"))
-        {
-            //Debug.Log("Choice : C");
-            return 2;
-        }
-        else
-        {
-            //Debug.Log("Choice : None");
-            return -1;
-        }
-    }*/
-
+    
     //TODO Load the game at this point
     void StartGameAtChosenPoint(string name, int score)
     {

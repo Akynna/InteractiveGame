@@ -1,4 +1,5 @@
 ﻿sceneID,character,character_image,dialogue,dialogue_audio,main_skill,sub_skill,answer1,answer2,answer3,score1,score2,score3,next_scene1,next_scene2,next_scene3,background,background_music
+start,NA,NA,NA,,,,NA,NA,NA,NA,NA,NA,intro_0,intro_0,intro_0,NA,
 intro_0,Doctor,doctor,"Hi, I am presenting you a demo we developed for nurses apprentices.",,,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
 intro_0,Doctor,doctor,Nurse apprentices are often experiencing challenging inter-personal communication situations.,,,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
 intro_0,Doctor,doctor,These situations range from angry and confused patients to patients actually dying. ,,,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,

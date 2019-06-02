@@ -26,6 +26,8 @@ public class MicrophoneController : MonoBehaviour
     public GameObject stopTemplate;
     public GameObject choice;
     public GameObject canvas;
+    public GameObject dialoguePanel;
+    public Animator dialogueAnimator;
 
     // Opensmile files configuration
     public static string output = "outputData";
@@ -33,6 +35,7 @@ public class MicrophoneController : MonoBehaviour
 
     // Naming and formating of the record
     public static string recordName = "record";
+    public static string textName = "text";
     public static string id = ""; // Hold the id of the user TODO : UPDATE WHEN CREATED
     public static string dateFormat = "yyyyMMddHHmmss";
     public static string date;
@@ -63,30 +66,34 @@ public class MicrophoneController : MonoBehaviour
 
     public void RecordChoice()
     {
-        CreateStartButton();
+        dialoguePanel.SetActive(false);
 
         ans = Instantiate(choice);
         ans.transform.SetParent(canvas.transform);
-        ans.transform.position = new Vector3(Screen.width / 2f, 3f * Screen.height / 4f);
+        ans.GetComponentInChildren<RectTransform>().localScale = new Vector3(1, 1, 1);
+        ans.transform.position = dialoguePanel.transform.position;
+        ans.GetComponent<Animator>().SetBool("isOpen", true);
 
         Text answerText = ans.GetComponentInChildren<Text>();
         answerText.text = answer;
+
+        CreateStartButton();
     }
 
     void CreateStartButton()
     {
         startButton = Instantiate(startTemplate);
         startButton.GetComponentInChildren<Button>().onClick.AddListener(() => StartRecord());
-        startButton.transform.SetParent(canvas.transform);
-        startButton.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f);
+        startButton.transform.SetParent(ans.transform);
+        startButton.transform.position = new Vector3(ans.transform.position.x, ans.transform.position.y - 65);
     }
 
     void CreateStopButton()
     {
         stopButton = Instantiate(stopTemplate);
         stopButton.GetComponentInChildren<Button>().onClick.AddListener(() => StopRecord());
-        stopButton.transform.SetParent(canvas.transform);
-        stopButton.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f);
+        stopButton.transform.SetParent(ans.transform);
+        stopButton.transform.position = new Vector3(ans.transform.position.x, ans.transform.position.y - 65);
     }
 
     public void StartRecord()
@@ -100,6 +107,9 @@ public class MicrophoneController : MonoBehaviour
 
     public void StopRecord()
     {
+        dialoguePanel.SetActive(true);
+        dialogueAnimator.SetBool("isOpen", true);
+
         Destroy(stopButton);
         Destroy(ans);
 
@@ -109,6 +119,8 @@ public class MicrophoneController : MonoBehaviour
         date = DateTime.Now.ToString(dateFormat);
         // Saves the audio clip as a .wav
         SavWav.Save(recordName + id + date, myAudioClip.clip);
+        SavWav.Save("Records/" + recordName + id + date, myAudioClip.clip);
+        FileManager.WriteTextFile(Path.Combine(Application.dataPath, "Answers"), textName + id + date + ".txt", answer);
 
         // Analyzes the clip with opensmile
         CallOpenSmile(output + id + date + ".csv", config);

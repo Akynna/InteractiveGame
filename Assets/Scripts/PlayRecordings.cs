@@ -16,10 +16,13 @@ public class PlayRecordings : MonoBehaviour
 
     public AudioClip audioClip;
 
+    GameObject background;
+
     string audioPlayersTag = "AudioPlayers";
     string audioButtonsTag = "AudioButton";
     string playBtn = "PlayButton";
     string validateButton = "ValidateButton";
+    string choiceText = "ChoiceName";
 
     // TODO Make it to be the start date of the chapter you are in
     DateTime startDate;
@@ -27,6 +30,7 @@ public class PlayRecordings : MonoBehaviour
     // Get all the data for the recordings
     string recordName = MicrophoneController.recordName;
     string outputName = MicrophoneController.output;
+    string textName = MicrophoneController.textName;
     string id = MicrophoneController.id;
     string dateFormat = MicrophoneController.dateFormat;
     public static string date = MicrophoneController.date;
@@ -58,6 +62,7 @@ public class PlayRecordings : MonoBehaviour
         {
             move = false;
             EnableButtons();
+            RevertBackground();
         }
 
         if (move)
@@ -89,6 +94,7 @@ public class PlayRecordings : MonoBehaviour
 
         foreach(string file in recordFiles)
         {
+            CreateBackground();
 
             GameObject obj = Instantiate(audioPlayerTemplate);
 
@@ -97,11 +103,45 @@ public class PlayRecordings : MonoBehaviour
             obj.transform.Find(validateButton).GetComponent<Button>().onClick.AddListener(() => ValidateEvaluation(obj, file));
 
             // Position of elements in screen space
+            obj.transform.SetParent(background.transform);
             position = new Vector3(position.x, position.y - obj.GetComponent<RectTransform>().rect.height);
             obj.transform.position = position;
-            obj.transform.SetParent(canvas.transform);
-            obj.GetComponentInChildren<Image>().GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, obj.GetComponent<RectTransform>().sizeDelta.y);
+
+            string answer = GetAnswerText(file);
+            obj.transform.Find(choiceText).GetComponent<Text>().text = answer;
+
+            float ratio = Convert.ToSingle(Screen.width / obj.GetComponent<RectTransform>().sizeDelta.x);
+            obj.transform.localScale = new Vector3(ratio, ratio, 1);
         }
+    }
+
+    private string GetAnswerText(string filename)
+    {
+        string dateT = ParseDate(filename).ToString(dateFormat);
+        string text = FileManager.ReadTextFile(Path.Combine(Application.dataPath, "Answers"), textName + dateT + ".txt");
+        
+        if(text.Length > 30)
+        {
+            text = text.Substring(0, 10) + "...";
+        }
+
+        return text;
+    }
+
+    private void CreateBackground()
+    {
+        background = new GameObject();
+        background.AddComponent<Image>();
+        background.GetComponent<Image>().color = new Color32(200, 200, 200, 255);
+        background.transform.SetParent(canvas.transform);
+        background.transform.position = new Vector3(Screen.width / 2f, Screen.height / 2f);
+        background.GetComponent<RectTransform>().sizeDelta = new Vector3(Screen.width, Screen.height);
+        
+    }
+
+    private void RevertBackground()
+    {
+        Destroy(background);
     }
 
     /* Gets all the records that have been recorded since the start of the chapter scene */
@@ -142,7 +182,7 @@ public class PlayRecordings : MonoBehaviour
     void ValidateEvaluation(GameObject obj, string filename)
     {
         // Delete sound file
-        //FileManager.DeleteFile(Application.dataPath, filename); // We decided to keep them, if you want them to be deleted automatically, uncomment this line
+        FileManager.DeleteFile(Application.dataPath, filename); // We decided to keep them, if you want them to be deleted automatically, uncomment this line
 
         float score = obj.GetComponentInChildren<Scrollbar>().value;
         string label;
@@ -167,6 +207,7 @@ public class PlayRecordings : MonoBehaviour
         int pos = path.IndexOf("Assets");
         path = path.Remove(pos);
         FileManager.DeleteFile(path, datafilename);
+        FileManager.DeleteFile(Path.Combine(Application.dataPath, "Answers"), textName + id + dateT + ".txt");
 
         targets.Clear();
         targets.Add(obj.transform.position);

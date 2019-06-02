@@ -442,7 +442,6 @@ MonoBehaviour:
   animator: {fileID: 994267791}
   backgroundSprite: {fileID: 0}
   mainCamera: {fileID: 0}
-  currentBackgroundName: 
 --- !u!95 &994267791
 Animator:
   serializedVersion: 3
@@ -626,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ad991a2d40c6c42acb466e7e55b5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  file: {fileID: 4900000, guid: cafd20f8e69dbbd41a51193e7fd72203, type: 3}
+  file: {fileID: 4900000, guid: 8babb36c9b8e2e841bc907f11f0bb1d8, type: 3}
   rowList: []
   isLoaded: 0
 --- !u!4 &1652212703

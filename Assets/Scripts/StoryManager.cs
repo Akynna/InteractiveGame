@@ -52,8 +52,8 @@ public class StoryManager : MonoBehaviour {
 		listAnswers = new List<string>();
 		
 		// Initialize the first scene
-		List<DialoguesTable.Row> starting_row = dialoguesTable.FindAll_sceneID("start");
-		currentSceneDialogues = dialoguesTable.FindAll_sceneID(starting_row[0].next_scene1);
+		List<DialoguesTable.Row> starting_row = dialoguesTable.FindAll_sceneID(dialoguesTable.GetRowList()[0].sceneID);
+        currentSceneDialogues = dialoguesTable.FindAll_sceneID(starting_row[starting_row.Count - 1].next_scene1);
 
 		// Initialize the background
 		sceneChanger.SwitchBackground(currentSceneDialogues[0].background);
