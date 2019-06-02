@@ -262,7 +262,7 @@ class DialogueComponent extends Rete.Component {
 
         // Rearrange visually elements in the node
         adjustDialogueLayoutNodes(current_dialogue_node_id);
-        current_dialogue_node_id = current_dialogue_node_id + 1;
+        current_dialogue_node_id = current_dialogue_node_id + 3;
     }
 
     destroyed(node) {

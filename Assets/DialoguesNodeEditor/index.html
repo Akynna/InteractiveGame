@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8"> 
     <title>Modular Rete Sample</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css" crossorigin="anonymous"></link>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div al-app id="modules">
-        <div class="module" al-repeat="(key, val) in modules" @click="openModule(key)">
+        
+        <!--<div class="module" al-repeat="(key, val) in modules" @click="openModule(key)">
             {{key}}
         </div>
         <button @click="addModule()">
             Add
-        </button>
+        </button>-->
 
         <div>
             <button @click="writeCSVfile()">

@@ -33,28 +33,19 @@ function writeCSVfile() {
     // Get the list of nodes currently in the editor
     var list_nodes = editor.toJSON().nodes;
 
-    var current_node;
-
     story_data = dataToList(list_nodes);
     
+    /* For debugging
     for (var key in list_nodes) {
-        //console.log(data_content[key].data.scene);
-        //var next_node_id = data_content[key].outputs.next_scene.connections[0].node;
-        //var next_scene = data_content[next_node_id].data.scene;
-        //console.log(next_scene);
-
-        //const keys = Object.keys(list_nodes[key].data);
-
-        //console.log(list_nodes[key]);
-    }
-
-    // console.log(story_data);
+        console.log(list_nodes[key]);
+    }*/
 
     // Write the story data into a CSV file
     let csvContent = "data:text/csv;charset=utf-8," 
         + story_data.map(e => e.join(",")).join("\n");
 
     var encodedUri = encodeURI(csvContent);
+
     window.open(encodedUri);
 }
 
@@ -139,15 +130,13 @@ function storeNodeData(id, isSingleNode, nodes, story_data) {
     // Check if there are multiple IDs or not (multiple paths)
     if (!isSingleNode) {
 
-        // Build the list of IDs so that IDs are unique
-        unique_ids = new Set([id]);
+        // Reconvert the set into an array
+        ids = Array.from(id);
 
         // Call the function multiple times to go through all possible paths
-        for (id in unique_ids) {
-            storeNodeData(id, true, nodes, story_data);
+        for (var i=0; i < ids.length; i++) {
+            storeNodeData(ids[i], true, nodes, story_data);
         }
-
-        return story_data;
 
     } else {
 
@@ -157,16 +146,12 @@ function storeNodeData(id, isSingleNode, nodes, story_data) {
         // Check the type of the current Node
         node_type = nodes[id].name;
 
-        console.log(node_type);
-
         // If we reach the End Node, fill the row accordingly
         // and return the final full CSV data
         if (node_type == 'End') {
 
             row[0] = 'end';
             story_data.push(row);
-
-            console.log('CEST BON');
 
             return story_data;
         }
@@ -248,7 +233,7 @@ function storeNodeData(id, isSingleNode, nodes, story_data) {
                     row[15] = next_node3.data.scene;
                 }
 
-                next_nodes_ids = new Set([next_node1, next_node2, next_node3]);
+                next_nodes_ids = new Set([next_node1.id, next_node2.id, next_node3.id]);
 
                 // Add the row to the data
                 story_data.push(row);
@@ -297,7 +282,9 @@ function storeNodeData(id, isSingleNode, nodes, story_data) {
 }
 
 function addModule() {
-    modules['story'+Object.keys(modules).length+'.rete'] = { data: initialData() }
+    modules['story' + Object.keys(modules).length+'.rete'] = { 
+        //data: initialData()
+    }
 }
 
 async function openModule(name) {
