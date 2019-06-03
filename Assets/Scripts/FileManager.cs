@@ -244,11 +244,11 @@ public class FileManager : MonoBehaviour
 
     public static List<List<string>> GetFileChapter(List<string> names)
     {
+        names.Add("end");
         string file = Path.Combine(validationPath, validationFile);
 
         if (!File.Exists(file))
         {
-            UnityEngine.Debug.Log(names.Count);
             WriteCSVString(names, validationPath, validationFile, ",");
             List<List<float>> zeros = new List<List<float>>();
             zeros.Add(Enumerable.Repeat(0f, names.Count).ToList());
@@ -262,7 +262,7 @@ public class FileManager : MonoBehaviour
     {
         DeleteFile(validationPath, validationFile);
         WriteCSVString(data[0], validationPath, validationFile, ",");
-        File.AppendAllText(validationFile, string.Join(",", data[1].ToArray()) + Environment.NewLine);
+        File.AppendAllText(Path.Combine(validationPath, validationFile), string.Join(",", data[1].ToArray()) + Environment.NewLine);
     }
 
     public static void WriteTextFile(string path, string filename, string text)

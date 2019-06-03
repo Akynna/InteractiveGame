@@ -76,7 +76,6 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     {
         if (!node.Equals("end"))
         {
-            Debug.Log(node);
             return int.Parse(validity[1][validity[0].IndexOf(node)]);
         }
         else
@@ -248,7 +247,7 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
             score += GetScore(currentNode, scoreRow);
         }
 
-        Debug.Log(score);
+        //Debug.Log(score);
     }
 
     int GetScore(string node, DialoguesTable.Row row)

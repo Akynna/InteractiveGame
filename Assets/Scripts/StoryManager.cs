@@ -137,7 +137,6 @@ public class StoryManager : MonoBehaviour {
 		{
             MicrophoneController.recording = true;
             MicrophoneController.answer = answerText;
-            Debug.Log(MicrophoneController.recording);
             if (score != 0 && skillName != "NA") {
 
 				// Give a random feedback
@@ -159,8 +158,10 @@ public class StoryManager : MonoBehaviour {
 		// Record the answer given in a file
 		listAnswers.Add(answerText);
 
-		if(sceneID == "end") {
-			sceneChanger.FadeToLevel(2);
+		if(sceneID.Equals("end"))
+        {
+            PlayRecordings.evaluating = true;
+            sceneChanger.FadeToLevel(2);
 			SaveAnswers();
 
 		} else {
@@ -184,7 +185,7 @@ public class StoryManager : MonoBehaviour {
 			}
 
             // Put the name of the key that indicates new chapter
-            if (nextSceneID.Contains("intro_1"))
+            if (nextSceneID.Contains("intro"))
             {
                 PlayRecordings.evaluating = true;
             }

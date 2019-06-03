@@ -28,6 +28,7 @@ public class MicrophoneController : MonoBehaviour
     public GameObject canvas;
     public GameObject dialoguePanel;
     public Animator dialogueAnimator;
+    public CharacterManager characterManager;
 
     // Opensmile files configuration
     public static string output = "outputData";
@@ -66,7 +67,6 @@ public class MicrophoneController : MonoBehaviour
 
     public void RecordChoice()
     {
-        UnityEngine.Debug.Log("Record");
         dialoguePanel.SetActive(false);
 
         ans = Instantiate(choice);
@@ -128,7 +128,7 @@ public class MicrophoneController : MonoBehaviour
 
         // Get all the information from CSVs
         var prediction = MachineLearning.PredictWithData(output + id + date + ".csv");
-        UnityEngine.Debug.Log(prediction);
+        characterManager.currentCharacter.empathyScore += (int) prediction * 2 - 1; // Gives 1 or -1 to the empathy score depending on the empathy level
 
         recording = false;
     }
