@@ -66,6 +66,7 @@ public class MicrophoneController : MonoBehaviour
 
     public void RecordChoice()
     {
+        UnityEngine.Debug.Log("Record");
         dialoguePanel.SetActive(false);
 
         ans = Instantiate(choice);
@@ -118,9 +119,9 @@ public class MicrophoneController : MonoBehaviour
 
         date = DateTime.Now.ToString(dateFormat);
         // Saves the audio clip as a .wav
-        SavWav.Save(recordName + id + date, myAudioClip.clip);
-        SavWav.Save("Records/" + recordName + id + date, myAudioClip.clip);
-        FileManager.WriteTextFile(Path.Combine(Application.dataPath, "Answers"), textName + id + date + ".txt", answer);
+        SavWav.Save("Data/TempData/" + recordName + id + date, myAudioClip.clip);
+        SavWav.Save("Data/Records/" + recordName + id + date, myAudioClip.clip);
+        FileManager.WriteTextFile(FileManager.tempAnswersDataFolder, textName + id + date + ".txt", answer);
 
         // Analyzes the clip with opensmile
         CallOpenSmile(output + id + date + ".csv", config);
@@ -178,7 +179,7 @@ public class MicrophoneController : MonoBehaviour
 
                 string projectPath = Application.dataPath;
                 int pos = projectPath.IndexOf("Assets");
-                var prPath = projectPath.Remove(pos);
+                string prPath = projectPath.Remove(pos);
 
                 string pattern = @"/";
 
@@ -188,12 +189,12 @@ public class MicrophoneController : MonoBehaviour
                                                   RegexOptions.IgnoreCase);
 
 
-                var audioPath = projectPath + "Assets\\" + recordName + id + date + ".wav";
+                var audioPath = projectPath + "Assets\\Data\\TempData\\" + recordName + id + date + ".wav";
                 var config = projectPath + "opensmile\\opensmile-2.3.0\\config\\" + configMode;
                 var osmilexe = projectPath + "opensmile\\opensmile-2.3.0\\bin\\Win32\\SMILExtract_Release.exe";
 
                 // Call the whole argument
-                arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + filename;
+                arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + "Assets\\Data\\TempData\\" + filename;
 
 
                 // Call the necessary functions to execute the command
@@ -218,14 +219,14 @@ public class MicrophoneController : MonoBehaviour
 
             string projectPath = Application.dataPath;
             int pos = projectPath.IndexOf("Assets");
-            var prPath = projectPath.Remove(pos);
+            string prPath = projectPath.Remove(pos);
 
-            var audioPath = projectPath + "Assets/" + recordName + id + date + ".wav";
+            var audioPath = projectPath + "Assets/Data/TempData/" + recordName + id + date + ".wav";
             var config = projectPath + "opensmile/opensmile-2.3.0/config/" + configMode;
             var osmilexe = projectPath + "opensmile/opensmile-2.3.0/bin/Win32/SMILExtract_Release.exe";
 
             // Call the whole argument
-            arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + filename;
+            arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + "Assets/Data/TempData" + filename;
 
             //proc.WorkingDirectory = "/users/myUserName";
             proc.Arguments = arg;

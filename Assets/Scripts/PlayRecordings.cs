@@ -118,7 +118,7 @@ public class PlayRecordings : MonoBehaviour
     private string GetAnswerText(string filename)
     {
         string dateT = ParseDate(filename).ToString(dateFormat);
-        string text = FileManager.ReadTextFile(Path.Combine(Application.dataPath, "Answers"), textName + dateT + ".txt");
+        string text = FileManager.ReadTextFile(FileManager.tempAnswersDataFolder, textName + dateT + ".txt");
         
         if(text.Length > 30)
         {
@@ -147,7 +147,7 @@ public class PlayRecordings : MonoBehaviour
     /* Gets all the records that have been recorded since the start of the chapter scene */
     private List<string> GetRecords(DateTime d1)
     {
-        DirectoryInfo d = new DirectoryInfo(Application.dataPath); // Directory at Assets
+        DirectoryInfo d = new DirectoryInfo(FileManager.tempDataFolder); // Directory at Assets
         FileInfo[] Files = d.GetFiles("*.wav"); // Getting all .wav files
 
         List<string> files = new List<string>();
@@ -182,7 +182,7 @@ public class PlayRecordings : MonoBehaviour
     void ValidateEvaluation(GameObject obj, string filename)
     {
         // Delete sound file
-        FileManager.DeleteFile(Application.dataPath, filename); // We decided to keep them, if you want them to be deleted automatically, uncomment this line
+        FileManager.DeleteFile(FileManager.tempDataFolder, filename);
 
         float score = obj.GetComponentInChildren<Scrollbar>().value;
         string label;
@@ -194,20 +194,18 @@ public class PlayRecordings : MonoBehaviour
         {
             label = MachineLearning.labelAnimated;
         }
+        string path = FileManager.tempDataFolder;
 
         string dateT = ParseDate(filename).ToString(dateFormat);
         string datafilename = outputName + id + dateT + ".csv";
-        List<List<float>> data = FileManager.ReadOpensmileData(datafilename);
+        List<List<float>> data = FileManager.ReadOpensmileData(path, datafilename);
         data.RemoveAt(data.Count - 1);
         //data[0].Insert(0, score); // Compute an appropriate score or type of data
 
         // Delete Associated CSV
-        FileManager.AddToCSV(MachineLearning.dataFile, datafilename, label, ";");
-        string path = Application.dataPath;
-        int pos = path.IndexOf("Assets");
-        path = path.Remove(pos);
+        FileManager.AddToCSV(FileManager.dataFolder, MachineLearning.dataFile, FileManager.tempDataFolder, datafilename, label, ";");
         FileManager.DeleteFile(path, datafilename);
-        FileManager.DeleteFile(Path.Combine(Application.dataPath, "Answers"), textName + id + dateT + ".txt");
+        FileManager.DeleteFile(FileManager.tempAnswersDataFolder, textName + id + dateT + ".txt");
 
         targets.Clear();
         targets.Add(obj.transform.position);
@@ -224,7 +222,7 @@ public class PlayRecordings : MonoBehaviour
     /* Load the audio into the AudioClip */
     private IEnumerator LoadAudio(string filename, AudioSource audioSource)
     {
-        string soundPath = "file://" + Application.dataPath;
+        string soundPath = "file://" + FileManager.tempDataFolder;
         WWW request = GetAudioFromFile(soundPath, filename);
         yield return request;
 

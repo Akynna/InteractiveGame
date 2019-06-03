@@ -10,19 +10,27 @@ using UnityEngine;
 public class FileManager : MonoBehaviour
 {
 
+    // GeneralPaths
+    public static string dataFolder = Path.Combine(Application.dataPath, "Data");
+    public static string tempDataFolder = Path.Combine(dataFolder, "TempData");
+    public static string tempAnswersDataFolder = Path.Combine(tempDataFolder, "Answers");
+    public static string recordsFolder = Path.Combine(dataFolder, "Records");
+
 
     private static string f0Key = "F0";
     private static string loudnessKey = "loudness";
 
-    private static string validationFile = "Assets/Resources/Dialogues/visited_mapping.csv";
+    public static string validationPath = Path.Combine(Application.dataPath, Path.Combine("Resources", "Dialogues"));
+    public static string validationFile = "visited_mapping.csv";
 
     static Type t = typeof(float);
 
-    public static List<List<float>> ReadCSV(string filename, char separator, bool skipHeader = false, bool skipLabel = false)
+    public static List<List<float>> ReadCSV(string path, string filename, char separator, bool skipHeader = false, bool skipLabel = false)
     {
         List<List<float>> data = new List<List<float>>();
 
-        using (var reader = new StreamReader(filename))
+        string file = Path.Combine(path, filename);
+        using (var reader = new StreamReader(file))
         {
             while (!reader.EndOfStream)
             {
@@ -48,11 +56,12 @@ public class FileManager : MonoBehaviour
         return data;
     }
 
-    public static List<List<string>> ReadCSV(string filename, char separator, bool skipHeader = false)
+    public static List<List<string>> ReadCSV(string path, string filename, char separator, bool skipHeader = false)
     {
         List<List<string>> data = new List<List<string>>();
 
-        using (var reader = new StreamReader(filename))
+        string file = Path.Combine(path, filename);
+        using (var reader = new StreamReader(file))
         {
             while (!reader.EndOfStream)
             {
@@ -75,7 +84,7 @@ public class FileManager : MonoBehaviour
     static List<int> populateColumns = new List<int>();
 
     // Function that reads the given csv and prepares the data to be used
-    public static List<List<float>> ReadOpensmileData(string filename)
+    public static List<List<float>> ReadOpensmileData(string path, string filename)
     {
 
         List<float> labels = new List<float>();
@@ -84,7 +93,7 @@ public class FileManager : MonoBehaviour
 
         int headerLength = 0;
 
-        using (var reader = new StreamReader(filename))
+        using (var reader = new StreamReader(Path.Combine(path, filename)))
         {
             // Use rows to know if you are reading the header of the data  itself
             var rows = 0;
@@ -139,40 +148,40 @@ public class FileManager : MonoBehaviour
         return data;
     }
 
-    public static void WriteCSV(List<float> data, string filename, string separator)
+    public static void WriteCSV(List<float> data, string path, string filename, string separator)
     {
         string[] toWrite = data.Select(x => x.ToString()).ToArray();
 
-        using (var file = File.CreateText(filename))
+        using (var file = File.CreateText(Path.Combine(path, filename)))
         {
             file.WriteLine(string.Join(separator, toWrite));
         }
     }
 
-    public static void WriteCSVString(List<string> data, string filename, string separator)
+    public static void WriteCSVString(List<string> data, string path, string filename, string separator)
     {
         string[] toWrite = data.ToArray();
 
-        using (var file = File.CreateText(filename))
+        using (var file = File.CreateText(Path.Combine(path, filename)))
         {
             file.WriteLine(string.Join(separator, toWrite));
         }
     }
 
-    public static void AddToCSV(string fileToWrite, string label, List<List<float>> data, string separator)
+    public static void AddToCSV(string pathToWrite, string fileToWrite, string label, List<List<float>> data, string separator)
     {
         foreach(List<float> line in data)
         {
             string[] toWrite = line.Select(x => x.ToString()).ToArray();
 
-            File.AppendAllText(fileToWrite, label + separator + string.Join(separator, toWrite) + Environment.NewLine);
+            File.AppendAllText(Path.Combine(pathToWrite, fileToWrite), label + separator + string.Join(separator, toWrite) + Environment.NewLine);
         }
     }
 
-    public static void AddToCSV(string fileToWrite, string fileToRead, string label, string separator)
+    public static void AddToCSV(string pathToWrite, string fileToWrite, string pathToRead, string fileToRead, string label, string separator)
     {
-        List<List<float>> data = ReadCSV(fileToRead, ';', true, true);
-        AddToCSV(fileToWrite, label, data, separator);
+        List<List<float>> data = ReadCSV(pathToRead, fileToRead, ';', true, true);
+        AddToCSV(pathToWrite, fileToWrite, label, data, separator);
     }
 
     public static void DeleteFile(string path, string filename)
@@ -235,26 +244,24 @@ public class FileManager : MonoBehaviour
 
     public static List<List<string>> GetFileChapter(List<string> names)
     {
-        if (!File.Exists(validationFile))
+        string file = Path.Combine(validationPath, validationFile);
+
+        if (!File.Exists(file))
         {
-            foreach(string name in names)
-            {
-                UnityEngine.Debug.Log(name);
-            }
             UnityEngine.Debug.Log(names.Count);
-            WriteCSVString(names, validationFile, ",");
+            WriteCSVString(names, validationPath, validationFile, ",");
             List<List<float>> zeros = new List<List<float>>();
             zeros.Add(Enumerable.Repeat(0f, names.Count).ToList());
-            AddToCSV(validationFile, "0", zeros, ",");
+            AddToCSV(validationPath, validationFile, "0", zeros, ",");
         }
 
-        return new List<List<string>>(ReadCSV(validationFile, ',', false));
+        return new List<List<string>>(ReadCSV(validationPath, validationFile, ',', false));
     }
 
     public static void OverrideFileChapter(List<List<string>> data)
     {
-        DeleteFile("", validationFile);
-        WriteCSVString(data[0], validationFile, ",");
+        DeleteFile(validationPath, validationFile);
+        WriteCSVString(data[0], validationPath, validationFile, ",");
         File.AppendAllText(validationFile, string.Join(",", data[1].ToArray()) + Environment.NewLine);
     }
 

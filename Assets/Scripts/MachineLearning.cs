@@ -20,9 +20,9 @@ public static class MachineLearning
     // Starts the Machine Learning processing with the current data set
     public static void ReadyW(/*string data*/)
     {
-        if (!File.Exists(fileW))
+        if (!File.Exists(Path.Combine(FileManager.dataFolder, fileW)))
         {
-            List<List<float>> dataRead = FileManager.ReadOpensmileData(dataFile);
+            List<List<float>> dataRead = FileManager.ReadOpensmileData(FileManager.dataFolder, dataFile);
 
             List<float> y = dataRead[dataRead.Count - 1];
 
@@ -30,18 +30,18 @@ public static class MachineLearning
 
             globalW = SgdSVM(y, dataRead);
 
-            FileManager.WriteCSV(globalW, fileW, ",");
+            FileManager.WriteCSV(globalW, FileManager.dataFolder, fileW, ",");
         }
         else
         {
-            globalW = FileManager.ReadCSV(fileW, ',', false, false)[0];
+            globalW = FileManager.ReadCSV(FileManager.dataFolder, fileW, ',', false, false)[0];
         }
     }
 
     // Uses the given data and the w to make a prediction
     public static float PredictWithData(string filename)
     {
-        List<List<float>> dataToPredict = FileManager.ReadOpensmileData(filename);
+        List<List<float>> dataToPredict = FileManager.ReadOpensmileData(FileManager.tempDataFolder, filename);
         dataToPredict.RemoveAt(dataToPredict.Count-1);
 
         return Prediction(dataToPredict, globalW)[0];

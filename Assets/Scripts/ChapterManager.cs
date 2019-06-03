@@ -35,13 +35,12 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     List<DialoguesTable.Row> rowTable;
     List<List<string>> validity = new List<List<string>>();
 
-    string validationFile = "Assets/Resources/Dialogues/visited_mapping.csv";
 
     // Start is called before the first frame update
     void Start()
     {
         rowTable = new List<DialoguesTable.Row>(tables.GetRowList());
-        validity = new List<List<string>>(FileManager.ReadCSV(validationFile, ',', false));
+        validity = new List<List<string>>(FileManager.ReadCSV(FileManager.validationPath, FileManager.validationFile, ',', false));
         
         StartTree(rowTable);
     }

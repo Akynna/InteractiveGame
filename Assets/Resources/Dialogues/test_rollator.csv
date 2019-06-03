@@ -1,0 +1,22 @@
+sceneID,character,character_image,dialogue,dialogue_audio,main_skill,sub_skill,answer1,answer2,answer3,score1,score2,score3,next_scene1,next_scene2,next_scene3,background,background_music
+intro_0,Doctor,doctor,"Hi, I am presenting you a demo we developed for nurses apprentices.",,,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Doctor,doctor,Nurse apprentices are often experiencing challenging inter-personal communication situations.,,,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Doctor,doctor,These situations range from angry and confused patients to patients actually dying. ,,,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Doctor,doctor,In this demo we focused on the interaction surrounding confused patients e.g. patients suffering from dementia.,,,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Doctor,doctor,As the apprentices speak German- all following interactions will be carried out in German.,,,,NA,NA,NA,NA,NA,NA,intro_rol,intro_rol,intro_rol,reception,
+intro_rol,couple,couple_start,"Ein Mann sitzt in einem Stuhl in einer Ecke und eine Frau geht an einem Walker.
+ Sie betritt den Raum und drueckt den walker immer und immer wieder gegen den Mann.",,,,NA,NA,NA,NA,NA,Na,intro_rol2,intro_rol2,intro_rol2,couple,
+intro_rol2,couple,couple_start, Du beobachtest die Situation mit der Absicht Sie aufzuloesen bevor Sie eskaliert. ,,,,NA,NA,NA,NA,NA,Na,intro_rol3,intro_rol3,intro_rol3,couple,
+intro_rol3,couple,couple_woman_continuing,"Der Mann spricht die Frau an und sag: Hey, ich sitze hier. Die Frau ignoriert den Mann und faehrt damit fort ",NA,NA,NA,Sie reagieren nicht!,"Hallo Frau Meier, wie geht es Ihnen ? 
+Wuerden Sie sich gerne hinsetzten?
+Hier gibt es einen sehr schoenen Stuhl, er hat sogar einen tollen Blick ueber den See.
+Sie moegen doch den See.
+","Hallo Frau Meier, wie geht es Ihnen ?
+Wurm setzten wir uns nicht hier hin (Sie zeigen auf einen anderen Stuhl)",5,5,5,rol_option_2,rol_option_2,rol_option_2,couple,
+rol_option_2,couple,couple_woman_continuing,Frau Meier bewegt den Walker immer weiter gegen Herrn Schmidt.,NA,NA,NA,"Frau Meier, Sie verletzen Herrn Schmidt.
+Sie koenen nicht einfach so Leute ueberfahren.","Frau Meier, Sie verletzen Herrn Schmidt.
+Lassen Sie uns zum anderen Sitz gehen.","Frau Meier, Sie verletzen Herrn Schmidt. Wie wuerden Sie sich fuehlen wenn jemand Sie so anrempeln wuerde",5,5,5,rol_reaction_2a,rol_reaction_2b,rol_reaction_2c,couple,
+rol_reaction_2a,couple,couple_man_speaking,Frau Meier wird immer und immer agressiver und schiebt den Walker weiter gegen Herrn Schmidt.,,,,NA,NA,NA,5,5,5,end,end,end,couple,
+rol_reaction_2b,couple,woman_leaving,Frau Meier bewegt sich grummelend zu einem anderen Stuhl.,,,,NA,NA,NA,5,5,5,end,end,end,couple,
+rol_reaction_2c,couple,man_leaving,Frau Meier reagiert nicht und rempelt Herrn Schmidt weiterhin an. Herr Schmidt steht wuetend auf.,,,,NA,NA,NA,5,5,5,end,end,end,,
+end,NA,,NA,,,,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,

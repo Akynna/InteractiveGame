@@ -137,6 +137,7 @@ public class StoryManager : MonoBehaviour {
 		{
             MicrophoneController.recording = true;
             MicrophoneController.answer = answerText;
+            Debug.Log(MicrophoneController.recording);
             if (score != 0 && skillName != "NA") {
 
 				// Give a random feedback
