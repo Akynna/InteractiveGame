@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +12,9 @@ public class PlayRecordings : MonoBehaviour
 
     public GameObject audioPlayerTemplate;
     public GameObject canvas;
+    public SceneChanger sceneChanger;
+    public CharacterManager characterManager;
+
 
     public AudioClip audioClip;
 
@@ -33,9 +35,11 @@ public class PlayRecordings : MonoBehaviour
     string textName = MicrophoneController.textName;
     string id = MicrophoneController.id;
     string dateFormat = MicrophoneController.dateFormat;
+    string characterName = MicrophoneController.characterName;
     public static string date = MicrophoneController.date;
 
     public static bool evaluating = false;
+    public static bool finalEvaluation = false;
 
     private List<Vector3> targets = new List<Vector3>();
     private bool move = false;
@@ -60,6 +64,10 @@ public class PlayRecordings : MonoBehaviour
 
         if (GameObject.FindGameObjectsWithTag(audioPlayersTag).Length == 0)
         {
+            if(finalEvaluation == true)
+            {
+                sceneChanger.FadeToLevel(2);
+            }
             move = false;
             EnableButtons();
             RevertBackground();
@@ -91,10 +99,10 @@ public class PlayRecordings : MonoBehaviour
     {
         List<string> recordFiles = GetRecords(startDate);
         Vector3 position = new Vector3(Screen.width/2f, Screen.height);
+        CreateBackground();
 
-        foreach(string file in recordFiles)
+        foreach (string file in recordFiles)
         {
-            CreateBackground();
 
             GameObject obj = Instantiate(audioPlayerTemplate);
 
@@ -122,7 +130,7 @@ public class PlayRecordings : MonoBehaviour
         
         if(text.Length > 30)
         {
-            text = text.Substring(0, 10) + "...";
+            text = text.Substring(0, 27) + "...";
         }
 
         return text;
@@ -194,18 +202,26 @@ public class PlayRecordings : MonoBehaviour
         {
             label = MachineLearning.labelAnimated;
         }
+
         string path = FileManager.tempDataFolder;
 
         string dateT = ParseDate(filename).ToString(dateFormat);
         string datafilename = outputName + id + dateT + ".csv";
         List<List<float>> data = FileManager.ReadOpensmileData(path, datafilename);
         data.RemoveAt(data.Count - 1);
-        //data[0].Insert(0, score); // Compute an appropriate score or type of data
+
+        string character = FileManager.ReadTextFile(FileManager.tempAnswersDataFolder, characterName + id + dateT + ".txt");
+        score = (float) Math.Round(score);
+        float prediction = MachineLearning.PredictWithData(datafilename);
+        float finalScore = (prediction == score) ? 1 : 0;
+        UnityEngine.Debug.Log(character);
+        characterManager.GetCharacterByName(character).empathyScore += (int) finalScore * 2 - 1; // Gives 1 or -1 to the empathy score depending on the empathy level
 
         // Delete Associated CSV
         FileManager.AddToCSV(FileManager.dataFolder, MachineLearning.dataFile, FileManager.tempDataFolder, datafilename, label, ";");
         FileManager.DeleteFile(path, datafilename);
         FileManager.DeleteFile(FileManager.tempAnswersDataFolder, textName + id + dateT + ".txt");
+        FileManager.DeleteFile(FileManager.tempAnswersDataFolder, characterName + id + dateT + ".txt");
 
         targets.Clear();
         targets.Add(obj.transform.position);

@@ -28,6 +28,7 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     public GameObject canvas;
     public GameObject mainChapter;
     public GameObject secondaryChapter;
+    public CharacterManager characterManager;
 
     string chapterTag = "Chapter";
     string playChapterName = "PlayChapter";
@@ -96,6 +97,24 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
         if(validity == 0)
         {
             GetDirectButtonChildrenByName(chap, playChapterName).GetComponent<Button>().interactable = false;
+            chap.GetComponent<Button>().interactable = false;
+        }
+
+        return chap;
+    }
+
+    /* Function to initialize all default parameters for a chapter node */
+    GameObject CreateChoiceNode(string node, GameObject parent, float pos_x, float pos_y, int validity)
+    {
+        GameObject chap = Instantiate(secondaryChapter);
+        Text txt = chap.GetComponentInChildren<Text>();
+        txt.text = node;
+        chap.name = node;
+        chap.transform.SetParent(parent.transform);
+
+        if (validity == 0)
+        {
+            chap.GetComponent<Button>().interactable = false;
         }
 
         return chap;
@@ -138,9 +157,19 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
                 }
             }
             int visited = IsVisited(child) * validity;
-            GameObject childChap = CreateNode(child, chap, chap.transform.position.x, chap.transform.position.y, visited);
-            childChap.SetActive(false);
-            AddInitialListeners(childChap);
+            GameObject childChap;
+            if(children.Count > 1)
+            {
+                childChap = CreateChoiceNode(child, chap, chap.transform.position.x, chap.transform.position.y, visited);
+                childChap.SetActive(false);
+                childChap.GetComponent<Button>().onClick.AddListener(() => ExtendChapter(childChap));
+            }
+            else
+            {
+                childChap = CreateNode(child, chap, chap.transform.position.x, chap.transform.position.y, visited);
+                childChap.SetActive(false);
+                AddInitialListeners(childChap);
+            }
             CreateBranches(childChap, childRes, visited);
         }
     }
@@ -237,17 +266,20 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
         }
         path.RemoveAt(path.Count - 1);
 
-        int score = 0;
+        
         while(path.Count >= 2)
         {
+            int score = 0;
             string currentNode = path[0];
             path.RemoveAt(0);
             List<DialoguesTable.Row> possibleRows = tables.FindAll_sceneID(path[0]);
             DialoguesTable.Row scoreRow = possibleRows[possibleRows.Count - 1];
+            string characterName = scoreRow.character;
             score += GetScore(currentNode, scoreRow);
+            characterManager.GetCharacterByName(characterName).empathyScore += score;
         }
 
-        //Debug.Log(score);
+        StartGameAtChosenPoint(obj.name);
     }
 
     int GetScore(string node, DialoguesTable.Row row)
@@ -281,7 +313,7 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     }
     
     //TODO Load the game at this point
-    void StartGameAtChosenPoint(string name, int score)
+    void StartGameAtChosenPoint(string name)
     {
         //TODO launch the scene with name = name and with a starting score = score
     }

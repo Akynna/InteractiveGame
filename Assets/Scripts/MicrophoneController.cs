@@ -37,6 +37,7 @@ public class MicrophoneController : MonoBehaviour
     // Naming and formating of the record
     public static string recordName = "record";
     public static string textName = "text";
+    public static string characterName = "character";
     public static string id = ""; // Hold the id of the user TODO : UPDATE WHEN CREATED
     public static string dateFormat = "yyyyMMddHHmmss";
     public static string date;
@@ -122,7 +123,7 @@ public class MicrophoneController : MonoBehaviour
         SavWav.Save("Data/TempData/" + recordName + id + date, myAudioClip.clip);
         SavWav.Save("Data/Records/" + recordName + id + date, myAudioClip.clip);
         FileManager.WriteTextFile(FileManager.tempAnswersDataFolder, textName + id + date + ".txt", answer);
-
+        FileManager.WriteTextFile(FileManager.tempAnswersDataFolder, characterName + id + date + ".txt", characterManager.currentCharacter.name);
         // Analyzes the clip with opensmile
         CallOpenSmile(output + id + date + ".csv", config);
 

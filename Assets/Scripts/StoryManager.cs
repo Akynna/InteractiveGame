@@ -68,7 +68,7 @@ public class StoryManager : MonoBehaviour {
 
     void OnApplicationQuit()
     {
-        FileManager.OverrideFileChapter(chapterTracker);
+        FileManager.OverwriteFileChapter(chapterTracker);
     }
 
 	//=======================================
@@ -160,8 +160,9 @@ public class StoryManager : MonoBehaviour {
 
 		if(sceneID.Equals("end"))
         {
+            PlayRecordings.finalEvaluation = true;
             PlayRecordings.evaluating = true;
-            sceneChanger.FadeToLevel(2);
+            //sceneChanger.FadeToLevel(2);
 			SaveAnswers();
 
 		} else {

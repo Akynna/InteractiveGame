@@ -62,13 +62,13 @@ public static class MachineLearning
 
     static List<float> HingeLoss(List<float> y, List<List<float>> X, List<float> w)
     {
-        List<float> XcrossW = CrossProduct(X, w);
-        List<float> YmultCross = y.Select((dValue, index) => 1 - dValue * XcrossW[index]).ToList();
+        List<float> XxW = ScalarProduct(X, w);
+        List<float> Ymult = y.Select((dValue, index) => 1 - dValue * XxW[index]).ToList();
 
-        return ClipList(YmultCross);
+        return ClipList(Ymult);
     }
 
-    static List<float> CrossProduct(List<List<float>> X, List<float> w)
+    static List<float> ScalarProduct(List<List<float>> X, List<float> w)
     {
         //List<float> XcrossW = new List<float>();
 
@@ -120,12 +120,12 @@ public static class MachineLearning
 
     static List<float> Prediction(List<List<float>> X, List<float> w)
     {
-        List<float> XcrossW = CrossProduct(X, w);
+        List<float> XxW = ScalarProduct(X, w);
         List<float> boolPred = new List<float>();
 
-        for(int i = 0; i < XcrossW.Count; i++)
+        for(int i = 0; i < XxW.Count; i++)
         {
-            if(XcrossW[i] > 0)
+            if(XxW[i] > 0)
             {
                 boolPred.Add(1);
             }
@@ -162,8 +162,8 @@ public static class MachineLearning
 
     static bool IsSupport(float yN, List<float> xN, List<float> w)
     {
-        float crossXNW = xN.Select((dValue, index) => dValue * w[index]).ToList().Sum();
-        return (yN * crossXNW) < 1;
+        float XNW = xN.Select((dValue, index) => dValue * w[index]).ToList().Sum();
+        return (yN * XNW) < 1;
     }
 
     // Main machine learning function

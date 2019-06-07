@@ -481,6 +481,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0.51, y: 0.06}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &997304606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 997304608}
+  - component: {fileID: 997304607}
+  m_Layer: 0
+  m_Name: Character Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &997304607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997304606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40db535b0dfc694183b0efb4ded9f14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StoryManager: {fileID: 0}
+  currentSpriteName: 
+  characterSprite: {fileID: 0}
+  isFeedBack: 0
+--- !u!4 &997304608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997304606}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 126.191734, y: 10.005216, z: 9.502084}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1488546358
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,8 +561,9 @@ MonoBehaviour:
   canvas: {fileID: 1922285692}
   mainChapter: {fileID: 2830337323697392018, guid: a325718c69f389a449e422498d438804,
     type: 3}
-  secondaryChapter: {fileID: 2830337323697392018, guid: a325718c69f389a449e422498d438804,
+  secondaryChapter: {fileID: 2752865107495147729, guid: b7ab9ac842b803b4fad4b6e46f230c1c,
     type: 3}
+  characterManager: {fileID: 997304607}
 --- !u!4 &1488546360
 Transform:
   m_ObjectHideFlags: 0
@@ -625,7 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ad991a2d40c6c42acb466e7e55b5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  file: {fileID: 4900000, guid: 8babb36c9b8e2e841bc907f11f0bb1d8, type: 3}
+  file: {fileID: 4900000, guid: 03943ecc124b9419096af8b382f0d610, type: 3}
   rowList: []
   isLoaded: 0
 --- !u!4 &1652212703

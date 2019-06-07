@@ -186,7 +186,8 @@ public class FileManager : MonoBehaviour
 
     public static void DeleteFile(string path, string filename)
     {
-        string os = SystemInfo.operatingSystem;
+        File.Delete(Path.Combine(path, filename));
+        /*string os = SystemInfo.operatingSystem;
         if (os.Contains("Windows"))
         {
             try
@@ -225,7 +226,7 @@ public class FileManager : MonoBehaviour
                 print(e);
             }
         }
-        else if(os.Contains("Mac"))
+        else if(os.Contains("Mac") || os.Contains("Linux"))
         {
             ProcessStartInfo proc = new ProcessStartInfo();
             proc.FileName = "rm";
@@ -238,7 +239,7 @@ public class FileManager : MonoBehaviour
         } else if (os.Contains("Linux"))
         {
 
-        }
+        }*/
         
     }
 
@@ -246,19 +247,38 @@ public class FileManager : MonoBehaviour
     {
         names.Add("end");
         string file = Path.Combine(validationPath, validationFile);
+        bool overwrite = !File.Exists(file);
 
-        if (!File.Exists(file))
+        if (File.Exists(file))
         {
+            List<List<string>> fileRead = (ReadCSV(validationPath, validationFile, ',', false));
+            if(names.Count != fileRead[0].Count)
+            {
+                overwrite = true;
+            }
+            else
+            {
+                for (int i = 0; i < names.Count; i++)
+                {
+                    if (!names[i].Equals(fileRead[0][i]))
+                    {
+                        overwrite = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (overwrite) {
             WriteCSVString(names, validationPath, validationFile, ",");
             List<List<float>> zeros = new List<List<float>>();
-            zeros.Add(Enumerable.Repeat(0f, names.Count).ToList());
+            zeros.Add(Enumerable.Repeat(0f, names.Count - 1).ToList());
             AddToCSV(validationPath, validationFile, "0", zeros, ",");
         }
-
+        
         return new List<List<string>>(ReadCSV(validationPath, validationFile, ',', false));
     }
 
-    public static void OverrideFileChapter(List<List<string>> data)
+    public static void OverwriteFileChapter(List<List<string>> data)
     {
         DeleteFile(validationPath, validationFile);
         WriteCSVString(data[0], validationPath, validationFile, ",");
