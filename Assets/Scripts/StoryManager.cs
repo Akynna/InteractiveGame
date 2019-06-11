@@ -52,8 +52,9 @@ public class StoryManager : MonoBehaviour {
 		listAnswers = new List<string>();
 		
 		// Initialize the first scene
-		List<DialoguesTable.Row> starting_row = dialoguesTable.FindAll_sceneID(dialoguesTable.GetRowList()[0].sceneID);
-        currentSceneDialogues = dialoguesTable.FindAll_sceneID(starting_row[starting_row.Count - 1].next_scene1);
+		currentSceneDialogues = dialoguesTable.FindAll_sceneID(dialoguesTable.GetRowList()[0].sceneID);
+		/*List<DialoguesTable.Row> starting_row = dialoguesTable.FindAll_sceneID(dialoguesTable.GetRowList()[0].sceneID);
+        currentSceneDialogues = dialoguesTable.FindAll_sceneID(starting_row[starting_row.Count - 1].next_scene1);*/
 
 		// Initialize the background
 		sceneChanger.SwitchBackground(currentSceneDialogues[0].background);
@@ -130,7 +131,9 @@ public class StoryManager : MonoBehaviour {
 	{
 
         // Track the scene
-        chapterTracker[1][chapterTracker[0].IndexOf(sceneID)] = "1";
+        if(!sceneID.Equals("auto")) {
+			chapterTracker[1][chapterTracker[0].IndexOf(sceneID)] = "1";
+		}
 
 		// If we previously displayed the choice panel
 		if(DialogueManager.WasAChoice())
@@ -152,7 +155,7 @@ public class StoryManager : MonoBehaviour {
 
 			// Second method to update skill
 			// Update the skill probabilities after evaluating the current skill
-			// SkillManager.BKT(skillName, subskillName, score);
+			SkillManager.BKT(skillName, subskillName, score);
 		}
 
 		// Record the answer given in a file

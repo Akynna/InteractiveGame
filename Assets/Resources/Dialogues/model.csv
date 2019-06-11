@@ -1,5 +1,4 @@
 sceneID,character,character_image,dialogue,dialogue_audio,main_skill,sub_skill,answer1,answer2,answer3,score1,score2,score3,next_scene1,next_scene2,next_scene3,background,background_music
-start,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,intro_0,intro_0,intro_0,NA,
 intro_0,Me,NA,"Oh ä,ü, where am I ? What is this place ?",bip-female,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
 intro_0,Me,NA,Is there anyone ?,bip-female,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
 intro_0,Doctor,Doctor,"Hi there ! Welcome to this Interactive Game. I'm the director of this Hospital, and also a doctor.",bip-male,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
