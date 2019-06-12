@@ -82,3 +82,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Media files
+*.wav
+*.txt
