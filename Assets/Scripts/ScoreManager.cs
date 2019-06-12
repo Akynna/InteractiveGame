@@ -105,7 +105,7 @@ public class ScoreManager : MonoBehaviour {
 
 			if(oldSkillScore < newSkillScore) {
 			//StopAllCoroutines();
-			StartCoroutine(UpScore(skillScore, 2));
+				StartCoroutine(UpScore(skillScore, 2));
 			} else if(oldSkillScore > newSkillScore) {
 				//StopAllCoroutines();
 				StartCoroutine(DownScore(skillScore, 2));

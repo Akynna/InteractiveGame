@@ -24,10 +24,12 @@ public class DialoguesTable : MonoBehaviour
 		public string dialogue;
 		public string dialogue_audio;
 		public string main_skill;
-		public string sub_skill;
 		public string answer1;
 		public string answer2;
 		public string answer3;
+		public string answer1_audio;
+		public string answer2_audio;
+		public string answer3_audio;
 		public string score1;
 		public string score2;
 		public string score3;
@@ -62,18 +64,20 @@ public class DialoguesTable : MonoBehaviour
 			row.dialogue = grid[i][3];
 			row.dialogue_audio = grid[i][4];
 			row.main_skill = grid[i][5];
-			row.sub_skill = grid[i][6];
-			row.answer1 = grid[i][7];
-			row.answer2 = grid[i][8];
-			row.answer3 = grid[i][9];
-			row.score1 = grid[i][10];
-			row.score2 = grid[i][11];
-			row.score3 = grid[i][12];
-			row.next_scene1 = grid[i][13];
-			row.next_scene2 = grid[i][14];
-			row.next_scene3 = grid[i][15];
-			row.background = grid[i][16];
-			row.background_music = grid[i][17];
+			row.answer1 = grid[i][6];
+			row.answer2 = grid[i][7];
+			row.answer3 = grid[i][8];
+			row.answer1_audio = grid[i][9];
+			row.answer2_audio = grid[i][10];
+			row.answer3_audio = grid[i][11];
+			row.score1 = grid[i][12];
+			row.score2 = grid[i][13];
+			row.score3 = grid[i][14];
+			row.next_scene1 = grid[i][15];
+			row.next_scene2 = grid[i][16];
+			row.next_scene3 = grid[i][17];
+			row.background = grid[i][18];
+			row.background_music = grid[i][19];
 
 			rowList.Add(row);
 		}
@@ -140,14 +144,6 @@ public class DialoguesTable : MonoBehaviour
 	{
 		return rowList.FindAll(x => x.main_skill == find);
 	}
-	public Row Find_sub_skill(string find)
-	{
-		return rowList.Find(x => x.sub_skill == find);
-	}
-	public List<Row> FindAll_sub_skill(string find)
-	{
-		return rowList.FindAll(x => x.sub_skill == find);
-	}
 	public Row Find_answer1(string find)
 	{
 		return rowList.Find(x => x.answer1 == find);
@@ -171,6 +167,30 @@ public class DialoguesTable : MonoBehaviour
 	public List<Row> FindAll_answer3(string find)
 	{
 		return rowList.FindAll(x => x.answer3 == find);
+	}
+	public Row Find_answer1_audio(string find)
+	{
+		return rowList.Find(x => x.answer1_audio == find);
+	}
+	public List<Row> FindAll_answer1_audio(string find)
+	{
+		return rowList.FindAll(x => x.answer1_audio == find);
+	}
+	public Row Find_answer2_audio(string find)
+	{
+		return rowList.Find(x => x.answer2_audio == find);
+	}
+	public List<Row> FindAll_answer2_audio(string find)
+	{
+		return rowList.FindAll(x => x.answer2_audio == find);
+	}
+	public Row Find_answer3_audio(string find)
+	{
+		return rowList.Find(x => x.answer3_audio == find);
+	}
+	public List<Row> FindAll_answer3_audio(string find)
+	{
+		return rowList.FindAll(x => x.answer3_audio == find);
 	}
 	public Row Find_score1(string find)
 	{
@@ -236,5 +256,5 @@ public class DialoguesTable : MonoBehaviour
 	{
 		return rowList.FindAll(x => x.background_music == find);
 	}
-
+	
 }

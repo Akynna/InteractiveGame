@@ -453,12 +453,6 @@ public class SkillManager : MonoBehaviour {
 		for(int i=0; i < size; ++i) {
 			upperSum += correctnessSequence[i] * (1.0f - knowledgeSequence[i]);
 			lowerSum += (1.0f - knowledgeSequence[i]);
-
-			/*Debug.Log("Correctness Sequence: " + correctnessSequence[i]);
-			Debug.Log("Knowledge Sequence: " + knowledgeSequence[i]);
-
-			Debug.Log("Upper: " + upperSum);
-			Debug.Log("Lower: " + lowerSum);*/
 		}
 
 		// If the update gives 0 or 1, don't update the probability
@@ -477,12 +471,6 @@ public class SkillManager : MonoBehaviour {
 		for(int i=0; i < size; ++i) {
 			upperSum += (1.0f - correctnessSequence[i]) * knowledgeSequence[i];
 			lowerSum += knowledgeSequence[i];
-
-			/*/Debug.Log("Correctness Sequence: " + correctnessSequence[i]);
-			Debug.Log("Knowledge Sequence: " + knowledgeSequence[i]);
-
-			Debug.Log("Upper: " + upperSum);
-			Debug.Log("Lower: " + lowerSum);*/
 		}
 
 		// If the update gives 0 or 1, don't update the probability

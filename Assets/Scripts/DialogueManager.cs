@@ -199,7 +199,7 @@ public class DialogueManager : MonoBehaviour {
 		} else 
 		{
 			// Switch to the default neutral scene
-			StoryManager.SwitchScene(lastRow.next_scene1, "", "", 0, "");
+			StoryManager.SwitchScene(lastRow.next_scene1, "", "", 0, "", "");
 		}
 	}
 
@@ -259,9 +259,18 @@ public class DialogueManager : MonoBehaviour {
 		buttonList[2].onClick.RemoveAllListeners();
 
 		// Add new listeners to buttons
-		buttonList[0].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene1, skillName, subskillName, goodEmpathyScore, rowWithChoices.answer1));
-		buttonList[1].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene2, skillName, subskillName, badEmpathyScore, rowWithChoices.answer2));
-		buttonList[2].onClick.AddListener(() => StoryManager.SwitchScene(rowWithChoices.next_scene3, skillName, subskillName, neutralEmpathyScore, rowWithChoices.answer3));
+		buttonList[0].onClick.AddListener(
+			() => StoryManager.SwitchScene(rowWithChoices.next_scene1, 
+			skillName, subskillName, goodEmpathyScore, 
+			rowWithChoices.answer1, rowWithChoices.answer1_audio));
+		buttonList[1].onClick.AddListener(
+			() => StoryManager.SwitchScene(rowWithChoices.next_scene2,
+			skillName, subskillName, badEmpathyScore,
+			rowWithChoices.answer2, rowWithChoices.answer2_audio));
+		buttonList[2].onClick.AddListener(
+			() => StoryManager.SwitchScene(rowWithChoices.next_scene3,
+			skillName, subskillName, neutralEmpathyScore,
+			rowWithChoices.answer3, rowWithChoices.answer3_audio));
 
 		choicePanelAnimator.SetBool("isDisplayed", true);
 	}

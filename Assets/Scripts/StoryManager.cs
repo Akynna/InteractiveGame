@@ -128,7 +128,7 @@ public class StoryManager : MonoBehaviour {
 	//			HELPER FUNCTIONS
 	//=======================================
 
-	public void SwitchScene(string sceneID, string skillName, string subskillName, int score, string answerText)
+	public void SwitchScene(string sceneID, string skillName, string subskillName, int score, string answerText, string audioName)
 	{
 
         // Track the scene
@@ -141,6 +141,12 @@ public class StoryManager : MonoBehaviour {
 		{
             MicrophoneController.recording = true;
             MicrophoneController.answer = answerText;
+
+			// Play the audio of the answer
+        	AudioManager.UpdateEffectSound(audioName);
+        	AudioManager.speechPlayer.PlayOneShot(AudioManager.speechPlayer.clip);
+			AudioManager.isPlaying = true;
+
             if (score != 0 && skillName != "NA") {
 
 				// Give a random feedback
@@ -171,8 +177,6 @@ public class StoryManager : MonoBehaviour {
 
 		} else {
 			// Load the dialogues of the next scene in the Dialogue Manager
-			// TODO : CHOOSE THE NEXT SCENE DEPENDING ON PROBABILITIES
-
 			string nextSceneID = "";
 
 			// If we specified in the CSV that we want to choose automatically the next scene
@@ -188,6 +192,8 @@ public class StoryManager : MonoBehaviour {
 			else {
 				nextSceneID = sceneID;
 			}
+			
+			
 
             // Put the name of the key that indicates new chapter
             if (nextSceneID.Contains(changingChapterKey))
@@ -199,10 +205,13 @@ public class StoryManager : MonoBehaviour {
 
 			// Switch the background image if needed
 			sceneChanger.SwitchBackground(currentSceneDialogues[0].background);
-			
-			// Trigger the dialogues of the next scene
-			DialogueManager.TriggerDialogue();
 
+			// Trigger the dialogues of the next scene
+			if (MicrophoneController.recording) {
+				StartCoroutine(WaitForAudio(AudioManager.speechPlayer.clip.length));
+			} else {
+				DialogueManager.TriggerDialogue();
+			}
 		}
     }
 
@@ -217,5 +226,10 @@ public class StoryManager : MonoBehaviour {
 		}
 	}
 	
+	private IEnumerator WaitForAudio(float audioLength) {
+		Debug.Log("hihihihi" + audioLength);
+		yield return new WaitForSeconds(audioLength);
+		DialogueManager.TriggerDialogue();
+	}
 	
 }
