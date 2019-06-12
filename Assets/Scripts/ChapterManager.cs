@@ -28,7 +28,6 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     public GameObject canvas;
     public GameObject mainChapter;
     public GameObject secondaryChapter;
-    public CharacterManager characterManager;
     public SceneChanger sceneChanger;
 
     string chapterTag = "Chapter";
@@ -37,12 +36,11 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     List<DialoguesTable.Row> rowTable;
     List<List<string>> validity = new List<List<string>>();
 
-
     // Start is called before the first frame update
     void Start()
     {
         rowTable = new List<DialoguesTable.Row>(tables.GetRowList());
-        validity = new List<List<string>>(FileManager.ReadCSV(FileManager.validationPath, FileManager.validationFile, ',', false));
+        validity = new List<List<string>>(FileManager.GetFileChapter(rowTable.Select(x => x.sceneID).Distinct().ToList()));
         
         StartTree(rowTable);
     }
@@ -270,17 +268,20 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
         
         while(path.Count >= 2)
         {
-            int score = 0;
             string currentNode = path[0];
             path.RemoveAt(0);
             List<DialoguesTable.Row> possibleRows = tables.FindAll_sceneID(path[0]);
             DialoguesTable.Row scoreRow = possibleRows[possibleRows.Count - 1];
             string characterName = scoreRow.character;
-            score += GetScore(currentNode, scoreRow);
-            characterManager.GetCharacterByName(characterName).empathyScore += score;
+            SaveScore(characterName, GetScore(currentNode, scoreRow));
         }
 
         StartGameAtChosenPoint(obj.name);
+    }
+
+    void SaveScore(string name, float score)
+    {
+        PlayerPrefs.SetFloat(name, PlayerPrefs.GetFloat(name) + score);
     }
 
     int GetScore(string node, DialoguesTable.Row row)
@@ -316,6 +317,8 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     //TODO Load the game at this point
     void StartGameAtChosenPoint(string name)
     {
+        PlayerPrefs.SetFloat("LoadScene", 1f);
+        PlayerPrefs.SetString("SceneToLoad", name);
         sceneChanger.FadeToLevel(1);
     }
 

@@ -36,31 +36,38 @@ public class StoryManager : MonoBehaviour {
 
     public List<List<string>> chapterTracker;
 
+    public bool init = true;
+
 	//=======================================
 	//				INIALIZATION
 	//=======================================
 	void Start () {
+        
+        // Initialize all the Managers
+        AudioManager.Initialize();
+        CharacterManager.Initialize();
+        DialogueManager.Initialize();
+        SkillManager.Initialize();
 
-		// Initialize all the Managers
-		AudioManager.Initialize();
-		CharacterManager.Initialize();
-		DialogueManager.Initialize();
-		SkillManager.Initialize();
-		
-		
-		// Used to save the logs
-		listAnswers = new List<string>();
-		
-		// Initialize the first scene
-		currentSceneDialogues = dialoguesTable.FindAll_sceneID(dialoguesTable.GetRowList()[0].sceneID);
-		/*List<DialoguesTable.Row> starting_row = dialoguesTable.FindAll_sceneID(dialoguesTable.GetRowList()[0].sceneID);
-        currentSceneDialogues = dialoguesTable.FindAll_sceneID(starting_row[starting_row.Count - 1].next_scene1);*/
+        // Used to save the logs
+        listAnswers = new List<string>();
 
-		// Initialize the background
-		sceneChanger.SwitchBackground(currentSceneDialogues[0].background);
+        if (PlayerPrefs.GetFloat("LoadScene") != 1)
+        {
+            // Initialize the first scene
+            currentSceneDialogues = dialoguesTable.FindAll_sceneID(dialoguesTable.GetRowList()[0].sceneID);
 
-		// Launch the first scene !
-		DialogueManager.TriggerDialogue();
+
+        } else
+        {
+            LoadScene();
+        }
+
+        // Initialize the background
+        sceneChanger.SwitchBackground(currentSceneDialogues[0].background);
+
+        // Launch the first scene !
+        DialogueManager.TriggerDialogue();
 
         List<DialoguesTable.Row> rowTable = new List<DialoguesTable.Row>(dialoguesTable.GetRowList());
         List<string> names = rowTable.Select(x => x.sceneID).Distinct().ToList();
@@ -69,7 +76,10 @@ public class StoryManager : MonoBehaviour {
 
     void OnApplicationQuit()
     {
-        FileManager.OverwriteFileChapter(chapterTracker);
+        if (init)
+        {
+            FileManager.OverwriteFileChapter(chapterTracker);
+        }
     }
 
 	//=======================================
@@ -217,5 +227,18 @@ public class StoryManager : MonoBehaviour {
 		}
 	}
 	
+    public void LoadScene()
+    {
+        string sceneID = PlayerPrefs.GetString("SceneToLoad");
+        // Initialize the dialogue to this scene
+        currentSceneDialogues = dialoguesTable.FindAll_sceneID(sceneID);
+
+        List<Character> characters = new List<Character>(CharacterManager.characterList);
+        foreach(Character character in characters)
+        {
+            CharacterManager.GetCharacterByName(character.name).empathyScore += (int) PlayerPrefs.GetInt(character.name);
+        }
+        PlayerPrefs.SetFloat("LoadScene", 0f);
+    }
 	
 }

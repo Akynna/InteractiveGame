@@ -49,6 +49,7 @@ public class MicrophoneController : MonoBehaviour
     void Awake()
     {
         MachineLearning.ReadyW();
+        id = PlayerPrefs.GetString("ID");
     }
 
     void Start()
