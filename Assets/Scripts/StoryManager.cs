@@ -145,7 +145,6 @@ public class StoryManager : MonoBehaviour {
 			// Play the audio of the answer
         	AudioManager.UpdateEffectSound(audioName);
         	AudioManager.speechPlayer.PlayOneShot(AudioManager.speechPlayer.clip);
-			AudioManager.isPlaying = true;
 
             if (score != 0 && skillName != "NA") {
 
@@ -208,6 +207,7 @@ public class StoryManager : MonoBehaviour {
 
 			// Trigger the dialogues of the next scene
 			if (MicrophoneController.recording) {
+				Debug.Log(AudioManager.speechPlayer.clip.length);
 				StartCoroutine(WaitForAudio(AudioManager.speechPlayer.clip.length));
 			} else {
 				DialogueManager.TriggerDialogue();
@@ -227,7 +227,6 @@ public class StoryManager : MonoBehaviour {
 	}
 	
 	private IEnumerator WaitForAudio(float audioLength) {
-		Debug.Log("hihihihi" + audioLength);
 		yield return new WaitForSeconds(audioLength);
 		DialogueManager.TriggerDialogue();
 	}
