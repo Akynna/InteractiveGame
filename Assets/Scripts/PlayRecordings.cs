@@ -33,7 +33,7 @@ public class PlayRecordings : MonoBehaviour
     string recordName = MicrophoneController.recordName;
     string outputName = MicrophoneController.output;
     string textName = MicrophoneController.textName;
-    string id = MicrophoneController.id;
+    string id;
     string dateFormat = MicrophoneController.dateFormat;
     string characterName = MicrophoneController.characterName;
     public static string date = MicrophoneController.date;
@@ -47,9 +47,7 @@ public class PlayRecordings : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // TODO modify it to create multiple objects depending on the number of records DONE
-        // TODO delete this part when the audio check is setup to work on end of scene
-        playButton = GameObject.Find("PlayRecords");
+        id = MicrophoneController.id;
 
         startDate = DateTime.Now;
     }
@@ -126,7 +124,7 @@ public class PlayRecordings : MonoBehaviour
     private string GetAnswerText(string filename)
     {
         string dateT = ParseDate(filename).ToString(dateFormat);
-        string text = FileManager.ReadTextFile(FileManager.tempAnswersDataFolder, textName + dateT + ".txt");
+        string text = FileManager.ReadTextFile(FileManager.tempAnswersDataFolder, textName + id + dateT + ".txt");
         
         if(text.Length > 40)
         {
@@ -165,7 +163,7 @@ public class PlayRecordings : MonoBehaviour
             string fileName = file.Name;
             DateTime date = ParseDate(fileName);
             // Take all records recorded after start of session
-            if (DateTime.Compare(date, d1) >= 0)
+            if (DateTime.Compare(date, d1) >= 0 && DateTime.Compare(date, DateTime.MinValue) != 0)
             {
                 files.Add(fileName);
             }
@@ -177,6 +175,10 @@ public class PlayRecordings : MonoBehaviour
     private DateTime ParseDate(string dateString)
     {
         int pos = dateString.IndexOf(recordName + id);
+        if(pos == -1)
+        {
+            return DateTime.MinValue;
+        }
         string date = dateString.Remove(pos, (recordName + id).Length);
         date = date.Remove(date.IndexOf(".wav"));
         return DateTime.ParseExact(date, dateFormat, null);
