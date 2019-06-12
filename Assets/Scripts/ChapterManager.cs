@@ -29,6 +29,7 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     public GameObject mainChapter;
     public GameObject secondaryChapter;
     public CharacterManager characterManager;
+    public SceneChanger sceneChanger;
 
     string chapterTag = "Chapter";
     string playChapterName = "PlayChapter";
@@ -315,7 +316,7 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     //TODO Load the game at this point
     void StartGameAtChosenPoint(string name)
     {
-        //TODO launch the scene with name = name and with a starting score = score
+        sceneChanger.FadeToLevel(1);
     }
 
     /* Gets the children buttons that are direct children of the node obj */

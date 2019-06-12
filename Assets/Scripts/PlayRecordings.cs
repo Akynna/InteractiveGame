@@ -128,9 +128,9 @@ public class PlayRecordings : MonoBehaviour
         string dateT = ParseDate(filename).ToString(dateFormat);
         string text = FileManager.ReadTextFile(FileManager.tempAnswersDataFolder, textName + dateT + ".txt");
         
-        if(text.Length > 30)
+        if(text.Length > 40)
         {
-            text = text.Substring(0, 27) + "...";
+            text = text.Substring(0, 37) + "...";
         }
 
         return text;

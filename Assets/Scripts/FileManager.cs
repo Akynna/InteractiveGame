@@ -187,60 +187,6 @@ public class FileManager : MonoBehaviour
     public static void DeleteFile(string path, string filename)
     {
         File.Delete(Path.Combine(path, filename));
-        /*string os = SystemInfo.operatingSystem;
-        if (os.Contains("Windows"))
-        {
-            try
-            {
-                // Start process
-                Process myProcess = new Process();
-                myProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; // Hide the window
-                myProcess.StartInfo.CreateNoWindow = true;
-                myProcess.StartInfo.UseShellExecute = false;
-                myProcess.StartInfo.FileName = "cmd.exe"; // Open a Command prompt at windows
-
-                string arg = "";
-
-                string projectPath = Path.Combine(path, filename);
-
-                string pattern = @"/";
-
-                string replacement = "\\";
-
-                string finalPath = Regex.Replace(projectPath, pattern, replacement,
-                                                  RegexOptions.IgnoreCase);
-
-                // Call the whole argument
-                arg = "del /f " + finalPath;
-
-                // Call the necessary functions to execute the command
-                myProcess.StartInfo.Arguments = "/c" + arg;
-                myProcess.EnableRaisingEvents = true;
-                myProcess.Start();
-                myProcess.WaitForExit();
-                int ExitCode = myProcess.ExitCode;
-                //print(ExitCode);
-            }
-            catch (Exception e)
-            {
-                print(e);
-            }
-        }
-        else if(os.Contains("Mac") || os.Contains("Linux"))
-        {
-            ProcessStartInfo proc = new ProcessStartInfo();
-            proc.FileName = "rm";
-            proc.WorkingDirectory = path;
-            proc.Arguments = filename;
-            proc.WindowStyle = ProcessWindowStyle.Minimized;
-            proc.CreateNoWindow = true;
-            Process.Start(proc);
-
-        } else if (os.Contains("Linux"))
-        {
-
-        }*/
-        
     }
 
     public static List<List<string>> GetFileChapter(List<string> names)

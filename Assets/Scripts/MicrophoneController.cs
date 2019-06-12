@@ -127,9 +127,20 @@ public class MicrophoneController : MonoBehaviour
         // Analyzes the clip with opensmile
         CallOpenSmile(output + id + date + ".csv", config);
 
+        bool timeout = false;
+        DateTime startCheck = DateTime.Now;
+        while (!File.Exists(Path.Combine(FileManager.tempDataFolder, output + id + date + ".csv")) && !timeout)
+        {
+            DateTime check = DateTime.Now;
+            if((check - startCheck).TotalSeconds >= 2)
+            {
+                timeout = true;
+            }
+        }
+
         // Get all the information from CSVs
         var prediction = MachineLearning.PredictWithData(output + id + date + ".csv");
-        characterManager.currentCharacter.empathyScore += (int) prediction * 2 - 1; // Gives 1 or -1 to the empathy score depending on the empathy level
+        characterManager.currentCharacter.empathyScore += (int)prediction * 2 - 1; // Gives 1 or -1 to the empathy score depending on the empathy level
 
         recording = false;
     }
@@ -213,30 +224,28 @@ public class MicrophoneController : MonoBehaviour
         }
         else if (os.Contains("Mac"))
         {
-            ProcessStartInfo proc = new ProcessStartInfo();
-            proc.FileName = "open";
 
-            string arg = "";
+            ProcessStartInfo proc = new ProcessStartInfo();
+            proc.FileName = "bash";
 
             string projectPath = Application.dataPath;
             int pos = projectPath.IndexOf("Assets");
             string prPath = projectPath.Remove(pos);
 
-            var audioPath = projectPath + "Assets/Data/TempData/" + recordName + id + date + ".wav";
-            var config = projectPath + "opensmile/opensmile-2.3.0/config/" + configMode;
-            var osmilexe = projectPath + "opensmile/opensmile-2.3.0/bin/Win32/SMILExtract_Release.exe";
+            proc.WorkingDirectory = prPath;
+
+
+            var audioPath = "Assets/Data/TempData/" + recordName + id + date + ".wav";
+            var config = "opensmile/opensmile-2.3.0/config/" + configMode;
+            var osmilexe = "opensmile/opensmile-2.3.0/SMILExtract";
 
             // Call the whole argument
-            arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + "Assets/Data/TempData" + filename;
+            string arg = osmilexe + " -C " + config + " -I " + audioPath + " -csvoutput " + "Assets/Data/TempData/" + filename;
 
-            //proc.WorkingDirectory = "/users/myUserName";
             proc.Arguments = arg;
-
-
             proc.WindowStyle = ProcessWindowStyle.Minimized;
             proc.CreateNoWindow = true;
             Process.Start(proc);
-
         }
         else if (os.Contains("Linux"))
         {
