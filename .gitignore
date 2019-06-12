@@ -85,4 +85,8 @@ $RECYCLE.BIN/
 
 # Media files
 *.wav
+*.wav.meta
 *.txt
+*.txt.meta
+*.png
+*.png.meta

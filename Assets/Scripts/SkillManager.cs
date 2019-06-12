@@ -108,25 +108,54 @@ public class SkillManager : MonoBehaviour {
 	// Randomly choose a Skill to evaluate depending on all Skills' probabilities
 	public string ChooseSkill() {
 
+		bool hasMadeChoice = false;
 		string selectedSkill = "";
 
-		System.Random r = new System.Random();
-		double diceRoll = r.NextDouble();
+		do {
 
-		// Debug.Log(diceRoll);
+			System.Random r = new System.Random();
+			double diceRoll = r.NextDouble();
 
-		double cumulative = 0.0;
-		for (int i = 0; i < skillsProbs.Count; i++)
-		{
-			cumulative += skillsProbs[i].Value;
-			if (diceRoll < cumulative)
+			// Debug.Log(diceRoll);
+
+			double cumulative = 0.0;
+			for (int i = 0; i < skillsProbs.Count; i++)
 			{
-				selectedSkill = skillsProbs[i].Key;
-				break;
+				cumulative += skillsProbs[i].Value;
+				if (diceRoll < cumulative)
+				{
+					selectedSkill = skillsProbs[i].Key;
+					break;
+				}
 			}
-		}
 
-		Debug.Log("We have chosen to evaluate: " + selectedSkill);
+			// Debug.Log("We have chosen to evaluate: " + selectedSkill);
+
+			var skillIndex = skillsList.FindIndex(skill => skill.name == selectedSkill);
+
+			// Check if the skill exists
+			if(skillIndex == -1) {
+				Debug.Log("Skill not found. You might have put an invalid skill name.");
+			}
+
+			// Get the list of corresponding subskills
+			Skill chosenSkill = skillsList[skillIndex];
+			List<string> subskills = chosenSkill.subskills.ToList();
+
+			// Check that there are still subskills in this skill
+			if (subskills.Count != 0) {
+				hasMadeChoice = true;
+			} else {
+				for (int i = 0; i < skillsProbs.Count; i++) {
+					if (skillsProbs[i].Key.Equals(selectedSkill)) {
+						// Update the probability of picking that skill to 0, so it won't be chosen
+						skillsProbs.RemoveAll(item => item.Key.Equals(selectedSkill));
+						skillsProbs.Add(new KeyValuePair<string, double>(selectedSkill, 0.0));
+					}
+				}
+			}
+
+		} while (!hasMadeChoice);
 
 		return selectedSkill;
 	}
@@ -137,7 +166,6 @@ public class SkillManager : MonoBehaviour {
 
 		string chosenSubskill = "";
 
-		// Find the index of the corresponding Skill with the skillName
 		var skillIndex = skillsList.FindIndex(skill => skill.name == skillName);
 
 		// Check if the skill exists
@@ -145,6 +173,7 @@ public class SkillManager : MonoBehaviour {
 			Debug.Log("Skill not found. You might have put an invalid skill name.");
 		}
 
+		// Get the list of corresponding subskills
 		Skill chosenSkill = skillsList[skillIndex];
 		List<string> subskills = chosenSkill.subskills.ToList();
 

@@ -36,6 +36,8 @@ public class StoryManager : MonoBehaviour {
 
     public List<List<string>> chapterTracker;
 
+	public string changingChapterKey = "intro";
+
 	//=======================================
 	//				INIALIZATION
 	//=======================================
@@ -46,7 +48,6 @@ public class StoryManager : MonoBehaviour {
 		CharacterManager.Initialize();
 		DialogueManager.Initialize();
 		SkillManager.Initialize();
-		
 		
 		// Used to save the logs
 		listAnswers = new List<string>();
@@ -178,7 +179,7 @@ public class StoryManager : MonoBehaviour {
 			if(sceneID == "auto") {
 		
 				// Choose one of the next scene depending on probs
-				string newSkillName = SkillManager.ChooseSkill();
+				var newSkillName = SkillManager.ChooseSkill();
 				//Debug.Log("Skill name chosen: " + skill.name);
 				nextSceneID = SkillManager.ChooseSubskill(newSkillName);
 			}
@@ -189,11 +190,10 @@ public class StoryManager : MonoBehaviour {
 			}
 
             // Put the name of the key that indicates new chapter
-            if (nextSceneID.Contains("intro"))
+            if (nextSceneID.Contains(changingChapterKey))
             {
                 PlayRecordings.evaluating = true;
             }
-
 
 			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(nextSceneID);
 
