@@ -2425,6 +2425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b90711a47c9ef43b2e959d20824e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AudioManager: {fileID: 470040922}
   startTemplate: {fileID: 6597119599912134756, guid: 99badb7b573b2c44890a69ace45a77df,
     type: 3}
   stopTemplate: {fileID: 8538725432643025321, guid: efa094f558b3a7643a8091c482b93533,
@@ -6229,6 +6230,7 @@ MonoBehaviour:
   currentSceneDialogues: []
   sceneChanger: {fileID: 1053554679}
   effectsSource: {fileID: 1166726473}
+  changingChapterKey: intro
 --- !u!4 &1628375380
 Transform:
   m_ObjectHideFlags: 0
@@ -6605,7 +6607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ad991a2d40c6c42acb466e7e55b5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  file: {fileID: 4900000, guid: 03943ecc124b9419096af8b382f0d610, type: 3}
+  file: {fileID: 4900000, guid: 6909981b1ff7c134aa8932f47001b90a, type: 3}
   rowList: []
   isLoaded: 0
 --- !u!1 &1915081958

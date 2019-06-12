@@ -36,7 +36,7 @@ public class StoryManager : MonoBehaviour {
 
     public List<List<string>> chapterTracker;
 
-    public bool init = true;
+	public string changingChapterKey = "intro";
 
 	//=======================================
 	//				INIALIZATION
@@ -57,7 +57,6 @@ public class StoryManager : MonoBehaviour {
             // Initialize the first scene
             currentSceneDialogues = dialoguesTable.FindAll_sceneID(dialoguesTable.GetRowList()[0].sceneID);
 
-
         } else
         {
             LoadScene();
@@ -76,10 +75,7 @@ public class StoryManager : MonoBehaviour {
 
     void OnApplicationQuit()
     {
-        if (init)
-        {
-            FileManager.OverwriteFileChapter(chapterTracker);
-        }
+        FileManager.OverwriteFileChapter(chapterTracker);
     }
 
 	//=======================================
@@ -137,7 +133,7 @@ public class StoryManager : MonoBehaviour {
 	//			HELPER FUNCTIONS
 	//=======================================
 
-	public void SwitchScene(string sceneID, string skillName, string subskillName, int score, string answerText)
+	public void SwitchScene(string sceneID, string skillName, string subskillName, int score, string answerText, string audioName)
 	{
 
         // Track the scene
@@ -150,6 +146,12 @@ public class StoryManager : MonoBehaviour {
 		{
             MicrophoneController.recording = true;
             MicrophoneController.answer = answerText;
+
+			// Play the audio of the answer
+        	AudioManager.UpdateEffectSound(audioName);
+        	AudioManager.speechPlayer.PlayOneShot(AudioManager.speechPlayer.clip);
+			AudioManager.isPlaying = true;
+
             if (score != 0 && skillName != "NA") {
 
 				// Give a random feedback
@@ -180,15 +182,13 @@ public class StoryManager : MonoBehaviour {
 
 		} else {
 			// Load the dialogues of the next scene in the Dialogue Manager
-			// TODO : CHOOSE THE NEXT SCENE DEPENDING ON PROBABILITIES
-
 			string nextSceneID = "";
 
 			// If we specified in the CSV that we want to choose automatically the next scene
 			if(sceneID == "auto") {
 		
 				// Choose one of the next scene depending on probs
-				string newSkillName = SkillManager.ChooseSkill();
+				var newSkillName = SkillManager.ChooseSkill();
 				//Debug.Log("Skill name chosen: " + skill.name);
 				nextSceneID = SkillManager.ChooseSubskill(newSkillName);
 			}
@@ -197,22 +197,26 @@ public class StoryManager : MonoBehaviour {
 			else {
 				nextSceneID = sceneID;
 			}
+			
+			
 
             // Put the name of the key that indicates new chapter
-            if (nextSceneID.Contains("intro"))
+            if (nextSceneID.Contains(changingChapterKey))
             {
                 PlayRecordings.evaluating = true;
             }
-
 
 			currentSceneDialogues =  dialoguesTable.FindAll_sceneID(nextSceneID);
 
 			// Switch the background image if needed
 			sceneChanger.SwitchBackground(currentSceneDialogues[0].background);
-			
-			// Trigger the dialogues of the next scene
-			DialogueManager.TriggerDialogue();
 
+			// Trigger the dialogues of the next scene
+			if (MicrophoneController.recording) {
+				StartCoroutine(WaitForAudio(AudioManager.speechPlayer.clip.length));
+			} else {
+				DialogueManager.TriggerDialogue();
+			}
 		}
     }
 
@@ -240,5 +244,11 @@ public class StoryManager : MonoBehaviour {
         }
         PlayerPrefs.SetFloat("LoadScene", 0f);
     }
+
+    private IEnumerator WaitForAudio(float audioLength) {
+		Debug.Log("hihihihi" + audioLength);
+		yield return new WaitForSeconds(audioLength);
+		DialogueManager.TriggerDialogue();
+	}
 	
 }
