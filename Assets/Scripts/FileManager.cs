@@ -21,7 +21,7 @@ public class FileManager : MonoBehaviour
     private static string loudnessKey = "loudness";
 
     public static string validationPath = Path.Combine(Application.dataPath, Path.Combine("Resources", "Dialogues"));
-    public static string validationFile = "visited_mapping.csv";
+    public static string validationFile = "visited_mapping";
 
     static Type t = typeof(float);
 
@@ -191,7 +191,7 @@ public class FileManager : MonoBehaviour
 
     public static List<List<string>> GetFileChapter(List<string> names)
     {
-        string filename = validationFile + MicrophoneController.id;
+        string filename = validationFile + MicrophoneController.id + ".csv";
         names.Add("end");
         string file = Path.Combine(validationPath, filename);
         bool overwrite = !File.Exists(file);
@@ -227,7 +227,7 @@ public class FileManager : MonoBehaviour
 
     public static void OverwriteFileChapter(List<List<string>> data)
     {
-        string filename = validationFile + MicrophoneController.id;
+        string filename = validationFile + MicrophoneController.id + ".csv";
         DeleteFile(validationPath, filename);
         WriteCSVString(data[0], validationPath, filename, ",");
         File.AppendAllText(Path.Combine(validationPath, filename), string.Join(",", data[1].ToArray()) + Environment.NewLine);
