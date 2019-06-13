@@ -21,7 +21,7 @@ public class FileManager : MonoBehaviour
     private static string loudnessKey = "loudness";
 
     public static string validationPath = Path.Combine(Application.dataPath, Path.Combine("Resources", "Dialogues"));
-    public static string validationFile = "visited_mapping.csv";
+    public static string validationFile = "visited_mapping";
 
     static Type t = typeof(float);
 
@@ -191,13 +191,14 @@ public class FileManager : MonoBehaviour
 
     public static List<List<string>> GetFileChapter(List<string> names)
     {
+        string filename = validationFile + MicrophoneController.id + ".csv";
         names.Add("end");
-        string file = Path.Combine(validationPath, validationFile);
+        string file = Path.Combine(validationPath, filename);
         bool overwrite = !File.Exists(file);
 
         if (File.Exists(file))
         {
-            List<List<string>> fileRead = (ReadCSV(validationPath, validationFile, ',', false));
+            List<List<string>> fileRead = (ReadCSV(validationPath, filename, ',', false));
             if(names.Count != fileRead[0].Count)
             {
                 overwrite = true;
@@ -215,20 +216,21 @@ public class FileManager : MonoBehaviour
             }
         }
         if (overwrite) {
-            WriteCSVString(names, validationPath, validationFile, ",");
+            WriteCSVString(names, validationPath, filename, ",");
             List<List<float>> zeros = new List<List<float>>();
             zeros.Add(Enumerable.Repeat(0f, names.Count - 1).ToList());
-            AddToCSV(validationPath, validationFile, "0", zeros, ",");
+            AddToCSV(validationPath, filename, "0", zeros, ",");
         }
         
-        return new List<List<string>>(ReadCSV(validationPath, validationFile, ',', false));
+        return new List<List<string>>(ReadCSV(validationPath, filename, ',', false));
     }
 
     public static void OverwriteFileChapter(List<List<string>> data)
     {
-        DeleteFile(validationPath, validationFile);
-        WriteCSVString(data[0], validationPath, validationFile, ",");
-        File.AppendAllText(Path.Combine(validationPath, validationFile), string.Join(",", data[1].ToArray()) + Environment.NewLine);
+        string filename = validationFile + MicrophoneController.id + ".csv";
+        DeleteFile(validationPath, filename);
+        WriteCSVString(data[0], validationPath, filename, ",");
+        File.AppendAllText(Path.Combine(validationPath, filename), string.Join(",", data[1].ToArray()) + Environment.NewLine);
     }
 
     public static void WriteTextFile(string path, string filename, string text)
