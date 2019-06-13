@@ -1700,7 +1700,7 @@ MonoBehaviour:
   dialoguePanel: {fileID: 1915081958}
   dialogueAnimator: {fileID: 2064520210}
   characterManager: {fileID: 1284055989}
-  AudioManager: {fileID: 0}
+  AudioManager: {fileID: 470040922}
 --- !u!224 &656942910
 RectTransform:
   m_ObjectHideFlags: 0
