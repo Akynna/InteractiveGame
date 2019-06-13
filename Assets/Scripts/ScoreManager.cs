@@ -112,8 +112,6 @@ public class ScoreManager : MonoBehaviour {
 			}
 
 			finalSkillScore += skillScore;
-		} else {
-			Debug.Log("This skill name does not exist !");
 		}
 
 		// Initialize the score bars (arrows)

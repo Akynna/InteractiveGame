@@ -27,6 +27,7 @@ public class DialogueManager : MonoBehaviour {
 	// Elements that the Manager will keep track of
 	public Text nameText;
 	public Text dialogueText;
+	public Text questionText;
 
 
 	//====================================
@@ -156,6 +157,7 @@ public class DialogueManager : MonoBehaviour {
 				CharacterManager.currentCharacter = CharacterManager.GetCharacterByName(characterName);
 			}
 			
+			// Update the sound file of the dialogue
 			AudioManager.UpdateEffectSound(audioName);
 
 			// Add animation to text
@@ -182,7 +184,7 @@ public class DialogueManager : MonoBehaviour {
 			yield return null;
 		}
 
-		AudioManager.PauseEffect();
+		//AudioManager.PauseEffect();
 	}
 
 	private void EndDialogue()
@@ -205,6 +207,13 @@ public class DialogueManager : MonoBehaviour {
 
 	public void showChoices(DialoguesTable.Row rowWithChoices) 
 	{
+
+		// Stop the audio if there was one
+		AudioManager.StopEffect();
+
+		// Display the previous question so the user knows the situation
+		questionText.text = rowWithChoices.dialogue;
+
 		// Randomly assign a choice to a button
 		System.Random r = new System.Random();
 		int randIndex = r.Next(0, 3);
@@ -262,15 +271,15 @@ public class DialogueManager : MonoBehaviour {
 		buttonList[0].onClick.AddListener(
 			() => StoryManager.SwitchScene(rowWithChoices.next_scene1, 
 			skillName, subskillName, goodEmpathyScore, 
-			rowWithChoices.answer1, rowWithChoices.answer1_audio));
+			rowWithChoices.answer1, rowWithChoices.dialogue_audio));
 		buttonList[1].onClick.AddListener(
 			() => StoryManager.SwitchScene(rowWithChoices.next_scene2,
 			skillName, subskillName, badEmpathyScore,
-			rowWithChoices.answer2, rowWithChoices.answer2_audio));
+			rowWithChoices.answer2, rowWithChoices.dialogue_audio));
 		buttonList[2].onClick.AddListener(
 			() => StoryManager.SwitchScene(rowWithChoices.next_scene3,
 			skillName, subskillName, neutralEmpathyScore,
-			rowWithChoices.answer3, rowWithChoices.answer3_audio));
+			rowWithChoices.answer3, rowWithChoices.dialogue_audio));
 
 		choicePanelAnimator.SetBool("isDisplayed", true);
 	}

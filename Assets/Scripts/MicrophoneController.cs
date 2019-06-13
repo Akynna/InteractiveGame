@@ -20,15 +20,18 @@ public class MicrophoneController : MonoBehaviour
     // Buttons for the recording
     GameObject startButton;
     GameObject stopButton;
+    GameObject playButton;
     GameObject ans;
 
     public GameObject startTemplate;
     public GameObject stopTemplate;
+    public GameObject playTemplate;
     public GameObject choice;
     public GameObject canvas;
     public GameObject dialoguePanel;
     public Animator dialogueAnimator;
     public CharacterManager characterManager;
+    public AudioManager AudioManager;
 
     // Opensmile files configuration
     public static string output = "outputData";
@@ -44,6 +47,7 @@ public class MicrophoneController : MonoBehaviour
 
     public static bool recording = false;
     public static string answer = "";
+    public static string audioName = "";
 
     // On Awake, get ready the W vector for Machine Learning
     void Awake()
@@ -69,18 +73,34 @@ public class MicrophoneController : MonoBehaviour
 
     public void RecordChoice()
     {
+        AudioManager.StopEffect();
         dialoguePanel.SetActive(false);
-
-        ans = Instantiate(choice);
-        ans.transform.SetParent(canvas.transform);
+        ans = Instantiate(choice, canvas.transform);
+        //ans.transform.SetParent(canvas.transform);
         ans.GetComponentInChildren<RectTransform>().localScale = new Vector3(1, 1, 1);
-        ans.transform.position = dialoguePanel.transform.position;
+        //ans.transform.position = dialoguePanel.transform.position;
         ans.GetComponent<Animator>().SetBool("isOpen", true);
 
         Text answerText = ans.GetComponentInChildren<Text>();
         answerText.text = answer;
 
+        AudioManager.UpdateEffectSound(audioName);
+
+        CreatePlayButton();
         CreateStartButton();
+    }
+
+    void CreatePlayButton() {
+        playButton = Instantiate(playTemplate);
+        playButton.GetComponentInChildren<Button>().onClick.AddListener(() => PlayLastQuestion());
+        playButton.transform.SetParent(ans.transform);
+        playButton.transform.position = new Vector3(ans.transform.position.x - 50, ans.transform.position.y - 15);
+    }
+
+
+
+    public void PlayLastQuestion() {
+        AudioManager.PlayEffect();
     }
 
     void CreateStartButton()
@@ -88,7 +108,7 @@ public class MicrophoneController : MonoBehaviour
         startButton = Instantiate(startTemplate);
         startButton.GetComponentInChildren<Button>().onClick.AddListener(() => StartRecord());
         startButton.transform.SetParent(ans.transform);
-        startButton.transform.position = new Vector3(ans.transform.position.x, ans.transform.position.y - 65);
+        startButton.transform.position = new Vector3(ans.transform.position.x + 40, ans.transform.position.y - 55);
     }
 
     void CreateStopButton()
@@ -96,7 +116,7 @@ public class MicrophoneController : MonoBehaviour
         stopButton = Instantiate(stopTemplate);
         stopButton.GetComponentInChildren<Button>().onClick.AddListener(() => StopRecord());
         stopButton.transform.SetParent(ans.transform);
-        stopButton.transform.position = new Vector3(ans.transform.position.x, ans.transform.position.y - 65);
+        stopButton.transform.position = new Vector3(ans.transform.position.x + 40, ans.transform.position.y - 55);
     }
 
     public void StartRecord()

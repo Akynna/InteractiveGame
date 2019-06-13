@@ -21,7 +21,6 @@ public class CharacterManager : MonoBehaviour {
 	public SpriteRenderer characterSprite;
 	public static List<Character> characterList;
 	public int isFeedBack;
-	private int reset = 0;
 
 	public void Initialize() {
 
@@ -120,7 +119,6 @@ public class CharacterManager : MonoBehaviour {
 	}
 
 	public void ResetCharacterSprite() {
-		reset = 1;
 		characterSprite.sprite = null;
 	}
 

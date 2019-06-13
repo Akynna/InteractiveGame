@@ -57,6 +57,10 @@ public class AudioManager : MonoBehaviour {
 		speechPlayer.Pause();
 	}
 
+	public void StopEffect() {
+		speechPlayer.Stop();
+	}
+
 	public void UpdateEffectSound(string audioName) {
 		speechPlayer.clip = Resources.Load<AudioClip>("Soundtracks/Effects/" + audioName);
 	}

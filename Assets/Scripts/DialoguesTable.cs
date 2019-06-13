@@ -27,9 +27,6 @@ public class DialoguesTable : MonoBehaviour
 		public string answer1;
 		public string answer2;
 		public string answer3;
-		public string answer1_audio;
-		public string answer2_audio;
-		public string answer3_audio;
 		public string score1;
 		public string score2;
 		public string score3;
@@ -38,7 +35,6 @@ public class DialoguesTable : MonoBehaviour
 		public string next_scene3;
 		public string background;
 		public string background_music;
-
 	}
 
 	public bool IsLoaded()
@@ -67,17 +63,14 @@ public class DialoguesTable : MonoBehaviour
 			row.answer1 = grid[i][6];
 			row.answer2 = grid[i][7];
 			row.answer3 = grid[i][8];
-			row.answer1_audio = grid[i][9];
-			row.answer2_audio = grid[i][10];
-			row.answer3_audio = grid[i][11];
-			row.score1 = grid[i][12];
-			row.score2 = grid[i][13];
-			row.score3 = grid[i][14];
-			row.next_scene1 = grid[i][15];
-			row.next_scene2 = grid[i][16];
-			row.next_scene3 = grid[i][17];
-			row.background = grid[i][18];
-			row.background_music = grid[i][19];
+			row.score1 = grid[i][9];
+			row.score2 = grid[i][10];
+			row.score3 = grid[i][11];
+			row.next_scene1 = grid[i][12];
+			row.next_scene2 = grid[i][13];
+			row.next_scene3 = grid[i][14];
+			row.background = grid[i][15];
+			row.background_music = grid[i][16];
 
 			rowList.Add(row);
 		}
@@ -167,30 +160,6 @@ public class DialoguesTable : MonoBehaviour
 	public List<Row> FindAll_answer3(string find)
 	{
 		return rowList.FindAll(x => x.answer3 == find);
-	}
-	public Row Find_answer1_audio(string find)
-	{
-		return rowList.Find(x => x.answer1_audio == find);
-	}
-	public List<Row> FindAll_answer1_audio(string find)
-	{
-		return rowList.FindAll(x => x.answer1_audio == find);
-	}
-	public Row Find_answer2_audio(string find)
-	{
-		return rowList.Find(x => x.answer2_audio == find);
-	}
-	public List<Row> FindAll_answer2_audio(string find)
-	{
-		return rowList.FindAll(x => x.answer2_audio == find);
-	}
-	public Row Find_answer3_audio(string find)
-	{
-		return rowList.Find(x => x.answer3_audio == find);
-	}
-	public List<Row> FindAll_answer3_audio(string find)
-	{
-		return rowList.FindAll(x => x.answer3_audio == find);
 	}
 	public Row Find_score1(string find)
 	{

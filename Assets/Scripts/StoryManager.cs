@@ -146,10 +146,7 @@ public class StoryManager : MonoBehaviour {
 		{
             MicrophoneController.recording = true;
             MicrophoneController.answer = answerText;
-
-			// Play the audio of the answer
-        	AudioManager.UpdateEffectSound(audioName);
-        	AudioManager.speechPlayer.PlayOneShot(AudioManager.speechPlayer.clip);
+			MicrophoneController.audioName = audioName;
 
             if (score != 0 && skillName != "NA") {
 
@@ -196,8 +193,6 @@ public class StoryManager : MonoBehaviour {
 			else {
 				nextSceneID = sceneID;
 			}
-			
-			
 
             // Put the name of the key that indicates new chapter
             if (nextSceneID.Contains(changingChapterKey))
@@ -211,12 +206,7 @@ public class StoryManager : MonoBehaviour {
 			sceneChanger.SwitchBackground(currentSceneDialogues[0].background);
 
 			// Trigger the dialogues of the next scene
-			if (MicrophoneController.recording) {
-				Debug.Log(AudioManager.speechPlayer.clip.length);
-				StartCoroutine(WaitForAudio(AudioManager.speechPlayer.clip.length));
-			} else {
-				DialogueManager.TriggerDialogue();
-			}
+			DialogueManager.TriggerDialogue();
 		}
     }
 
