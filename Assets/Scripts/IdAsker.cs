@@ -22,11 +22,10 @@ public class IdAsker : MonoBehaviour
         idAsker.transform.SetParent(canvas.transform);
         idAsker.GetComponentInChildren<Button>().onClick.AddListener(() => Validate());
         idAsker.transform.position = canvas.transform.position;
-        idAsker.GetComponentInChildren<InputField>().onValueChange.AddListener(delegate { RegisterID(); });
+        idAsker.GetComponentInChildren<InputField>().onValueChanged.AddListener(delegate { RegisterID(); });
 
-        float rat = 1.5f;
-        float ratio = Convert.ToSingle(Screen.width / idAsker.GetComponent<RectTransform>().sizeDelta.x) * rat;
-        idAsker.transform.localScale = new Vector3(ratio, ratio, 1);
+        float ratio = Convert.ToSingle(Screen.width / idAsker.GetComponent<RectTransform>().sizeDelta.x);
+        idAsker.transform.localScale = new Vector3(1, 1, 1);
     }
 
     void RegisterID()

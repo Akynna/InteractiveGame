@@ -77,7 +77,7 @@ public class MicrophoneController : MonoBehaviour
         dialoguePanel.SetActive(false);
         ans = Instantiate(choice, canvas.transform);
         //ans.transform.SetParent(canvas.transform);
-        ans.GetComponentInChildren<RectTransform>().localScale = new Vector3(1, 1, 1);
+        //ans.GetComponentInChildren<RectTransform>().localScale = new Vector3(1, 1, 1);
         //ans.transform.position = dialoguePanel.transform.position;
         ans.GetComponent<Animator>().SetBool("isOpen", true);
 

@@ -174,14 +174,17 @@ public class PlayRecordings : MonoBehaviour
     /* Get the DateTime from a record name */
     private DateTime ParseDate(string dateString)
     {
-        int pos = dateString.IndexOf(recordName + id);
-        if(pos == -1)
+        try
+        {
+            int pos = dateString.IndexOf(recordName + id);
+            string date = dateString.Remove(pos, (recordName + id).Length);
+            date = date.Remove(date.IndexOf(".wav"));
+            return DateTime.ParseExact(date, dateFormat, null);
+        }
+        catch (FormatException)
         {
             return DateTime.MinValue;
         }
-        string date = dateString.Remove(pos, (recordName + id).Length);
-        date = date.Remove(date.IndexOf(".wav"));
-        return DateTime.ParseExact(date, dateFormat, null);
     }
     
     void PlayChosenAudio(string filename, AudioSource audioSource)
