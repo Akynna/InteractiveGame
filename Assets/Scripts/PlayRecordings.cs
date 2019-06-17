@@ -177,6 +177,10 @@ public class PlayRecordings : MonoBehaviour
         try
         {
             int pos = dateString.IndexOf(recordName + id);
+            if(pos == -1)
+            {
+                return DateTime.MinValue;
+            }
             string date = dateString.Remove(pos, (recordName + id).Length);
             date = date.Remove(date.IndexOf(".wav"));
             return DateTime.ParseExact(date, dateFormat, null);
@@ -219,7 +223,6 @@ public class PlayRecordings : MonoBehaviour
         score = (float) Math.Round(score);
         float prediction = MachineLearning.PredictWithData(datafilename);
         float finalScore = (prediction == score) ? 1 : 0;
-        UnityEngine.Debug.Log(character);
         characterManager.GetCharacterByName(character).empathyScore += (int) finalScore * 2 - 1; // Gives 1 or -1 to the empathy score depending on the empathy level
 
         // Delete Associated CSV

@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections;
 using UnityEngine.UI;
+using System.Threading;
 
 /* This scripts takes care of the control of the microphone. It saves the audio as a .wav file
 and then analyzes it with opensmile to retrieve all the interesting features in a .csv file*/
@@ -148,7 +149,7 @@ public class MicrophoneController : MonoBehaviour
         // Analyzes the clip with opensmile
         CallOpenSmile(output + id + date + ".csv", config);
 
-        bool timeout = false;
+        /*bool timeout = false;
         DateTime startCheck = DateTime.Now;
         while (!File.Exists(Path.Combine(FileManager.tempDataFolder, output + id + date + ".csv")) && !timeout)
         {
@@ -157,6 +158,11 @@ public class MicrophoneController : MonoBehaviour
             {
                 timeout = true;
             }
+        }*/
+
+        if (SystemInfo.operatingSystem.Contains("Mac"))
+        {
+            Thread.Sleep(2000);
         }
 
         // Get all the information from CSVs
