@@ -102,7 +102,7 @@ public class SkillManager : MonoBehaviour {
 			}
 		}
 
-		displaySkillsProbsAndWeights();
+		//displaySkillsProbsAndWeights();
 	}
 
 	// Randomly choose a Skill to evaluate depending on all Skills' probabilities
@@ -219,7 +219,7 @@ public class SkillManager : MonoBehaviour {
 			var skillIndex = skillsList.FindIndex(s => s.name == pair.Key);
 			Skill skill = skillsList[skillIndex];
 
-			Debug.Log("Skill: " + pair.Key + ", Probability: " + pair.Value + ", Weight: " + skill.importanceWeight);
+			//Debug.Log("Skill: " + pair.Key + ", Probability: " + pair.Value + ", Weight: " + skill.importanceWeight);
 		}
 	}
 
@@ -325,7 +325,7 @@ public class SkillManager : MonoBehaviour {
 
 		// Then we compute the probability of mastering the current skill
 		float p_skill = cond_probs[skillIndex] + (1.0f - cond_probs[skillIndex]) * p_transit;
-		Debug.Log("Probability of mastering the skill: " + p_skill);
+		//Debug.Log("Probability of mastering the skill: " + p_skill);
 
 		// The more the probability is close to 1, the more the player has mastered it
 		// Update the importance weight to prioritize skills that are the less mastered
@@ -419,10 +419,10 @@ public class SkillManager : MonoBehaviour {
 			parameters[skillIndex].Value[3] = UpdateSlipProbability(p_slip, knowledgeSequence, givenAnswers, nbAnswers);
 		}
 		
-		Debug.Log("Init probability: " + parameters[skillIndex].Value[0]);
+		/*Debug.Log("Init probability: " + parameters[skillIndex].Value[0]);
 		Debug.Log("Transit probability: " + parameters[skillIndex].Value[1]);	
 		Debug.Log("Guess probability: " + parameters[skillIndex].Value[2]);
-		Debug.Log("Slip probability: " + parameters[skillIndex].Value[3]);
+		Debug.Log("Slip probability: " + parameters[skillIndex].Value[3]);*/
 	}
 
 	private float UpdateTransitProbability(float p_transit, List<float> sequence, int size) {

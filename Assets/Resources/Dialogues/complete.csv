@@ -1,41 +1,42 @@
 ﻿sceneID,character,character_image,dialogue,dialogue_audio,main_skill,answer1,answer2,answer3,score1,score2,score3,next_scene1,next_scene2,next_scene3,background,background_music
-intro_0,Doctor,doctor,"Hi, I am presenting you a demo we developed for nurses apprentices.",fiesta,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
-intro_0,Doctor,doctor,Nurse apprentices are often experiencing challenging inter-personal communication situations.,fiesta,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
-intro_0,Doctor,doctor,These situations range from angry and confused patients to patients actually dying. ,fiesta,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
-intro_0,Doctor,doctor,In this demo we focused on the interaction surrounding confused patients e.g. patients suffering from dementia.,fiesta,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
-intro_0,Doctor,doctor,As the apprentices speak German- all following interactions will be carried out in German.,fiesta,,NA,NA,NA,NA,NA,NA,intro_1,intro_1,intro_1,reception,
-intro_1,Patient_Mir,mirror_afraid,"Sie treffen auf eine Person, die sich nicht mehr selbst im Spiegel erkennt. Sie reagiert sehr aengstlich und fragt: ""Wer ist diese Frau?"", ""Was macht sie hier"". ""Sie soll weggehen"".",fiesta,,NA,NA,NA,NA,NA,NA,NA,NA,NA,mirror_back,recordDoggy20190617165535.wav
-intro_1,Patient_Mir,mirror_afraid,Sie wollen die Frau beruhigen.,fiesta,,Schauen Sie noch mal. Das sind doch Sie selbst.,Kommen Sie mal mit. Wir gehen jetzt einmal Kaffee trinken und wenn wir wieder kommen ist die Frau auch weg. ,"Das ist die Frau Mueller. Sie hat sich im Zimmer geirrt. Kommen Sie mit, wir gehen jetzt einmal Kaffe trinken und wenn wir wieder kommen ist Frau Mueller auch weg. ",5,-5,0,reaction_2,reaction_3,reaction_1,mirror_back,
-reaction_1,Patient_Mir,mirror_afraid,Die Frau schaut weiter aengstlich aus. ,,,NA,NA,NA,5,5,5,option_1,option_1,option_1,mirror_back,
-reaction_2,Patient_Mir,mirror_angry,"Die Frau schaut nun sehr wuetend aus. Sie sagt: Nein, dass bin doch nicht ich. Sie will ihr Zimmer verlassen.",,,NA,NA,NA,5,5,5,option_2,option_2,option_2,mirror_back,
-reaction_3,Patient_Mir,mirror_afraid,Die Frau schaut noch einmal aengstlich in den Spiegel beschliesst aber dann Ihnen zu folgen.,,,NA,NA,NA,5,5,5,option_1,option_1,option_1,mirror_back,
-option_2,Patient_Mir,mirror_angry,"Da haben Sie Recht! Ich habe mich verschaut. Schauen Sie mal, Frau Dietrich und Frau Jenes gehen Kuchen essen. Gehen wir mit ?!",,,NA,NA,NA,5,5,5,intro_rol,intro_rol,intro_rol,mirror_back,
-option_1,Patient_Mir,mirror_afraid,Kommen Sie!,,,NA,NA,NA,5,5,5,intro_rol,intro_rol,intro_rol,mirror_back,
+intro_0,Doctor,doctor,"Hi, I am presenting you a demo we developed for nurses apprentices.",test1,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Doctor,doctor,Nurse apprentices are often experiencing challenging inter-personal communication situations.,test2,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Doctor,doctor,These situations range from angry and confused patients to patients actually dying. ,test3,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Doctor,doctor,In this demo we focused on the interaction surrounding confused patients e.g. patients suffering from dementia.,test1,,NA,NA,NA,NA,NA,NA,NA,NA,NA,reception,
+intro_0,Doctor,doctor,As the apprentices speak German- all following interactions will be carried out in German.,test2,,NA,NA,NA,NA,NA,NA,intro_1,intro_1,intro_1,reception,
+intro_1,Patient_Mir,mirror_afraid,"Sie treffen auf eine Person, die sich nicht mehr selbst im Spiegel erkennt. Sie reagiert sehr aengstlich und fragt: ""Wer ist diese Frau?"", ""Was macht sie hier"". ""Sie soll weggehen"".",test1,,NA,NA,NA,NA,NA,NA,NA,NA,NA,mirror_back,
+intro_1,Patient_Mir,mirror_afraid,Sie wollen die Frau beruhigen.,test3,,Schauen Sie noch mal. Das sind doch Sie selbst.,Kommen Sie mal mit. Wir gehen jetzt einmal Kaffee trinken und wenn wir wieder kommen ist die Frau auch weg. ,"Das ist die Frau Mueller. Sie hat sich im Zimmer geirrt. Kommen Sie mit, wir gehen jetzt einmal Kaffe trinken und wenn wir wieder kommen ist Frau Mueller auch weg. ",5,-5,0,reaction_2,reaction_3,reaction_1,mirror_back,
+reaction_1,Patient_Mir,mirror_afraid,Die Frau schaut weiter aengstlich aus. ,test1,,NA,NA,NA,5,5,5,option_1,option_1,option_1,mirror_back,
+reaction_2,Patient_Mir,mirror_angry,"Die Frau schaut nun sehr wuetend aus. Sie sagt: Nein, dass bin doch nicht ich. Sie will ihr Zimmer verlassen.",test1,,NA,NA,NA,5,5,5,option_2,option_2,option_2,mirror_back,
+reaction_3,Patient_Mir,mirror_afraid,Die Frau schaut noch einmal aengstlich in den Spiegel beschliesst aber dann Ihnen zu folgen.,test1,,NA,NA,NA,5,5,5,option_1,option_1,option_1,mirror_back,
+option_2,Patient_Mir,mirror_angry,"Da haben Sie Recht! Ich habe mich verschaut. Schauen Sie mal, Frau Dietrich und Frau Jenes gehen Kuchen essen. Gehen wir mit ?!",test1,,NA,NA,NA,5,5,5,intro_rol,intro_rol,intro_rol,mirror_back,
+option_1,Patient_Mir,mirror_afraid,Kommen Sie!,test1,,NA,NA,NA,5,5,5,intro_rol,intro_rol,intro_rol,mirror_back,
 intro_rol,couple,couple_start,"Ein Mann sitzt in einem Stuhl in einer Ecke und eine Frau geht an einem Walker.
- Sie betritt den Raum und drueckt den walker immer und immer wieder gegen den Mann.",,,NA,NA,NA,NA,NA,Na,intro_rol2,intro_rol2,intro_rol2,couple,
-intro_rol2,couple,couple_start, Du beobachtest die Situation mit der Absicht Sie aufzuloesen bevor Sie eskaliert. ,,,NA,NA,NA,NA,NA,Na,intro_rol3,intro_rol3,intro_rol3,couple,
-intro_rol3,couple,couple_woman_continuing,"Der Mann spricht die Frau an und sag: Hey, ich sitze hier. Die Frau ignoriert den Mann und faehrt damit fort ",NA,NA,Sie reagieren nicht!,"Hallo Frau Meier, wie geht es Ihnen ? 
+ Sie betritt den Raum und drueckt den walker immer und immer wieder gegen den Mann.",test1,,NA,NA,NA,NA,NA,Na,intro_rol2,intro_rol2,intro_rol2,couple,
+intro_rol2,couple,couple_start, Du beobachtest die Situation mit der Absicht Sie aufzuloesen bevor Sie eskaliert. ,test1,,NA,NA,NA,NA,NA,Na,intro_rol3,intro_rol3,intro_rol3,couple,
+intro_rol3,couple,couple_woman_continuing,"Der Mann spricht die Frau an und sag: Hey, ich sitze hier. Die Frau ignoriert den Mann und faehrt damit fort ",test1,NA,Sie reagieren nicht!,"Hallo Frau Meier, wie geht es Ihnen ? 
 Wuerden Sie sich gerne hinsetzten?
 Hier gibt es einen sehr schoenen Stuhl, er hat sogar einen tollen Blick ueber den See.
 Sie moegen doch den See.
 ","Hallo Frau Meier, wie geht es Ihnen ?
 Wurm setzten wir uns nicht hier hin (Sie zeigen auf einen anderen Stuhl)",5,5,5,rol_option_2,rol_option_2,rol_option_2,couple,
-rol_option_2,couple,couple_woman_continuing,Frau Meier bewegt den Walker immer weiter gegen Herrn Schmidt.,NA,NA,"Frau Meier, Sie verletzen Herrn Schmidt.
+rol_option_2,couple,couple_woman_continuing,Frau Meier bewegt den Walker immer weiter gegen Herrn Schmidt.,test1,NA,"Frau Meier, Sie verletzen Herrn Schmidt.
 Sie koenen nicht einfach so Leute ueberfahren.","Frau Meier, Sie verletzen Herrn Schmidt.
 Lassen Sie uns zum anderen Sitz gehen.","Frau Meier, Sie verletzen Herrn Schmidt. Wie wuerden Sie sich fuehlen wenn jemand Sie so anrempeln wuerde",5,5,5,rol_reaction_2a,rol_reaction_2b,rol_reaction_2c,couple,
-rol_reaction_2a,couple,couple_man_speaking,Frau Meier wird immer und immer agressiver und schiebt den Walker weiter gegen Herrn Schmidt.,,,NA,NA,NA,5,5,5,lonely_sc_1_a,lonely_sc_1_a,lonely_sc_1_a,couple,
-rol_reaction_2b,couple,woman_leaving,Frau Meier bewegt sich grummelend zu einem anderen Stuhl.,,,NA,NA,NA,5,5,5,lonely_sc_1_a,lonely_sc_1_a,lonely_sc_1_a,couple,
-rol_reaction_2c,couple,man_leaving,Frau Meier reagiert nicht und rempelt Herrn Schmidt weiterhin an. Herr Schmidt steht wuetend auf.,,,NA,NA,NA,5,5,5,lonely_sc_1_a,lonely_sc_1_a,lonely_sc_1_a,couple,
-lonely_sc_1,lonely_Woman,crying_woman,Frau Jonas verliert mehr und mehr den Zusammenhang zwischen der Gegenwart und der Vergangenheit.,,,NA,NA,NA,,,,lonely_sc_1_a,lonely_sc_1_a,lonely_sc_1_a,lonely_woman_back,
+rol_reaction_2a,couple,couple_man_speaking,Frau Meier wird immer und immer agressiver und schiebt den Walker weiter gegen Herrn Schmidt.,test1,,NA,NA,NA,5,5,5,lonely_sc_1_a,lonely_sc_1_a,lonely_sc_1_a,couple,
+rol_reaction_2b,couple,woman_leaving,Frau Meier bewegt sich grummelend zu einem anderen Stuhl.,test1,,NA,NA,NA,5,5,5,lonely_sc_1_a,lonely_sc_1_a,lonely_sc_1_a,couple,
+rol_reaction_2c,couple,man_leaving,Frau Meier reagiert nicht und rempelt Herrn Schmidt weiterhin an. Herr Schmidt steht wuetend auf.,test1,,NA,NA,NA,5,5,5,lonely_sc_1_a,lonely_sc_1_a,lonely_sc_1_a,couple,
+lonely_sc_1,lonely_Woman,crying_woman,Frau Jonas verliert mehr und mehr den Zusammenhang zwischen der Gegenwart und der Vergangenheit.,test1,,NA,NA,NA,,,,lonely_sc_1_a,lonely_sc_1_a,lonely_sc_1_a,lonely_woman_back,
 lonely_sc_1_a,lonely_Woman,crying_woman,"Obwohl Sie schon ueber 80 Jahre alt ist, fragt sie nach ihrer Mutter. 
-Sie sagt, dass sie jetzt schon zu viel Zeit im Alterszentrum verbracht hat, die Mutter sich sicher schon Sorgen macht.",,,NA,NA,NA,,,,lonely_sc_1_b,lonely_sc_1_b,lonely_sc_1_b,lonely_woman_back,
+Sie sagt, dass sie jetzt schon zu viel Zeit im Alterszentrum verbracht hat, die Mutter sich sicher schon Sorgen macht.",test1,,NA,NA,NA,,,,lonely_sc_1_b,lonely_sc_1_b,lonely_sc_1_b,lonely_woman_back,
 lonely_sc_1_b,lonely_Woman,crying_woman,"Sie sagt, dass sie jetzt schon zu viel Zeit hier im Alterszentrum verbracht hat, die Mutter sich sicher schon Sorgen 
-macht und sie schnellstmoeglichst nach Hause muss. Allerdings ist die Mutter bereits vor 20 Jahren verstorben.",,,NA,NA,NA,,,,open_lonely,open_lonely,open_lonely,lonely_woman_back,
-open_lonely,lonely_Woman,crying_woman,Wie reagieren Sie nun .,5,5,"Aber Frau Jonas, Ihre Mutter ist doch schon vor vielen Jahren verstorben. ","Frau Jonas, Sie sind im Gruenewaldviertel aufgewachsen, stimmt das .","Frau Jonas, ja, die Zeit ist jetzt schon sehr schnell vergangen. Hat es Ihnen denn Freude bereitet.",5,5,5,lonely_follow_1,lonely_follow_2,lonely_follow_1,lonely_woman_back,
-lonely_follow_1,lonely_Woman,very_crying_woman,Frau Jonas  weint zunehmend und ruft nach ihrer Mutter.,,,NA,NA,NA,,,,continue_lonely,continue_lonely,continue_lonely,lonely_woman_back,
-lonely_follow_2,lonely_Woman,lonely_woman,"Frau Jonas haelt einen Moment inne und scheint in Gedanken.Ja, das bin ich! Im Gruenewald Viertel. Das beste Viertel der Welt!",,,NA,NA,NA,,,,continue_lonely,continue_lonely,continue_lonely,lonely_woman_back,
-lonely_follow_3,lonely_Woman,lonely_woman,"Frau Jonas  sagt, ja,t und bewegt sich weiter zum Ausgang.",,,NA,NA,NA,5,5,5,continue_lonely,continue_lonely,continue_lonely,lonely_woman_back,
-continue_lonely,lonely_Woman,lonely_woman,Sie versuchen Frau Jonas weiter zu beruhigen.,5,5,"Aber, Frau Jonas.",Das ist das beste Viertel der Welt ?!,"Wollen wir gerade einmal Ihre Kinder anrufen, was meinen Sie? Die freuen sich bestimmt.",5,5,5,conclusion_lonely_1,conclusion_lonely_2,conclusion_lonely_3,lonely_woman_back,
-conclusion_lonely_1,lonely_Woman,very_crying_woman,Frau Jonas ist noch bedrueckter.,,,NA,NA,NA,,,,end,end,end,lonely_woman_back,
-conclusion_lonely_2,lonely_Woman,lonely_woman,Frau Jonas beginnt zu erzaehlen.,,,NA,NA,NA,,,,end,end,end,lonely_woman_back,
-conclusion_lonely_3,lonely_Woman,lonely_woman,"Kinder, ja die Kinder.",,,NA,NA,NA,,,,end,end,end,lonely_woman_back,
+macht und sie schnellstmoeglichst nach Hause muss. Allerdings ist die Mutter bereits vor 20 Jahren verstorben.",test1,,NA,NA,NA,,,,open_lonely,open_lonely,open_lonely,lonely_woman_back,
+open_lonely,lonely_Woman,crying_woman,Wie reagieren Sie nun .,test1,5,"Aber Frau Jonas, Ihre Mutter ist doch schon vor vielen Jahren verstorben. ","Frau Jonas, Sie sind im Gruenewaldviertel aufgewachsen, stimmt das .","Frau Jonas, ja, die Zeit ist jetzt schon sehr schnell vergangen. Hat es Ihnen denn Freude bereitet.",5,5,5,lonely_follow_1,lonely_follow_2,lonely_follow_1,lonely_woman_back,
+lonely_follow_1,lonely_Woman,very_crying_woman,Frau Jonas  weint zunehmend und ruft nach ihrer Mutter.,test1,,NA,NA,NA,,,,continue_lonely,continue_lonely,continue_lonely,lonely_woman_back,
+lonely_follow_2,lonely_Woman,lonely_woman,"Frau Jonas haelt einen Moment inne und scheint in Gedanken.Ja, das bin ich! Im Gruenewald Viertel. Das beste Viertel der Welt!",test1,,NA,NA,NA,,,,continue_lonely,continue_lonely,continue_lonely,lonely_woman_back,
+lonely_follow_3,lonely_Woman,lonely_woman,"Frau Jonas  sagt, ja,t und bewegt sich weiter zum Ausgang.",test1,,NA,NA,NA,5,5,5,continue_lonely,continue_lonely,continue_lonely,lonely_woman_back,
+continue_lonely,lonely_Woman,lonely_woman,Sie versuchen Frau Jonas weiter zu beruhigen.,test1,5,"Aber, Frau Jonas.",Das ist das beste Viertel der Welt ?!,"Wollen wir gerade einmal Ihre Kinder anrufen, was meinen Sie? Die freuen sich bestimmt.",5,5,5,conclusion_lonely_1,conclusion_lonely_2,conclusion_lonely_3,lonely_woman_back,
+conclusion_lonely_1,lonely_Woman,very_crying_woman,Frau Jonas ist noch bedrueckter.,test1,,NA,NA,NA,,,,end,end,end,lonely_woman_back,
+conclusion_lonely_2,lonely_Woman,lonely_woman,Frau Jonas beginnt zu erzaehlen.,test1,,NA,NA,NA,,,,end,end,end,lonely_woman_back,
+conclusion_lonely_3,lonely_Woman,lonely_woman,"Kinder, ja die Kinder.",test1,,NA,NA,NA,,,,end,end,end,lonely_woman_back,
+end,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
