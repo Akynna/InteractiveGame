@@ -5,7 +5,7 @@
 /[Bb]uilds/
 /Assets/AssetStoreTools*
 /Assets/Data/TempData
-/Asset/Data/Records
+/Assets/Data/Records*
 
 # Visual Studio folder
 .vscode/
@@ -86,12 +86,9 @@ $RECYCLE.BIN/
 *.lnk
 
 # Media files
-*.wav
-*.wav.meta
+
 *.txt
 *.txt.meta
-*.png
-*.png.meta
 
 # Specific files
 Assets/Resources/Dialogues/visited_mapping.csv
