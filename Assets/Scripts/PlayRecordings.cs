@@ -271,6 +271,7 @@ public class PlayRecordings : MonoBehaviour
     private void PlayAudioFiles(AudioSource audioSource)
     {
         audioSource.clip = audioClip;
+        audioSource.volume = 0.5f;
         audioSource.Play();
     }
 
