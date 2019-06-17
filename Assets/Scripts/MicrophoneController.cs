@@ -150,6 +150,7 @@ public class MicrophoneController : MonoBehaviour
         SavWav.Save("Data/TempData/" + recordName + id + date, myAudioClip.clip);
         SavWav.Save("Data/Records/" + recordName + id + date, myAudioClip.clip);
         FileManager.WriteTextFile(FileManager.tempAnswersDataFolder, textName + id + date + ".txt", answer);
+        FileManager.WriteTextFile(FileManager.answersDataFolder, textName + id + date + ".txt", answer);
         FileManager.WriteTextFile(FileManager.tempAnswersDataFolder, characterName + id + date + ".txt", characterManager.currentCharacter.name);
         // Analyzes the clip with opensmile
         CallOpenSmile(output + id + date + ".csv", config);

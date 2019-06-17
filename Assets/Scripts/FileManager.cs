@@ -15,6 +15,7 @@ public class FileManager : MonoBehaviour
     public static string tempDataFolder = Path.Combine(dataFolder, "TempData");
     public static string tempAnswersDataFolder = Path.Combine(tempDataFolder, "Answers");
     public static string recordsFolder = Path.Combine(dataFolder, "Records");
+    public static string answersDataFolder = Path.Combine(dataFolder, "Answers");
 
 
     private static string f0Key = "F0";
