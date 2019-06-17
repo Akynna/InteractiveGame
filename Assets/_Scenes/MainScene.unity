@@ -243,6 +243,7 @@ MonoBehaviour:
   canvas: {fileID: 1566286469}
   sceneChanger: {fileID: 1053554679}
   characterManager: {fileID: 1284055989}
+  AudioManager: {fileID: 470040922}
   audioClip: {fileID: 0}
 --- !u!4 &36313668
 Transform:

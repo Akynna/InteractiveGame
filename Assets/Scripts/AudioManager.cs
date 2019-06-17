@@ -57,6 +57,10 @@ public class AudioManager : MonoBehaviour {
 		speechPlayer.Pause();
 	}
 
+	public void UnpauseEffect() {
+		speechPlayer.UnPause();
+	}
+
 	public void StopEffect() {
 		speechPlayer.Stop();
 	}

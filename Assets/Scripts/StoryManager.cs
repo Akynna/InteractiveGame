@@ -234,10 +234,4 @@ public class StoryManager : MonoBehaviour {
         }
         PlayerPrefs.SetFloat("LoadScene", 0f);
     }
-
-    private IEnumerator WaitForAudio(float audioLength) {
-		yield return new WaitForSeconds(audioLength);
-		DialogueManager.TriggerDialogue();
-	}
-	
 }

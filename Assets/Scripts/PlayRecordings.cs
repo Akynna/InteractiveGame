@@ -14,6 +14,7 @@ public class PlayRecordings : MonoBehaviour
     public GameObject canvas;
     public SceneChanger sceneChanger;
     public CharacterManager characterManager;
+    public AudioManager AudioManager;
 
 
     public AudioClip audioClip;
@@ -62,6 +63,7 @@ public class PlayRecordings : MonoBehaviour
 
         if (GameObject.FindGameObjectsWithTag(audioPlayersTag).Length == 0)
         {
+            AudioManager.UnpauseEffect();
             if(finalEvaluation == true)
             {
                 sceneChanger.FadeToLevel(2);
@@ -85,6 +87,7 @@ public class PlayRecordings : MonoBehaviour
     /* OnClick function to launch the play of the records */
     public void PlayRecords()
     {
+        AudioManager.PauseEffect();
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag(audioPlayersTag))
         {
             Destroy(obj);
