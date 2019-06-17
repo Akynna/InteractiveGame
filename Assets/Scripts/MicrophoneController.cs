@@ -49,6 +49,7 @@ public class MicrophoneController : MonoBehaviour
     public static bool recording = false;
     public static string answer = "";
     public static string audioName = "";
+    public static bool isPlaying = false;
 
     // On Awake, get ready the W vector for Machine Learning
     void Awake()
@@ -97,11 +98,15 @@ public class MicrophoneController : MonoBehaviour
         playButton.transform.SetParent(ans.transform);
         playButton.transform.position = new Vector3(ans.transform.position.x - 50, ans.transform.position.y - 15);
     }
-
-
-
+    
     public void PlayLastQuestion() {
-        AudioManager.PlayEffect();
+        if (isPlaying) {
+            AudioManager.PauseEffect();
+            isPlaying = false;
+        } else {
+            AudioManager.PlayEffect();
+            isPlaying = true;
+        }
     }
 
     void CreateStartButton()
