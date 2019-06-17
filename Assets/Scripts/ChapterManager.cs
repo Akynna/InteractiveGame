@@ -41,7 +41,13 @@ class StringArrayEqualityComparer : IEqualityComparer<string[]>
     {
         rowTable = new List<DialoguesTable.Row>(tables.GetRowList());
         validity = new List<List<string>>(FileManager.GetFileChapter(rowTable.Select(x => x.sceneID).Distinct().ToList()));
-        
+        foreach(List<string> vars in validity)
+        {
+            foreach(string val in vars)
+            {
+                Debug.Log(val);
+            }
+        }
         StartTree(rowTable);
     }
 

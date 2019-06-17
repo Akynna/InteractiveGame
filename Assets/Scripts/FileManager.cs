@@ -191,7 +191,7 @@ public class FileManager : MonoBehaviour
 
     public static List<List<string>> GetFileChapter(List<string> names)
     {
-        string filename = validationFile + MicrophoneController.id + ".csv";
+        string filename = validationFile + PlayerPrefs.GetString("ID") + ".csv";
         names.Add("end");
         string file = Path.Combine(validationPath, filename);
         bool overwrite = !File.Exists(file);
@@ -219,7 +219,7 @@ public class FileManager : MonoBehaviour
             WriteCSVString(names, validationPath, filename, ",");
             List<List<float>> zeros = new List<List<float>>();
             zeros.Add(Enumerable.Repeat(0f, names.Count - 1).ToList());
-            AddToCSV(validationPath, filename, "0", zeros, ",");
+            AddToCSV(validationPath, filename, "1", zeros, ",");
         }
         
         return new List<List<string>>(ReadCSV(validationPath, filename, ',', false));
